@@ -200,28 +200,44 @@ export const NetworkHistory: React.FC = () => {
       return yearData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
     } 
     else if (group === 'Week') {
-      const weekData = Array.from({length: 53}, (_, i) => ({ name: `W${i+1}`, Sent: 0, Received: 0 }));
+      const daysStr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      const weekData = daysStr.map(m => ({ name: m, Sent: 0, Received: 0 }));
+      
+      const latestDay = Object.keys(data).sort().pop();
+      const baseDate = latestDay ? new Date(latestDay) : new Date();
+      
+      const currentDay = baseDate.getDay();
+      const distToMon = currentDay === 0 ? 6 : currentDay - 1;
+      const monday = new Date(baseDate);
+      monday.setDate(monday.getDate() - distToMon);
+      monday.setHours(0,0,0,0);
+      
       Object.keys(data).forEach(dateStr => {
         const d = new Date(dateStr);
-        const wInfo = getWeekNumber(d);
-        if (wInfo.week >= 1 && wInfo.week <= 53) {
-          weekData[wInfo.week - 1].Sent += data[dateStr].up;
-          weekData[wInfo.week - 1].Received += data[dateStr].down;
+        d.setHours(0,0,0,0);
+        const diffDays = Math.round((d.getTime() - monday.getTime()) / 86400000);
+        if (diffDays >= 0 && diffDays <= 6) {
+          weekData[diffDays].Sent += data[dateStr].up;
+          weekData[diffDays].Received += data[dateStr].down;
         }
       });
-      // Filter out empty trailing weeks purely for visual padding, retain up to current active
-      return weekData.filter(d => d.Sent > 0 || d.Received > 0 || parseInt(d.name.substring(1)) <= getWeekNumber(new Date()).week)
-                     .map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
+      return weekData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
     }
     else if (group === 'Month') {
-      const monthData = Array.from({length: 31}, (_, i) => ({ name: `${i+1}`, Sent: 0, Received: 0 }));
+      const latestDay = Object.keys(data).sort().pop();
+      const latestDate = latestDay ? new Date(latestDay) : new Date();
+      const numDays = new Date(latestDate.getFullYear(), latestDate.getMonth() + 1, 0).getDate();
+      
+      const monthData = Array.from({length: numDays}, (_, i) => ({ name: `${i+1}`, Sent: 0, Received: 0 }));
       Object.keys(data).forEach(dateStr => {
         const d = new Date(dateStr);
-        monthData[d.getDate() - 1].Sent += data[dateStr].up;
-        monthData[d.getDate() - 1].Received += data[dateStr].down;
+        if (d.getFullYear() === latestDate.getFullYear() && d.getMonth() === latestDate.getMonth()) {
+          monthData[d.getDate() - 1].Sent += data[dateStr].up;
+          monthData[d.getDate() - 1].Received += data[dateStr].down;
+        }
       });
       return monthData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
-    } 
+    }
     else {
       // Day = 24 hours of the most recent active day
       const latestDay = Object.keys(data).sort().pop();
