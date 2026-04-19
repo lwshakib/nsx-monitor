@@ -250,6 +250,16 @@ ipcMain.on('win:hide', () => {
   win?.hide()
 })
 
+ipcMain.handle('get-network-interfaces', async () => {
+  try {
+    const interfaces = await si.networkInterfaces()
+    // networkInterfaces can return an array or object
+    return Array.isArray(interfaces) ? interfaces.map(i => i.iface) : []
+  } catch (e) {
+    return []
+  }
+})
+
 app.whenReady().then(() => {
   Menu.setApplicationMenu(null)
   createWindow()
