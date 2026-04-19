@@ -12,8 +12,12 @@ interface DailyData {
   hours?: HourlyData[];
 }
 
+interface InterfaceDataMap {
+  [ifaceName: string]: DailyData;
+}
+
 interface DB {
-  [date: string]: DailyData;
+  [date: string]: InterfaceDataMap;
 }
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
@@ -326,8 +330,8 @@ export const NetworkHistory: React.FC = () => {
                     itemStyle={{ padding: 0 }}
                   />
                   <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  <Line type="monotone" dataKey="Received" stroke="var(--primary)" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
-                  <Line type="monotone" dataKey="Sent" stroke="var(--chart-1)" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="Received" stroke="var(--chart-2)" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="Sent" stroke="var(--chart-5)" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
