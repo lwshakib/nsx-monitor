@@ -16,7 +16,11 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   invoke(...args) {
     const [channel, ...omit] = args;
     return electron.ipcRenderer.invoke(channel, ...omit);
+  },
+  // Specialized handlers
+  onNetworkStats(callback) {
+    const listener = (_, stats) => callback(stats);
+    electron.ipcRenderer.on("network-stats", listener);
+    return () => electron.ipcRenderer.off("network-stats", listener);
   }
-  // You can expose other APTs you need here.
-  // ...
 });
