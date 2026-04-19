@@ -10,6 +10,7 @@ import {
 import type { Route } from "./+types/root"
 import "@workspace/ui/globals.css"
 import { TooltipProvider } from "@workspace/ui/components/tooltip"
+import { ThemeProvider } from "./components/theme-provider"
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -24,9 +25,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <TooltipProvider>
-          {children}
-        </TooltipProvider>
+        <ThemeProvider defaultTheme="dark" storageKey="aura-ui-theme">
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
+        </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

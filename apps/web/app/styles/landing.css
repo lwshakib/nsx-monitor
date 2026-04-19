@@ -1,22 +1,50 @@
 /* Aura Landing Page Styles */
 
 :root {
+  --aura-max-width: 1400px;
+}
+
+.dark {
   --brand-bg: #000000;
   --brand-surface: rgba(255, 255, 255, 0.03);
   --brand-border: rgba(255, 255, 255, 0.08);
 
   /* Unified Aura System Tokens */
-  --aura-max-width: 1400px;
-  --aura-bg-dark: #030303;
+  --aura-bg: #030303;
   --aura-bg-alt: #0a0a0a;
   --aura-border: rgba(255, 255, 255, 0.05);
-  --aura-border-bright: rgba(255, 255, 255, 0.1);
+  --aura-border-bright: rgba(255, 255, 255, 0.08);
+  --aura-text: #ededed;
+  --aura-text-muted: #a1a1a1;
+  
+  --bg-grid-color: rgba(255, 255, 255, 0.05);
+  --bg-mesh-opacity: 0.04;
+  --accent-glow: rgba(255, 255, 255, 0.1);
+}
+
+.light {
+  --brand-bg: #f8f9fa;
+  --brand-surface: rgba(0, 0, 0, 0.02);
+  --brand-border: rgba(0, 0, 0, 0.08);
+
+  /* Unified Aura System Tokens */
+  --aura-bg: #ffffff;
+  --aura-bg-alt: #f1f3f5;
+  --aura-border: rgba(0, 0, 0, 0.06);
+  --aura-border-bright: rgba(0, 0, 0, 0.1);
+  --aura-text: #1a1a1a;
+  --aura-text-muted: #666666;
+
+  --bg-grid-color: rgba(0, 0, 0, 0.04);
+  --bg-mesh-opacity: 0.02;
+  --accent-glow: rgba(0, 0, 0, 0.05);
 }
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #000000;
-  color: #ededed;
+  background-color: var(--brand-bg);
+  color: var(--aura-text);
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .font-mono {
@@ -30,26 +58,28 @@ body {
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  background: radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.04), transparent 40%),
-    radial-gradient(circle at 85% 100%, rgba(255, 255, 255, 0.03), transparent 40%);
+  background: radial-gradient(circle at 15% 0%, rgba(var(--brand-text-rgb, 255, 255, 255), var(--bg-mesh-opacity)), transparent 40%),
+    radial-gradient(circle at 85% 100%, rgba(var(--brand-text-rgb, 255, 255, 255), var(--bg-mesh-opacity)), transparent 40%);
   filter: blur(80px);
   pointer-events: none;
+  transition: background 0.5s ease;
 }
 
 /* Subtle animated background grid */
 .bg-grid {
   background-size: 40px 40px;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-image: linear-gradient(to right, var(--bg-grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bg-grid-color) 1px, transparent 1px);
   mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
   animation: gridMove 20s linear infinite;
+  transition: background-image 0.5s ease;
 }
 
 .bg-grid-small {
   background-size: 10px 10px;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image: linear-gradient(to right, var(--bg-grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bg-grid-color) 1px, transparent 1px);
 }
 
 @keyframes dataStream {
@@ -154,11 +184,12 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--brand-surface);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--brand-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: background 0.5s ease, border 0.5s ease;
 }
 
 /* Connecting Lines Gradient */
@@ -275,8 +306,9 @@ input[type="range"]::-webkit-slider-runnable-track {
 .schema-fade {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 30%, #050505 70%);
+  background: radial-gradient(circle at center, transparent 30%, var(--brand-bg) 70%);
   z-index: 10;
+  transition: background 0.5s ease;
 }
 
 .schema-scan {
@@ -500,12 +532,13 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 /* Horizontal Scroll Styles */
 .schema-card-enhanced {
-  background-color: #161616;
-  background-image: linear-gradient(#161616, #161616),
-    linear-gradient(to bottom right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05));
+  background-color: var(--aura-bg-alt);
+  background-image: linear-gradient(var(--aura-bg-alt), var(--aura-bg-alt)),
+    linear-gradient(to bottom right, var(--aura-border-bright), var(--aura-border));
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
   border: 1px solid transparent;
+  transition: background-color 0.5s ease;
 }
 
 .schema-card-enhanced:hover {
