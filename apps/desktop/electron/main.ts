@@ -132,6 +132,7 @@ function createWindow() {
     maximizable: false,
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
+    title: 'NSX Monitor',
     titleBarOverlay: {
       color: '#00000000',
       symbolColor: isDark ? '#ffffff' : '#000000',
@@ -186,6 +187,7 @@ function createWidget() {
     icon: iconPath,
     width,
     height,
+    title: 'NSX Speed Monitor',
     x: display.workArea.width - width - 20,
     y: display.workArea.height - height - 20,
     frame: false,
