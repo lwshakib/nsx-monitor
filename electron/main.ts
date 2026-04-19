@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen, shell } from 'electron'
+import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen, shell, nativeTheme } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -120,16 +120,20 @@ async function updateStats() {
 }
 
 function createWindow() {
+  const isDark = nativeTheme.shouldUseDarkColors;
+  const bgColor = isDark ? '#0f172a' : '#f1f5f9';
+
   win = new BrowserWindow({
     icon: iconPath,
+    backgroundColor: bgColor,
     width: 700,
     height: 600,
     resizable: false,
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
     titleBarOverlay: {
-      color: '#ffffff',
-      symbolColor: '#000000',
+      color: '#00000000',
+      symbolColor: isDark ? '#ffffff' : '#000000',
       height: 30
     },
     webPreferences: {
@@ -141,6 +145,19 @@ function createWindow() {
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
+  })
+
+  // Hook system theme updates dynamically
+  nativeTheme.on('updated', () => {
+    if (win && !win.isDestroyed()) {
+      const darkState = nativeTheme.shouldUseDarkColors;
+      const newBg = darkState ? '#0f172a' : '#f1f5f9';
+      win.setBackgroundColor(newBg);
+      win.setTitleBarOverlay({
+        color: '#00000000',
+        symbolColor: darkState ? '#ffffff' : '#000000'
+      });
+    }
   })
 
   if (VITE_DEV_SERVER_URL) {

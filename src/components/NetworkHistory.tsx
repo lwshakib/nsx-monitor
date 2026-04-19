@@ -111,12 +111,12 @@ export const NetworkHistory: React.FC = () => {
 
       return Object.entries(groupedByMonth).map(([month, days]) => (
         <div key={month} style={{ marginBottom: '15px' }}>
-          <div style={{ padding: '4px 8px', color: '#1f2937', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
+          <div style={{ padding: '4px 8px', color: 'var(--text-main)', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             <span style={{ marginRight: '10px' }}>{month}</span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: '#e1e4e8' }} />
+            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
           </div>
           {days.map((d, i) => (
-            <div key={i} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: '#1e293b' }}>
+            <div key={i} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
               <div style={{ width: '80px' }}>{d.day}</div>
               <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(d.up)}</div>
               <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(d.down)}</div>
@@ -142,12 +142,12 @@ export const NetworkHistory: React.FC = () => {
 
       return Object.entries(groupedByYear).sort((a,b) => b[0].localeCompare(a[0])).map(([year, weeks]) => (
         <div key={year} style={{ marginBottom: '15px' }}>
-          <div style={{ padding: '4px 8px', color: '#1f2937', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
+          <div style={{ padding: '4px 8px', color: 'var(--text-main)', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             <span style={{ marginRight: '10px' }}>{year}</span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: '#e1e4e8' }} />
+            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
           </div>
           {Object.entries(weeks).sort((a,b) => parseInt(a[0].split(' ')[1]) - parseInt(b[0].split(' ')[1])).map(([weekLabel, obj]) => (
-            <div key={weekLabel} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: '#1e293b' }}>
+            <div key={weekLabel} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
               <div style={{ width: '80px' }}>{weekLabel}</div>
               <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up)}</div>
               <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.down)}</div>
@@ -172,12 +172,12 @@ export const NetworkHistory: React.FC = () => {
 
       return Object.entries(groupedByYear).sort((a,b) => b[0].localeCompare(a[0])).map(([year, months]) => (
         <div key={year} style={{ marginBottom: '15px' }}>
-          <div style={{ padding: '4px 8px', color: '#1f2937', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
+          <div style={{ padding: '4px 8px', color: 'var(--text-main)', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             <span style={{ marginRight: '10px' }}>{year}</span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: '#e1e4e8' }} />
+            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
           </div>
           {Object.entries(months).map(([monthName, obj]) => (
-            <div key={monthName} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: '#1e293b' }}>
+            <div key={monthName} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
               <div style={{ width: '80px' }}>{monthName}</div>
               <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up)}</div>
               <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.down)}</div>
@@ -200,7 +200,7 @@ export const NetworkHistory: React.FC = () => {
       return (
         <div style={{ marginBottom: '15px', paddingTop: '10px' }}>
           {Object.entries(yearlyTotals).sort((a,b) => b[0].localeCompare(a[0])).map(([year, obj]) => (
-            <div key={year} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: '#1e293b' }}>
+            <div key={year} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
               <div style={{ width: '80px', fontWeight: 600 }}>{year}</div>
               <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up)}</div>
               <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.down)}</div>
@@ -278,11 +278,11 @@ export const NetworkHistory: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', color: '#333' }}>
+    <div style={{ padding: '20px', fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', color: 'var(--text-main)', flex: 1 }}>
       {/* Top Header Mock */}
       <div style={{ marginBottom: '20px' }}>
         <h3 style={{ fontSize: '14px', margin: '0 0 5px 0', fontWeight: 600 }}>Network Interface</h3>
-        <select value={selectedInterface} onChange={e => setSelectedInterface(e.target.value)} style={{ width: '100%', padding: '4px', fontSize: '13px', border: '1px solid #ccc', borderRadius: '2px', backgroundColor: '#fff' }}>
+        <select value={selectedInterface} onChange={e => setSelectedInterface(e.target.value)} style={{ width: '100%', padding: '4px', fontSize: '13px', border: '1px solid var(--border-color)', borderRadius: '2px', backgroundColor: 'var(--panel-bg)', color: 'var(--text-main)' }}>
           {interfaces.length > 0 ? interfaces.map(ifc => (
             <option key={ifc} value={ifc}>{ifc}</option>
           )) : (
@@ -296,29 +296,29 @@ export const NetworkHistory: React.FC = () => {
 
       <div style={{ display: 'flex', gap: '20px', height: '400px' }}>
         {/* Main Content Area */}
-        <div style={{ flex: 1, border: '1px solid #ccc', backgroundColor: '#fff', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: 1, border: '1px solid var(--border-color)', backgroundColor: 'var(--panel-bg)', display: 'flex', flexDirection: 'column' }}>
           
           {viewMode === 'Data' ? (
             <>
-              <div style={{ display: 'flex', fontSize: '12px', padding: '8px', borderBottom: '1px solid #ccc', backgroundColor: '#fafafa', fontWeight: 500 }}>
+              <div style={{ display: 'flex', fontSize: '12px', padding: '8px', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--panel-alt-bg)', fontWeight: 500, color: 'var(--text-main)' }}>
                  <div style={{ width: '80px' }}></div>
                  <div style={{ flex: 1, textAlign: 'right' }}>Sent</div>
                  <div style={{ flex: 1, textAlign: 'right' }}>Received</div>
                  <div style={{ flex: 1, textAlign: 'right' }}>Total</div>
               </div>
-              <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#fff' }}>
-                 {Object.keys(getFilteredData()).length > 0 ? getTableData() : <div style={{ padding: '20px', textAlign: 'center', fontSize: '12px', color: '#888' }}>No data collected yet.</div>}
+              <div style={{ flex: 1, overflowY: 'auto', backgroundColor: 'var(--panel-bg)' }}>
+                 {Object.keys(getFilteredData()).length > 0 ? getTableData() : <div style={{ padding: '20px', textAlign: 'center', fontSize: '12px', color: 'var(--text-muted)' }}>No data collected yet.</div>}
               </div>
             </>
           ) : (
             <div style={{ flex: 1, padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={getChartData()} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-                  <XAxis dataKey="name" stroke="#9ca3af" fontSize={11} tickMargin={8} />
-                  <YAxis stroke="#9ca3af" fontSize={11} width={50} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" vertical={false} />
+                  <XAxis dataKey="name" stroke="var(--text-dim)" fontSize={11} tickMargin={8} />
+                  <YAxis stroke="var(--text-dim)" fontSize={11} width={50} />
                   <RechartsTooltip 
-                    contentStyle={{ backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', fontSize: '12px' }}
+                    contentStyle={{ backgroundColor: 'var(--panel-bg)', borderRadius: '8px', border: '1px solid var(--border-color)', boxShadow: '0 4px 6px var(--shadow-color)', fontSize: '12px', color: 'var(--text-main)' }}
                     itemStyle={{ padding: 0 }}
                   />
                   <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
@@ -371,7 +371,7 @@ export const NetworkHistory: React.FC = () => {
 
           <div style={{ marginBottom: '20px' }}>
              <div style={{ marginBottom: '5px' }}>Unit:</div>
-             <select value={unit} onChange={(e) => setUnit(e.target.value as any)} style={{ width: '100%', padding: '4px', border: '1px solid #ccc' }}>
+             <select value={unit} onChange={(e) => setUnit(e.target.value as any)} style={{ width: '100%', padding: '4px', border: '1px solid var(--border-color)', backgroundColor: 'var(--panel-bg)', color: 'var(--text-main)' }}>
                <option value="B">B</option>
                <option value="KB">KB</option>
                <option value="MB">MB</option>
@@ -380,8 +380,8 @@ export const NetworkHistory: React.FC = () => {
              </select>
           </div>
 
-          <div style={{ marginBottom: 'auto', color: '#3b82f6' }}>
-             <div style={{ color: '#333', marginBottom: '5px', fontWeight: 500 }}>Database:</div>
+          <div style={{ marginBottom: 'auto', color: 'var(--primary-blue)' }}>
+             <div style={{ color: 'var(--text-main)', marginBottom: '5px', fontWeight: 500 }}>Database:</div>
              <div style={{ cursor: 'pointer', marginBottom: '8px' }} onClick={() => window.ipcRenderer.send('open-database-folder')}>Open Folder</div>
              <div style={{ cursor: 'pointer', marginBottom: '5px', color: '#ef4444' }} onClick={() => {
                if (window.confirm('Are you sure you want to completely erase all historical network data? This cannot be undone.')) {
@@ -391,8 +391,8 @@ export const NetworkHistory: React.FC = () => {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <button style={{ padding: '8px', backgroundColor: '#ffffff', color: '#374151', border: '1px solid #d1d5db', borderRadius: '4px', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', fontSize: '12px', fontWeight: 500, transition: 'all 0.2s' }}>Warning</button>
-            <button style={{ padding: '8px', backgroundColor: '#ffffff', color: '#374151', border: '1px solid #d1d5db', borderRadius: '4px', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', fontSize: '12px', fontWeight: 500, transition: 'all 0.2s' }} onClick={() => window.ipcRenderer.send('win:hide')}>Close</button>
+            <button style={{ padding: '8px', backgroundColor: 'var(--btn-bg)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: '4px', cursor: 'pointer', boxShadow: '0 1px 2px var(--shadow-color)', fontSize: '12px', fontWeight: 500, transition: 'all 0.2s' }}>Warning</button>
+            <button style={{ padding: '8px', backgroundColor: 'var(--btn-bg)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: '4px', cursor: 'pointer', boxShadow: '0 1px 2px var(--shadow-color)', fontSize: '12px', fontWeight: 500, transition: 'all 0.2s' }} onClick={() => window.ipcRenderer.send('win:hide')}>Close</button>
           </div>
         </div>
       </div>
