@@ -123,6 +123,7 @@ function createWindow() {
     icon: iconPath,
     width: 900,
     height: 600,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
@@ -231,6 +232,7 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(() => {
+  Menu.setApplicationMenu(null)
   createWindow()
   createWidget()
   initTray()
