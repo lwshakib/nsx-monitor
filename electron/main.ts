@@ -123,7 +123,14 @@ function createWindow() {
     icon: iconPath,
     width: 900,
     height: 600,
+    resizable: false,
     autoHideMenuBar: true,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#ffffff',
+      symbolColor: '#000000',
+      height: 30
+    },
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
