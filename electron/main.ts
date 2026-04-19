@@ -15,6 +15,27 @@ export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron')
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 
+// Platform-specific icon paths
+/**
+ * Utility function to get the correct icon path based on the current operating system.
+ */
+const getIconPath = (): string => {
+  const platform = process.platform;
+  const basePath = process.env.APP_ROOT;
+
+  switch (platform) {
+    case 'win32':
+      return path.join(basePath, 'public', 'icons', 'win', 'icon.ico');
+    case 'darwin':
+      return path.join(basePath, 'public', 'icons', 'mac', 'icon.icns');
+    case 'linux':
+    default:
+      return path.join(basePath, 'public', 'icons', 'png', '256x256.png');
+  }
+};
+
+const iconPath = getIconPath();
+
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
 
 let win: BrowserWindow | null = null
@@ -99,7 +120,7 @@ async function updateStats() {
 
 function createWindow() {
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
+    icon: iconPath,
     width: 900,
     height: 600,
     webPreferences: {
@@ -135,7 +156,7 @@ function createWidget() {
   const height = 60
 
   widgetWin = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
+    icon: iconPath,
     width,
     height,
     x: display.workArea.width - width - 20,
@@ -167,7 +188,6 @@ function createWidget() {
 }
 
 function initTray() {
-  const iconPath = path.join(process.env.VITE_PUBLIC, 'electron-vite.svg')
   tray = new Tray(nativeImage.createFromPath(iconPath))
   const contextMenu = Menu.buildFromTemplate([
     { label: 'NSX Monitor', enabled: false },
