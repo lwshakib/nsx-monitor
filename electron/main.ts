@@ -129,6 +129,7 @@ function createWindow() {
     width: 700,
     height: 600,
     resizable: false,
+    maximizable: false,
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
     titleBarOverlay: {
@@ -294,8 +295,12 @@ app.whenReady().then(() => {
   // Initial stats to avoid first jump
   si.networkStats().then(stats => {
     if (stats && stats.length > 0) {
-      prevRx = stats[0].rx_bytes
-      prevTx = stats[0].tx_bytes
+      for (const stat of stats) {
+        if (stat.iface !== 'lo' && !stat.iface.includes('Loopback')) {
+          prevRxMap[stat.iface] = stat.rx_bytes
+          prevTxMap[stat.iface] = stat.tx_bytes
+        }
+      }
     }
   })
 
