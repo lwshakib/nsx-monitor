@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer } from 'recharts'
+
+interface HourlyData {
+  down: number;
+  up: number;
+}
 
 interface DailyData {
   down: number;
   up: number;
+  hours?: HourlyData[];
 }
 
 interface DB {
@@ -14,11 +21,11 @@ const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
 
 export const NetworkHistory: React.FC = () => {
   const [data, setData] = useState<DB>({})
-  const [group, setGroup] = useState<'Day' | 'Month'>('Day')
+  const [group, setGroup] = useState<'Day' | 'Month' | 'Year'>('Day')
+  const [viewMode, setViewMode] = useState<'Data' | 'Graph'>('Data')
   const [unit, setUnit] = useState<'MB' | 'GB' | 'KB'>('MB')
 
   useEffect(() => {
-    // Note: requires window.ipcRenderer.invoke from preload
     window.ipcRenderer.invoke('get-historical-data').then((res: DB) => {
       if (res) setData(res)
     }).catch((err: any) => console.error("Could not fetch DB", err))
@@ -31,14 +38,18 @@ export const NetworkHistory: React.FC = () => {
     return 1;
   }
 
-  const formatVal = (bytes: number) => {
+  const formatRaw = (bytes: number) => {
+    return Number((bytes / getMultiplier()).toFixed(2));
+  }
+
+  const formatStr = (bytes: number) => {
     return (bytes / getMultiplier()).toFixed(0);
   }
 
-  // Aggregate data for rendering
-  // Returns sections to map over
-  const getRenderData = () => {
-    if (group === 'Day') {
+  // --- TABLE RENDERER ---
+  const getTableData = () => {
+    if (group === 'Day' || group === 'Year') {
+      // Grouping by Day (showing months with day rows)
       const groupedByMonth: Record<string, { day: string, up: number, down: number }[]> = {}
       
       Object.keys(data).sort((a, b) => b.localeCompare(a)).forEach(dateStr => {
@@ -55,22 +66,22 @@ export const NetworkHistory: React.FC = () => {
 
       return Object.entries(groupedByMonth).map(([month, days]) => (
         <div key={month} style={{ marginBottom: '15px' }}>
-          <div style={{ padding: '4px 8px', color: '#3b82f6', borderBottom: '1px solid #e1e4e8', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
+          <div style={{ padding: '4px 8px', color: '#1f2937', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             <span style={{ marginRight: '10px' }}>{month}</span>
             <div style={{ flex: 1, height: '1px', backgroundColor: '#e1e4e8' }} />
           </div>
           {days.map(d => (
             <div key={d.day} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: '#1e293b' }}>
               <div style={{ width: '80px' }}>{d.day}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatVal(d.up)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatVal(d.down)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatVal(d.up + d.down)}</div>
+              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(d.up)}</div>
+              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(d.down)}</div>
+              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(d.up + d.down)}</div>
             </div>
           ))}
         </div>
       ))
     } else {
-      // Group by Month
+      // Group by Month aggregate
       const groupedByYear: Record<string, Record<string, { up: number, down: number }>> = {}
       Object.keys(data).forEach(dateStr => {
         const d = new Date(dateStr)
@@ -86,16 +97,16 @@ export const NetworkHistory: React.FC = () => {
 
       return Object.entries(groupedByYear).sort((a,b) => b[0].localeCompare(a[0])).map(([year, months]) => (
         <div key={year} style={{ marginBottom: '15px' }}>
-          <div style={{ padding: '4px 8px', color: '#3b82f6', borderBottom: '1px solid #e1e4e8', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
+          <div style={{ padding: '4px 8px', color: '#1f2937', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
             <span style={{ marginRight: '10px' }}>{year}</span>
             <div style={{ flex: 1, height: '1px', backgroundColor: '#e1e4e8' }} />
           </div>
           {Object.entries(months).map(([monthName, obj]) => (
             <div key={monthName} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: '#1e293b' }}>
               <div style={{ width: '80px' }}>{monthName}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatVal(obj.up)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatVal(obj.down)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatVal(obj.up + obj.down)}</div>
+              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up)}</div>
+              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.down)}</div>
+              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up + obj.down)}</div>
             </div>
           ))}
         </div>
@@ -103,39 +114,106 @@ export const NetworkHistory: React.FC = () => {
     }
   }
 
+  // --- CHART RENDERER ---
+  const getChartData = () => {
+    if (group === 'Year') {
+      const yearData = MONTH_NAMES.map(m => ({ name: m.substring(0, 3), Sent: 0, Received: 0 }));
+      Object.keys(data).forEach(dateStr => {
+        const d = new Date(dateStr);
+        yearData[d.getMonth()].Sent += data[dateStr].up;
+        yearData[d.getMonth()].Received += data[dateStr].down;
+      });
+      return yearData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
+    } 
+    else if (group === 'Month') {
+      const monthData = Array.from({length: 31}, (_, i) => ({ name: `${i+1}`, Sent: 0, Received: 0 }));
+      Object.keys(data).forEach(dateStr => {
+        const d = new Date(dateStr);
+        monthData[d.getDate() - 1].Sent += data[dateStr].up;
+        monthData[d.getDate() - 1].Received += data[dateStr].down;
+      });
+      return monthData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
+    } 
+    else {
+      // Day = 24 hours of the most recent active day
+      const latestDay = Object.keys(data).sort().pop();
+      if (!latestDay || !data[latestDay].hours) {
+        return Array.from({length: 24}, (_, i) => ({ name: `${i}:00`, Sent: 0, Received: 0 }));
+      }
+      return data[latestDay].hours!.map((h, i) => ({ 
+        name: `${i}:00`, 
+        Sent: formatRaw(h.up), 
+        Received: formatRaw(h.down)
+      }));
+    }
+  }
+
   return (
     <div style={{ padding: '20px', fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', color: '#333' }}>
-      
       {/* Top Header Mock */}
       <div style={{ marginBottom: '20px' }}>
         <h3 style={{ fontSize: '14px', margin: '0 0 5px 0', fontWeight: 600 }}>Network Interface</h3>
         <select style={{ width: '100%', padding: '4px', fontSize: '13px', border: '1px solid #ccc', borderRadius: '2px', backgroundColor: '#fff' }}>
           <option>Realtek PCIe GbE Family Controller</option>
         </select>
-        <div style={{ marginTop: '10px', fontSize: '12px' }}>
-          Database Status: <span style={{ marginLeft: '20px' }}>Ok</span>
+        <div style={{ marginTop: '10px', fontSize: '12px', display: 'flex', justifyContent: 'space-between' }}>
+          <span>Database Status: <strong style={{ marginLeft: '10px' }}>Ok</strong></span>
         </div>
       </div>
 
       <div style={{ display: 'flex', gap: '20px', height: '400px' }}>
-        {/* Table Area */}
+        {/* Main Content Area */}
         <div style={{ flex: 1, border: '1px solid #ccc', backgroundColor: '#fff', display: 'flex', flexDirection: 'column' }}>
-          {/* Table Header */}
-          <div style={{ display: 'flex', fontSize: '12px', padding: '8px', borderBottom: '1px solid #ccc', backgroundColor: '#fafafa', fontWeight: 500 }}>
-             <div style={{ width: '80px' }}></div>
-             <div style={{ flex: 1, textAlign: 'right' }}>Sent</div>
-             <div style={{ flex: 1, textAlign: 'right' }}>Received</div>
-             <div style={{ flex: 1, textAlign: 'right' }}>Total</div>
-          </div>
           
-          {/* Table Body (Scrollable) */}
-          <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#fff' }}>
-             {Object.keys(data).length > 0 ? getRenderData() : <div style={{ padding: '20px', textAlign: 'center', fontSize: '12px', color: '#888' }}>No data collected yet.</div>}
-          </div>
+          {viewMode === 'Data' ? (
+            <>
+              <div style={{ display: 'flex', fontSize: '12px', padding: '8px', borderBottom: '1px solid #ccc', backgroundColor: '#fafafa', fontWeight: 500 }}>
+                 <div style={{ width: '80px' }}></div>
+                 <div style={{ flex: 1, textAlign: 'right' }}>Sent</div>
+                 <div style={{ flex: 1, textAlign: 'right' }}>Received</div>
+                 <div style={{ flex: 1, textAlign: 'right' }}>Total</div>
+              </div>
+              <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#fff' }}>
+                 {Object.keys(data).length > 0 ? getTableData() : <div style={{ padding: '20px', textAlign: 'center', fontSize: '12px', color: '#888' }}>No data collected yet.</div>}
+              </div>
+            </>
+          ) : (
+            <div style={{ flex: 1, padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={getChartData()} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                  <XAxis dataKey="name" stroke="#9ca3af" fontSize={11} tickMargin={8} />
+                  <YAxis stroke="#9ca3af" fontSize={11} width={50} />
+                  <RechartsTooltip 
+                    contentStyle={{ backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', fontSize: '12px' }}
+                    itemStyle={{ padding: 0 }}
+                  />
+                  <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                  <Line type="monotone" dataKey="Received" stroke="#3b82f6" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="Sent" stroke="#a855f7" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          )}
         </div>
 
         {/* Right Sidebar Controls */}
         <div style={{ width: '150px', display: 'flex', flexDirection: 'column', fontSize: '12px' }}>
+          
+          <div style={{ marginBottom: '15px' }}>
+            <div style={{ marginBottom: '5px' }}>View:</div>
+            <div>
+              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer' }}>
+                <input type="radio" name="view" checked={viewMode === 'Data'} onChange={() => setViewMode('Data')} style={{ marginRight: '5px' }} />
+                Data
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                <input type="radio" name="view" checked={viewMode === 'Graph'} onChange={() => setViewMode('Graph')} style={{ marginRight: '5px' }} />
+                Graph
+              </label>
+            </div>
+          </div>
+
           <div style={{ marginBottom: '15px' }}>
             <div style={{ marginBottom: '5px' }}>Group:</div>
             <div>
@@ -143,9 +221,13 @@ export const NetworkHistory: React.FC = () => {
                 <input type="radio" name="group" checked={group === 'Day'} onChange={() => setGroup('Day')} style={{ marginRight: '5px' }} />
                 Day
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer' }}>
                 <input type="radio" name="group" checked={group === 'Month'} onChange={() => setGroup('Month')} style={{ marginRight: '5px' }} />
                 Month
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                <input type="radio" name="group" checked={group === 'Year'} onChange={() => setGroup('Year')} style={{ marginRight: '5px' }} />
+                Year
               </label>
             </div>
           </div>

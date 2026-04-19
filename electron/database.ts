@@ -5,9 +5,15 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 const DB_FILENAME = 'network_data.json'
 let dbPath = ''
 
+interface HourlyData {
+  down: number;
+  up: number;
+}
+
 interface DailyData {
   down: number;
   up: number;
+  hours?: HourlyData[];
 }
 
 interface DB {
@@ -54,11 +60,26 @@ export function saveNetworkData(downDelta: number, upDelta: number) {
                   String(today.getDate()).padStart(2, '0');
 
   if (!cache![dateStr]) {
-    cache![dateStr] = { down: 0, up: 0 };
+    cache![dateStr] = { 
+      down: 0, 
+      up: 0, 
+      hours: Array(24).fill(null).map(() => ({down: 0, up: 0}))
+    };
   }
+  
+  if (!cache![dateStr].hours) {
+    cache![dateStr].hours = Array(24).fill(null).map(() => ({down: 0, up: 0}));
+  }
+
+  const currentHour = today.getHours();
 
   cache![dateStr].down += downDelta;
   cache![dateStr].up += upDelta;
+  if(cache![dateStr].hours && cache![dateStr].hours[currentHour]) {
+     cache![dateStr].hours[currentHour].down += downDelta;
+     cache![dateStr].hours[currentHour].up += upDelta;
+  }
+  
   pendingChanges = true;
 
   // Flush to disk every 60 seconds to avoid wearing out the SSD
