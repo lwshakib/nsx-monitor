@@ -18,6 +18,10 @@ export const NetworkWidget: React.FC = () => {
     document.documentElement.classList.add('widget-mode')
     document.body.classList.add('widget-mode')
     
+    // Disable Native Context Menu on Right Click
+    const handleContextMenu = (e: MouseEvent) => e.preventDefault()
+    window.addEventListener('contextmenu', handleContextMenu)
+
     const cleanup = window.ipcRenderer.onNetworkStats((stats: any) => {
       setDown(stats.down)
       setUp(stats.up)
@@ -26,6 +30,7 @@ export const NetworkWidget: React.FC = () => {
     return () => {
       document.documentElement.classList.remove('widget-mode')
       document.body.classList.remove('widget-mode')
+      window.removeEventListener('contextmenu', handleContextMenu)
       cleanup()
     }
   }, [])
