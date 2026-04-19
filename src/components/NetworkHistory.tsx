@@ -34,27 +34,50 @@ export const NetworkHistory: React.FC = () => {
   const [viewMode, setViewMode] = useState<'Data' | 'Graph'>('Data')
   const [unit, setUnit] = useState<'B' | 'KB' | 'MB' | 'GB' | 'TB'>('MB')
   const [interfaces, setInterfaces] = useState<string[]>([])
+  const [selectedInterface, setSelectedInterface] = useState<string>('')
   const [dbStatus, setDbStatus] = useState<'fetching' | 'Ok' | 'Error'>('fetching')
 
   useEffect(() => {
-    // Fetch DB
-    window.ipcRenderer.invoke('get-historical-data').then((res: DB) => {
-      if (res) {
-        setData(res)
-        setDbStatus('Ok')
-      } else {
+    // Polling hook for background data
+    const fetchDB = () => {
+      window.ipcRenderer.invoke('get-historical-data').then((res: DB) => {
+        if (res) {
+          setData(res)
+          setDbStatus('Ok')
+        } else {
+          setDbStatus('Error')
+        }
+      }).catch((err: any) => {
+        console.error("Could not fetch DB", err)
         setDbStatus('Error')
-      }
-    }).catch((err: any) => {
-      console.error("Could not fetch DB", err)
-      setDbStatus('Error')
-    })
+      })
+    }
+
+    fetchDB()
+    const intv = setInterval(fetchDB, 5000)
 
     // Fetch Interfaces
     window.ipcRenderer.invoke('get-network-interfaces').then((res: string[]) => {
-      if (res && res.length > 0) setInterfaces(res)
+      if (res && res.length > 0) {
+        setInterfaces(res)
+        setSelectedInterface(prev => prev ? prev : res[0])
+      }
     }).catch(() => {})
+    
+    return () => clearInterval(intv)
   }, [])
+
+  // Resolve the DB mapping to plain date -> DailyData based on active interface targeted
+  const getFilteredData = (): Record<string, DailyData> => {
+    const flat: Record<string, DailyData> = {}
+    if (!selectedInterface || !data) return flat;
+    Object.keys(data).forEach(date => {
+      if (data[date] && data[date][selectedInterface]) {
+        flat[date] = data[date][selectedInterface]
+      }
+    })
+    return flat
+  }
 
   const getMultiplier = () => {
     if (unit === 'KB') return 1024;
@@ -74,14 +97,15 @@ export const NetworkHistory: React.FC = () => {
 
   // --- TABLE RENDERER ---
   const getTableData = () => {
+    const activeData = getFilteredData()
     if (group === 'Day') {
       const groupedByMonth: Record<string, { day: string, up: number, down: number }[]> = {}
-      Object.keys(data).sort((a, b) => b.localeCompare(a)).forEach(dateStr => {
+      Object.keys(activeData).sort((a, b) => b.localeCompare(a)).forEach(dateStr => {
         const d = new Date(dateStr)
         const monthYear = `${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`
         if (!groupedByMonth[monthYear]) groupedByMonth[monthYear] = []
         groupedByMonth[monthYear].push({
-          day: String(d.getDate()), up: data[dateStr].up, down: data[dateStr].down
+          day: String(d.getDate()), up: activeData[dateStr].up, down: activeData[dateStr].down
         })
       })
 
@@ -103,7 +127,7 @@ export const NetworkHistory: React.FC = () => {
       ))
     } else if (group === 'Week') {
       const groupedByYear: Record<string, Record<string, { up: number, down: number }>> = {}
-      Object.keys(data).forEach(dateStr => {
+      Object.keys(activeData).forEach(dateStr => {
         const d = new Date(dateStr)
         const weekInfo = getWeekNumber(d)
         const year = String(weekInfo.year)
@@ -112,8 +136,8 @@ export const NetworkHistory: React.FC = () => {
         if (!groupedByYear[year]) groupedByYear[year] = {}
         if (!groupedByYear[year][weekLabel]) groupedByYear[year][weekLabel] = { up: 0, down: 0 }
         
-        groupedByYear[year][weekLabel].up += data[dateStr].up
-        groupedByYear[year][weekLabel].down += data[dateStr].down
+        groupedByYear[year][weekLabel].up += activeData[dateStr].up
+        groupedByYear[year][weekLabel].down += activeData[dateStr].down
       })
 
       return Object.entries(groupedByYear).sort((a,b) => b[0].localeCompare(a[0])).map(([year, weeks]) => (
@@ -134,7 +158,7 @@ export const NetworkHistory: React.FC = () => {
       ))
     } else if (group === 'Month') {
       const groupedByYear: Record<string, Record<string, { up: number, down: number }>> = {}
-      Object.keys(data).forEach(dateStr => {
+      Object.keys(activeData).forEach(dateStr => {
         const d = new Date(dateStr)
         const year = String(d.getFullYear())
         const monthName = MONTH_NAMES[d.getMonth()]
@@ -142,8 +166,8 @@ export const NetworkHistory: React.FC = () => {
         if (!groupedByYear[year]) groupedByYear[year] = {}
         if (!groupedByYear[year][monthName]) groupedByYear[year][monthName] = { up: 0, down: 0 }
         
-        groupedByYear[year][monthName].up += data[dateStr].up
-        groupedByYear[year][monthName].down += data[dateStr].down
+        groupedByYear[year][monthName].up += activeData[dateStr].up
+        groupedByYear[year][monthName].down += activeData[dateStr].down
       })
 
       return Object.entries(groupedByYear).sort((a,b) => b[0].localeCompare(a[0])).map(([year, months]) => (
@@ -165,12 +189,12 @@ export const NetworkHistory: React.FC = () => {
     } else {
       // Group by Year explicitly (No sub-headers)
       const yearlyTotals: Record<string, { up: number, down: number }> = {}
-      Object.keys(data).forEach(dateStr => {
+      Object.keys(activeData).forEach(dateStr => {
         const d = new Date(dateStr)
         const year = String(d.getFullYear())
         if (!yearlyTotals[year]) yearlyTotals[year] = { up: 0, down: 0 }
-        yearlyTotals[year].up += data[dateStr].up
-        yearlyTotals[year].down += data[dateStr].down
+        yearlyTotals[year].up += activeData[dateStr].up
+        yearlyTotals[year].down += activeData[dateStr].down
       })
 
       return (
@@ -190,12 +214,13 @@ export const NetworkHistory: React.FC = () => {
 
   // --- CHART RENDERER ---
   const getChartData = () => {
+    const activeData = getFilteredData()
     if (group === 'Year') {
       const yearData = MONTH_NAMES.map(m => ({ name: m.substring(0, 3), Sent: 0, Received: 0 }));
-      Object.keys(data).forEach(dateStr => {
+      Object.keys(activeData).forEach(dateStr => {
         const d = new Date(dateStr);
-        yearData[d.getMonth()].Sent += data[dateStr].up;
-        yearData[d.getMonth()].Received += data[dateStr].down;
+        yearData[d.getMonth()].Sent += activeData[dateStr].up;
+        yearData[d.getMonth()].Received += activeData[dateStr].down;
       });
       return yearData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
     } 
@@ -203,7 +228,7 @@ export const NetworkHistory: React.FC = () => {
       const daysStr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
       const weekData = daysStr.map(m => ({ name: m, Sent: 0, Received: 0 }));
       
-      const latestDay = Object.keys(data).sort().pop();
+      const latestDay = Object.keys(activeData).sort().pop();
       const baseDate = latestDay ? new Date(latestDay) : new Date();
       
       const currentDay = baseDate.getDay();
@@ -212,39 +237,39 @@ export const NetworkHistory: React.FC = () => {
       monday.setDate(monday.getDate() - distToMon);
       monday.setHours(0,0,0,0);
       
-      Object.keys(data).forEach(dateStr => {
+      Object.keys(activeData).forEach(dateStr => {
         const d = new Date(dateStr);
         d.setHours(0,0,0,0);
         const diffDays = Math.round((d.getTime() - monday.getTime()) / 86400000);
         if (diffDays >= 0 && diffDays <= 6) {
-          weekData[diffDays].Sent += data[dateStr].up;
-          weekData[diffDays].Received += data[dateStr].down;
+          weekData[diffDays].Sent += activeData[dateStr].up;
+          weekData[diffDays].Received += activeData[dateStr].down;
         }
       });
       return weekData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
     }
     else if (group === 'Month') {
-      const latestDay = Object.keys(data).sort().pop();
+      const latestDay = Object.keys(activeData).sort().pop();
       const latestDate = latestDay ? new Date(latestDay) : new Date();
       const numDays = new Date(latestDate.getFullYear(), latestDate.getMonth() + 1, 0).getDate();
       
       const monthData = Array.from({length: numDays}, (_, i) => ({ name: `${i+1}`, Sent: 0, Received: 0 }));
-      Object.keys(data).forEach(dateStr => {
+      Object.keys(activeData).forEach(dateStr => {
         const d = new Date(dateStr);
         if (d.getFullYear() === latestDate.getFullYear() && d.getMonth() === latestDate.getMonth()) {
-          monthData[d.getDate() - 1].Sent += data[dateStr].up;
-          monthData[d.getDate() - 1].Received += data[dateStr].down;
+          monthData[d.getDate() - 1].Sent += activeData[dateStr].up;
+          monthData[d.getDate() - 1].Received += activeData[dateStr].down;
         }
       });
       return monthData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
     }
     else {
       // Day = 24 hours of the most recent active day
-      const latestDay = Object.keys(data).sort().pop();
-      if (!latestDay || !data[latestDay].hours) {
+      const latestDay = Object.keys(activeData).sort().pop();
+      if (!latestDay || !activeData[latestDay].hours) {
         return Array.from({length: 24}, (_, i) => ({ name: `${i}:00`, Sent: 0, Received: 0 }));
       }
-      return data[latestDay].hours!.map((h, i) => ({ 
+      return activeData[latestDay].hours!.map((h, i) => ({ 
         name: `${i}:00`, 
         Sent: formatRaw(h.up), 
         Received: formatRaw(h.down)
@@ -257,7 +282,7 @@ export const NetworkHistory: React.FC = () => {
       {/* Top Header Mock */}
       <div style={{ marginBottom: '20px' }}>
         <h3 style={{ fontSize: '14px', margin: '0 0 5px 0', fontWeight: 600 }}>Network Interface</h3>
-        <select style={{ width: '100%', padding: '4px', fontSize: '13px', border: '1px solid #ccc', borderRadius: '2px', backgroundColor: '#fff' }}>
+        <select value={selectedInterface} onChange={e => setSelectedInterface(e.target.value)} style={{ width: '100%', padding: '4px', fontSize: '13px', border: '1px solid #ccc', borderRadius: '2px', backgroundColor: '#fff' }}>
           {interfaces.length > 0 ? interfaces.map(ifc => (
             <option key={ifc} value={ifc}>{ifc}</option>
           )) : (
@@ -282,7 +307,7 @@ export const NetworkHistory: React.FC = () => {
                  <div style={{ flex: 1, textAlign: 'right' }}>Total</div>
               </div>
               <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#fff' }}>
-                 {Object.keys(data).length > 0 ? getTableData() : <div style={{ padding: '20px', textAlign: 'center', fontSize: '12px', color: '#888' }}>No data collected yet.</div>}
+                 {Object.keys(getFilteredData()).length > 0 ? getTableData() : <div style={{ padding: '20px', textAlign: 'center', fontSize: '12px', color: '#888' }}>No data collected yet.</div>}
               </div>
             </>
           ) : (

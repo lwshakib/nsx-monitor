@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NetworkDashboard } from './components/NetworkDashboard'
 import { NetworkWidget } from './components/NetworkWidget'
-import './App.css'
+
 
 function App() {
   const [isWidget, setIsWidget] = useState(false)

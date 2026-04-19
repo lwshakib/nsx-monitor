@@ -16,8 +16,12 @@ interface DailyData {
   hours?: HourlyData[];
 }
 
+interface InterfaceDataMap {
+  [ifaceName: string]: DailyData;
+}
+
 interface DB {
-  [date: string]: DailyData; // date in YYYY-MM-DD format
+  [date: string]: InterfaceDataMap; // date in YYYY-MM-DD format
 }
 
 let cache: DB | null = null;
@@ -34,6 +38,23 @@ export function initDB() {
     if (existsSync(dbPath)) {
       const data = readFileSync(dbPath, 'utf-8');
       cache = JSON.parse(data);
+      
+      let migrated = false;
+      Object.keys(cache!).forEach(date => {
+        // Legacy check: if the date holds raw 'down'/'up' integers directly instead of an iface map
+        if (typeof (cache![date] as any).down === 'number') {
+           const legacyData = cache![date] as any;
+           cache![date] = {
+             "Legacy Interface": {
+               down: legacyData.down,
+               up: legacyData.up,
+               hours: legacyData.hours
+             }
+           } as any;
+           migrated = true;
+        }
+      });
+      if (migrated) flushDB();
     } else {
       cache = {};
       writeFileSync(dbPath, JSON.stringify(cache), 'utf-8');
@@ -45,11 +66,12 @@ export function initDB() {
 }
 
 /**
- * Record additional bytes downloaded and uploaded for a given date
+ * Record additional bytes downloaded and uploaded for a given date and interface
+ * @param ifaceName The name of the network interface hardware
  * @param downDelta Bytes downloaded since last check
  * @param upDelta Bytes uploaded since last check
  */
-export function saveNetworkData(downDelta: number, upDelta: number) {
+export function saveNetworkData(ifaceName: string, downDelta: number, upDelta: number) {
   if (!cache) initDB();
   if (downDelta === 0 && upDelta === 0) return;
 
@@ -59,25 +81,27 @@ export function saveNetworkData(downDelta: number, upDelta: number) {
                   String(today.getMonth() + 1).padStart(2, '0') + '-' + 
                   String(today.getDate()).padStart(2, '0');
 
-  if (!cache![dateStr]) {
-    cache![dateStr] = { 
+  if (!cache![dateStr]) cache![dateStr] = {};
+
+  if (!cache![dateStr][ifaceName]) {
+    cache![dateStr][ifaceName] = { 
       down: 0, 
       up: 0, 
       hours: Array(24).fill(null).map(() => ({down: 0, up: 0}))
     };
   }
   
-  if (!cache![dateStr].hours) {
-    cache![dateStr].hours = Array(24).fill(null).map(() => ({down: 0, up: 0}));
+  if (!cache![dateStr][ifaceName].hours) {
+    cache![dateStr][ifaceName].hours = Array(24).fill(null).map(() => ({down: 0, up: 0}));
   }
 
   const currentHour = today.getHours();
 
-  cache![dateStr].down += downDelta;
-  cache![dateStr].up += upDelta;
-  if(cache![dateStr].hours && cache![dateStr].hours[currentHour]) {
-     cache![dateStr].hours[currentHour].down += downDelta;
-     cache![dateStr].hours[currentHour].up += upDelta;
+  cache![dateStr][ifaceName].down += downDelta;
+  cache![dateStr][ifaceName].up += upDelta;
+  if(cache![dateStr][ifaceName].hours && cache![dateStr][ifaceName].hours[currentHour]) {
+     cache![dateStr][ifaceName].hours[currentHour].down += downDelta;
+     cache![dateStr][ifaceName].hours[currentHour].up += upDelta;
   }
   
   pendingChanges = true;

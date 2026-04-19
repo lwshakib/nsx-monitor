@@ -42,8 +42,8 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 
 let win: BrowserWindow | null = null
 let widgetWin: BrowserWindow | null = null
 let tray: Tray | null = null
-let prevRx = 0
-let prevTx = 0
+const prevRxMap: Record<string, number> = {}
+const prevTxMap: Record<string, number> = {}
 const downQueue = [0, 0]
 const upQueue = [0, 0]
 
@@ -63,36 +63,33 @@ async function updateStats() {
 
     let currentRx = 0
     let currentTx = 0
+    let rawTotalDown = 0
+    let rawTotalUp = 0
     
     // Sum across all valid active interfaces, bypassing loopback if possible
     for (const stat of stats) {
        if (stat.iface !== 'lo' && !stat.iface.includes('Loopback')) {
            currentRx += stat.rx_bytes
            currentTx += stat.tx_bytes
+           
+           if (prevRxMap[stat.iface] !== undefined) {
+               const downDelta = Math.max(0, stat.rx_bytes - prevRxMap[stat.iface])
+               const upDelta = Math.max(0, stat.tx_bytes - prevTxMap[stat.iface])
+               saveNetworkData(stat.iface, downDelta, upDelta)
+               rawTotalDown += downDelta
+               rawTotalUp += upDelta
+           }
+           
+           prevRxMap[stat.iface] = stat.rx_bytes
+           prevTxMap[stat.iface] = stat.tx_bytes
        }
     }
 
-    // Wait for the first tick to initialize prev before pumping huge numbers
-    if (prevRx === 0 && prevTx === 0) {
-        prevRx = currentRx
-        prevTx = currentTx
-        return
-    }
-
-    const rawDown = Math.max(0, currentRx - prevRx)
-    const rawUp = Math.max(0, currentTx - prevTx)
-
-    // Save to historical JSON storage
-    saveNetworkData(rawDown, rawUp)
-
-    prevRx = currentRx
-    prevTx = currentTx
-
     // 2-second moving window perfectly masks Windows performance counter 2s ticks
     downQueue.shift()
-    downQueue.push(rawDown)
+    downQueue.push(rawTotalDown)
     upQueue.shift()
-    upQueue.push(rawUp)
+    upQueue.push(rawTotalUp)
 
     const down = (downQueue[0] + downQueue[1]) / 2
     const up = (upQueue[0] + upQueue[1]) / 2
