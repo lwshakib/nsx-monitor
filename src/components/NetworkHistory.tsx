@@ -110,17 +110,17 @@ export const NetworkHistory: React.FC = () => {
       })
 
       return Object.entries(groupedByMonth).map(([month, days]) => (
-        <div key={month} style={{ marginBottom: '15px' }}>
-          <div style={{ padding: '4px 8px', color: 'var(--text-main)', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
-            <span style={{ marginRight: '10px' }}>{month}</span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
+        <div key={month} className="mb-[15px]">
+          <div className="py-1 px-2 text-foreground text-[13px] font-medium flex items-center">
+            <span className="mr-[10px]">{month}</span>
+            <div className="flex-1 h-[1px] bg-border" />
           </div>
           {days.map((d, i) => (
-            <div key={i} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
-              <div style={{ width: '80px' }}>{d.day}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(d.up)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(d.down)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(d.up + d.down)}</div>
+            <div key={i} className="flex text-xs py-1 px-2 text-muted-foreground">
+              <div className="w-[80px]">{d.day}</div>
+              <div className="flex-1 text-right">{formatStr(d.up)}</div>
+              <div className="flex-1 text-right">{formatStr(d.down)}</div>
+              <div className="flex-1 text-right">{formatStr(d.up + d.down)}</div>
             </div>
           ))}
         </div>
@@ -141,17 +141,17 @@ export const NetworkHistory: React.FC = () => {
       })
 
       return Object.entries(groupedByYear).sort((a,b) => b[0].localeCompare(a[0])).map(([year, weeks]) => (
-        <div key={year} style={{ marginBottom: '15px' }}>
-          <div style={{ padding: '4px 8px', color: 'var(--text-main)', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
-            <span style={{ marginRight: '10px' }}>{year}</span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
+        <div key={year} className="mb-[15px]">
+          <div className="py-1 px-2 text-foreground text-[13px] font-medium flex items-center">
+            <span className="mr-[10px]">{year}</span>
+            <div className="flex-1 h-[1px] bg-border" />
           </div>
           {Object.entries(weeks).sort((a,b) => parseInt(a[0].split(' ')[1]) - parseInt(b[0].split(' ')[1])).map(([weekLabel, obj]) => (
-            <div key={weekLabel} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
-              <div style={{ width: '80px' }}>{weekLabel}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.down)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up + obj.down)}</div>
+            <div key={weekLabel} className="flex text-xs py-1 px-2 text-muted-foreground">
+              <div className="w-[80px]">{weekLabel}</div>
+              <div className="flex-1 text-right">{formatStr(obj.up)}</div>
+              <div className="flex-1 text-right">{formatStr(obj.down)}</div>
+              <div className="flex-1 text-right">{formatStr(obj.up + obj.down)}</div>
             </div>
           ))}
         </div>
@@ -171,17 +171,17 @@ export const NetworkHistory: React.FC = () => {
       })
 
       return Object.entries(groupedByYear).sort((a,b) => b[0].localeCompare(a[0])).map(([year, months]) => (
-        <div key={year} style={{ marginBottom: '15px' }}>
-          <div style={{ padding: '4px 8px', color: 'var(--text-main)', fontSize: '13px', fontWeight: 500, display: 'flex', alignItems: 'center' }}>
-            <span style={{ marginRight: '10px' }}>{year}</span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
+        <div key={year} className="mb-[15px]">
+          <div className="py-1 px-2 text-foreground text-[13px] font-medium flex items-center">
+            <span className="mr-[10px]">{year}</span>
+            <div className="flex-1 h-[1px] bg-border" />
           </div>
           {Object.entries(months).map(([monthName, obj]) => (
-            <div key={monthName} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
-              <div style={{ width: '80px' }}>{monthName}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.down)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up + obj.down)}</div>
+            <div key={monthName} className="flex text-xs py-1 px-2 text-muted-foreground">
+              <div className="w-[80px]">{monthName}</div>
+              <div className="flex-1 text-right">{formatStr(obj.up)}</div>
+              <div className="flex-1 text-right">{formatStr(obj.down)}</div>
+              <div className="flex-1 text-right">{formatStr(obj.up + obj.down)}</div>
             </div>
           ))}
         </div>
@@ -198,13 +198,13 @@ export const NetworkHistory: React.FC = () => {
       })
 
       return (
-        <div style={{ marginBottom: '15px', paddingTop: '10px' }}>
+        <div className="mb-[15px] pt-[10px]">
           {Object.entries(yearlyTotals).sort((a,b) => b[0].localeCompare(a[0])).map(([year, obj]) => (
-            <div key={year} style={{ display: 'flex', fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
-              <div style={{ width: '80px', fontWeight: 600 }}>{year}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.down)}</div>
-              <div style={{ flex: 1, textAlign: 'right' }}>{formatStr(obj.up + obj.down)}</div>
+            <div key={year} className="flex text-xs py-1 px-2 text-muted-foreground">
+              <div className="w-[80px] font-semibold">{year}</div>
+              <div className="flex-1 text-right">{formatStr(obj.up)}</div>
+              <div className="flex-1 text-right">{formatStr(obj.down)}</div>
+              <div className="flex-1 text-right">{formatStr(obj.up + obj.down)}</div>
             </div>
           ))}
         </div>
@@ -278,52 +278,56 @@ export const NetworkHistory: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', color: 'var(--text-main)', flex: 1 }}>
+    <div className="p-5 font-sans text-foreground flex-1 flex flex-col h-full box-border">
       {/* Top Header Mock */}
-      <div style={{ marginBottom: '20px' }}>
-        <h3 style={{ fontSize: '14px', margin: '0 0 5px 0', fontWeight: 600 }}>Network Interface</h3>
-        <select value={selectedInterface} onChange={e => setSelectedInterface(e.target.value)} style={{ width: '100%', padding: '4px', fontSize: '13px', border: '1px solid var(--border-color)', borderRadius: '2px', backgroundColor: 'var(--panel-bg)', color: 'var(--text-main)' }}>
+      <div className="mb-5">
+        <h3 className="text-sm m-0 mb-1 font-semibold">Network Interface</h3>
+        <select 
+          value={selectedInterface} 
+          onChange={e => setSelectedInterface(e.target.value)} 
+          className="w-full p-1 text-[13px] border border-border rounded-sm bg-card text-foreground"
+        >
           {interfaces.length > 0 ? interfaces.map(ifc => (
             <option key={ifc} value={ifc}>{ifc}</option>
           )) : (
             <option>Fetching interfaces...</option>
           )}
         </select>
-        <div style={{ marginTop: '10px', fontSize: '12px', display: 'flex', justifyContent: 'space-between' }}>
-          <span>Database Status: <strong style={{ marginLeft: '10px', color: dbStatus === 'Error' ? '#ef4444' : '#10b981' }}>{dbStatus}</strong></span>
+        <div className="mt-2 text-xs flex justify-between">
+          <span>Database Status: <strong className={dbStatus === 'Error' ? 'ml-2 text-destructive' : 'ml-2 text-emerald-500'}>{dbStatus}</strong></span>
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '20px', height: '400px' }}>
+      <div className="flex gap-5 h-[400px]">
         {/* Main Content Area */}
-        <div style={{ flex: 1, border: '1px solid var(--border-color)', backgroundColor: 'var(--panel-bg)', display: 'flex', flexDirection: 'column' }}>
+        <div className="flex-1 border border-border bg-card flex flex-col rounded-md overflow-hidden">
           
           {viewMode === 'Data' ? (
             <>
-              <div style={{ display: 'flex', fontSize: '12px', padding: '8px', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--panel-alt-bg)', fontWeight: 500, color: 'var(--text-main)' }}>
-                 <div style={{ width: '80px' }}></div>
-                 <div style={{ flex: 1, textAlign: 'right' }}>Sent</div>
-                 <div style={{ flex: 1, textAlign: 'right' }}>Received</div>
-                 <div style={{ flex: 1, textAlign: 'right' }}>Total</div>
+              <div className="flex text-xs p-2 border-b border-border bg-muted/50 font-medium text-foreground">
+                 <div className="w-[80px]"></div>
+                 <div className="flex-1 text-right">Sent</div>
+                 <div className="flex-1 text-right">Received</div>
+                 <div className="flex-1 text-right">Total</div>
               </div>
-              <div style={{ flex: 1, overflowY: 'auto', backgroundColor: 'var(--panel-bg)' }}>
-                 {Object.keys(getFilteredData()).length > 0 ? getTableData() : <div style={{ padding: '20px', textAlign: 'center', fontSize: '12px', color: 'var(--text-muted)' }}>No data collected yet.</div>}
+              <div className="flex-1 overflow-y-auto bg-card p-2">
+                 {Object.keys(getFilteredData()).length > 0 ? getTableData() : <div className="p-5 text-center text-xs text-muted-foreground">No data collected yet.</div>}
               </div>
             </>
           ) : (
-            <div style={{ flex: 1, padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="flex-1 p-5 flex justify-center items-center">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={getChartData()} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" vertical={false} />
-                  <XAxis dataKey="name" stroke="var(--text-dim)" fontSize={11} tickMargin={8} />
-                  <YAxis stroke="var(--text-dim)" fontSize={11} width={50} />
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
+                  <XAxis dataKey="name" className="stroke-muted-foreground" fontSize={11} tickMargin={8} />
+                  <YAxis className="stroke-muted-foreground" fontSize={11} width={50} />
                   <RechartsTooltip 
-                    contentStyle={{ backgroundColor: 'var(--panel-bg)', borderRadius: '8px', border: '1px solid var(--border-color)', boxShadow: '0 4px 6px var(--shadow-color)', fontSize: '12px', color: 'var(--text-main)' }}
+                    contentStyle={{ backgroundColor: 'var(--card)', borderRadius: '0.5rem', border: '1px solid var(--border)', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', fontSize: '12px', color: 'var(--card-foreground)' }}
                     itemStyle={{ padding: 0 }}
                   />
                   <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  <Line type="monotone" dataKey="Received" stroke="#3b82f6" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
-                  <Line type="monotone" dataKey="Sent" stroke="#a855f7" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="Received" stroke="var(--primary)" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="Sent" stroke="var(--chart-1)" strokeWidth={2} dot={{r:3}} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -331,47 +335,51 @@ export const NetworkHistory: React.FC = () => {
         </div>
 
         {/* Right Sidebar Controls */}
-        <div style={{ width: '150px', display: 'flex', flexDirection: 'column', fontSize: '12px' }}>
+        <div className="w-[150px] flex flex-col text-xs">
           
-          <div style={{ marginBottom: '15px' }}>
-            <div style={{ marginBottom: '5px' }}>View:</div>
+          <div className="mb-4">
+            <div className="mb-1 text-muted-foreground font-medium">View:</div>
             <div>
-              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer' }}>
-                <input type="radio" name="view" checked={viewMode === 'Data'} onChange={() => setViewMode('Data')} style={{ marginRight: '5px' }} />
+              <label className="flex items-center mb-1 cursor-pointer hover:text-primary transition-colors">
+                <input type="radio" name="view" checked={viewMode === 'Data'} onChange={() => setViewMode('Data')} className="mr-2 accent-primary" />
                 Data
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                <input type="radio" name="view" checked={viewMode === 'Graph'} onChange={() => setViewMode('Graph')} style={{ marginRight: '5px' }} />
+              <label className="flex items-center cursor-pointer hover:text-primary transition-colors">
+                <input type="radio" name="view" checked={viewMode === 'Graph'} onChange={() => setViewMode('Graph')} className="mr-2 accent-primary" />
                 Graph
               </label>
             </div>
           </div>
 
-          <div style={{ marginBottom: '15px' }}>
-            <div style={{ marginBottom: '5px' }}>Group:</div>
+          <div className="mb-4">
+            <div className="mb-1 text-muted-foreground font-medium">Group:</div>
             <div>
-              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer' }}>
-                <input type="radio" name="group" checked={group === 'Day'} onChange={() => setGroup('Day')} style={{ marginRight: '5px' }} />
+              <label className="flex items-center mb-1 cursor-pointer hover:text-primary transition-colors">
+                <input type="radio" name="group" checked={group === 'Day'} onChange={() => setGroup('Day')} className="mr-2 accent-primary" />
                 Day
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer' }}>
-                <input type="radio" name="group" checked={group === 'Week'} onChange={() => setGroup('Week')} style={{ marginRight: '5px' }} />
+              <label className="flex items-center mb-1 cursor-pointer hover:text-primary transition-colors">
+                <input type="radio" name="group" checked={group === 'Week'} onChange={() => setGroup('Week')} className="mr-2 accent-primary" />
                 Week
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', cursor: 'pointer' }}>
-                <input type="radio" name="group" checked={group === 'Month'} onChange={() => setGroup('Month')} style={{ marginRight: '5px' }} />
+              <label className="flex items-center mb-1 cursor-pointer hover:text-primary transition-colors">
+                <input type="radio" name="group" checked={group === 'Month'} onChange={() => setGroup('Month')} className="mr-2 accent-primary" />
                 Month
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                <input type="radio" name="group" checked={group === 'Year'} onChange={() => setGroup('Year')} style={{ marginRight: '5px' }} />
+              <label className="flex items-center cursor-pointer hover:text-primary transition-colors">
+                <input type="radio" name="group" checked={group === 'Year'} onChange={() => setGroup('Year')} className="mr-2 accent-primary" />
                 Year
               </label>
             </div>
           </div>
 
-          <div style={{ marginBottom: '20px' }}>
-             <div style={{ marginBottom: '5px' }}>Unit:</div>
-             <select value={unit} onChange={(e) => setUnit(e.target.value as any)} style={{ width: '100%', padding: '4px', border: '1px solid var(--border-color)', backgroundColor: 'var(--panel-bg)', color: 'var(--text-main)' }}>
+          <div className="mb-5">
+             <div className="mb-1 text-muted-foreground font-medium">Unit:</div>
+             <select 
+               value={unit} 
+               onChange={(e) => setUnit(e.target.value as any)} 
+               className="w-full p-1 border border-border rounded-sm bg-card text-foreground"
+             >
                <option value="B">B</option>
                <option value="KB">KB</option>
                <option value="MB">MB</option>
@@ -380,19 +388,19 @@ export const NetworkHistory: React.FC = () => {
              </select>
           </div>
 
-          <div style={{ marginBottom: 'auto', color: 'var(--primary-blue)' }}>
-             <div style={{ color: 'var(--text-main)', marginBottom: '5px', fontWeight: 500 }}>Database:</div>
-             <div style={{ cursor: 'pointer', marginBottom: '8px' }} onClick={() => window.ipcRenderer.send('open-database-folder')}>Open Folder</div>
-             <div style={{ cursor: 'pointer', marginBottom: '5px', color: '#ef4444' }} onClick={() => {
+          <div className="mb-auto text-primary">
+             <div className="text-foreground mb-1 font-medium">Database:</div>
+             <div className="cursor-pointer mb-2 hover:underline opacity-90 transition-opacity" onClick={() => window.ipcRenderer.send('open-database-folder')}>Open Folder</div>
+             <div className="cursor-pointer mb-1 text-destructive hover:underline opacity-90 transition-opacity" onClick={() => {
                if (window.confirm('Are you sure you want to completely erase all historical network data? This cannot be undone.')) {
                  window.ipcRenderer.send('clear-database')
                }
              }}>Clear Database</div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <button style={{ padding: '8px', backgroundColor: 'var(--btn-bg)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: '4px', cursor: 'pointer', boxShadow: '0 1px 2px var(--shadow-color)', fontSize: '12px', fontWeight: 500, transition: 'all 0.2s' }}>Warning</button>
-            <button style={{ padding: '8px', backgroundColor: 'var(--btn-bg)', color: 'var(--text-main)', border: '1px solid var(--border-color)', borderRadius: '4px', cursor: 'pointer', boxShadow: '0 1px 2px var(--shadow-color)', fontSize: '12px', fontWeight: 500, transition: 'all 0.2s' }} onClick={() => window.ipcRenderer.send('win:hide')}>Close</button>
+          <div className="flex flex-col gap-2 mt-4">
+            <button className="px-2 py-1.5 bg-card text-card-foreground border border-border rounded-md cursor-pointer shadow-sm text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors">Warning</button>
+            <button className="px-2 py-1.5 bg-card text-card-foreground border border-border rounded-md cursor-pointer shadow-sm text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => window.ipcRenderer.send('win:hide')}>Close</button>
           </div>
         </div>
       </div>
