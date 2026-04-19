@@ -27,7 +27,7 @@ const AuraCapabilities: React.FC = () => {
           {/* Card 1 */}
           <div className="relative group fade-up h-full" style={{ perspective: '1200px' }}>
             <div className="w-full h-full relative transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:rotateX(10deg)_rotateY(-10deg)]" style={{ transformStyle: 'preserve-3d' }}>
-              <div className="absolute inset-0 rounded-3xl bg-brand-bg border border-aura-border transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(24px,-24px,-60px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-2xl">
+              <div className="absolute inset-0 rounded-3xl bg-brand-bg border border-aura-border transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(40px,-40px,-80px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-2xl">
                 <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
                 <div className="font-mono text-[9px] text-aura-text-muted uppercase flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-aura-text-muted"></span>
@@ -38,7 +38,7 @@ const AuraCapabilities: React.FC = () => {
                 </div>
               </div>
 
-              <div className="absolute inset-0 rounded-3xl bg-aura-bg-alt border border-aura-border-bright transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(12px,-12px,-30px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-xl">
+              <div className="absolute inset-0 rounded-3xl bg-aura-bg-alt border border-aura-border-bright transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(20px,-20px,-40px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-xl">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--accent-glow),transparent_50%)]"></div>
                 <div className="font-mono text-[9px] text-aura-text-muted uppercase">Buffer State</div>
                 <div className="font-mono text-[10px] text-aura-text mt-1">OPTIMIZED</div>
@@ -71,7 +71,7 @@ const AuraCapabilities: React.FC = () => {
           {/* Card 2 */}
           <div className="relative group fade-up h-full md:mt-12" style={{ perspective: '1200px', transitionDelay: '100ms' }}>
             <div className="w-full h-full relative transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:rotateX(10deg)_rotateY(-10deg)]" style={{ transformStyle: 'preserve-3d' }}>
-              <div className="absolute inset-0 rounded-3xl bg-brand-bg border border-aura-border transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(24px,-24px,-60px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-2xl">
+              <div className="absolute inset-0 rounded-3xl bg-brand-bg border border-aura-border transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(40px,-40px,-80px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-2xl">
                 <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
                 <div className="font-mono text-[9px] text-aura-text-muted uppercase flex items-center gap-2">Thread Count</div>
                 <div className="flex items-end gap-1.5 mt-3 h-4">
@@ -82,7 +82,7 @@ const AuraCapabilities: React.FC = () => {
                 </div>
               </div>
 
-              <div className="absolute inset-0 rounded-3xl bg-aura-bg-alt border border-aura-border-bright transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(12px,-12px,-30px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-xl">
+              <div className="absolute inset-0 rounded-3xl bg-aura-bg-alt border border-aura-border-bright transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(20px,-20px,-40px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-xl">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--accent-glow),transparent_50%)]"></div>
                 <div className="font-mono text-[9px] text-aura-text-muted uppercase">Model Sync</div>
                 <div className="font-mono text-[10px] text-emerald-400 mt-1">SYNCED</div>
@@ -118,13 +118,13 @@ const AuraCapabilities: React.FC = () => {
           {/* Card 3 */}
           <div className="relative group fade-up h-full md:mt-24" style={{ perspective: '1200px', transitionDelay: '200ms' }}>
             <div className="w-full h-full relative transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:rotateX(10deg)_rotateY(-10deg)]" style={{ transformStyle: 'preserve-3d' }}>
-              <div className="absolute inset-0 rounded-3xl bg-brand-bg border border-aura-border transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(24px,-24px,-60px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-2xl">
+              <div className="absolute inset-0 rounded-3xl bg-brand-bg border border-aura-border transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(40px,-40px,-80px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-2xl">
                 <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
                 <div className="font-mono text-[9px] text-aura-text-muted uppercase flex items-center gap-2">Hardware Accel</div>
                 <div className="font-mono text-[10px] text-aura-text mt-2">ENABLED</div>
               </div>
 
-              <div className="absolute inset-0 rounded-3xl bg-aura-bg-alt border border-aura-border-bright transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(12px,-12px,-30px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-xl">
+              <div className="absolute inset-0 rounded-3xl bg-aura-bg-alt border border-aura-border-bright transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(20px,-20px,-40px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-xl">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--accent-glow),transparent_50%)]"></div>
                 <div className="font-mono text-[9px] text-aura-text-muted uppercase">Latency Target</div>
                 <div className="font-mono text-[10px] text-emerald-400 mt-1">&lt;1.2MS</div>

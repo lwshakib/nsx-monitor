@@ -115,7 +115,7 @@ const AuraHorizontalScroll: React.FC = () => {
 
   return (
     <section ref={sectionRef} className="aura-section h-screen relative" id="h-scroll-section">
-      <div className="sticky h-screen top-0 items-center aura-container border-y border-aura-border flex flex-col justify-center overflow-hidden">
+      <div className="sticky h-screen top-0 items-start aura-container border-y border-aura-border flex flex-col justify-center overflow-hidden">
         {/* Corner Decorative Markers */}
         <div className="absolute -top-[7.5px] -left-[7.5px] w-3.5 h-3.5 text-aura-border-bright z-50">
           <Icon icon="solar:add-linear" />
