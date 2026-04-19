@@ -1,9 +1,9 @@
-import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen } from 'electron'
+import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen, shell } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import si from 'systeminformation'
-import { saveNetworkData, getNetworkData } from './database'
+import { saveNetworkData, getNetworkData, clearDB, getDbPath } from './database'
 
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -254,6 +254,17 @@ ipcMain.handle('get-network-interfaces', async () => {
     return Array.isArray(interfaces) ? interfaces.map(i => i.iface) : []
   } catch (e) {
     return []
+  }
+})
+
+ipcMain.on('clear-database', () => {
+  clearDB()
+})
+
+ipcMain.on('open-database-folder', () => {
+  const dbPath = getDbPath()
+  if (dbPath) {
+    shell.showItemInFolder(dbPath)
   }
 })
 

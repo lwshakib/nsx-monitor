@@ -381,10 +381,13 @@ export const NetworkHistory: React.FC = () => {
           </div>
 
           <div style={{ marginBottom: 'auto', color: '#3b82f6' }}>
-             <div style={{ color: '#333', marginBottom: '5px' }}>Database:</div>
-             <div style={{ cursor: 'pointer', marginBottom: '5px' }}>Import Wizard</div>
-             <div style={{ cursor: 'pointer', marginBottom: '5px' }}>Export Wizard</div>
-             <div style={{ cursor: 'pointer', marginBottom: '5px' }}>Clear Database</div>
+             <div style={{ color: '#333', marginBottom: '5px', fontWeight: 500 }}>Database:</div>
+             <div style={{ cursor: 'pointer', marginBottom: '8px' }} onClick={() => window.ipcRenderer.send('open-database-folder')}>Open Folder</div>
+             <div style={{ cursor: 'pointer', marginBottom: '5px', color: '#ef4444' }} onClick={() => {
+               if (window.confirm('Are you sure you want to completely erase all historical network data? This cannot be undone.')) {
+                 window.ipcRenderer.send('clear-database')
+               }
+             }}>Clear Database</div>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

@@ -139,3 +139,20 @@ export function getNetworkData() {
   if (!cache) initDB();
   return cache;
 }
+
+/**
+ * Resets the database back to an empty tracking state.
+ */
+export function clearDB() {
+  cache = {};
+  pendingChanges = true;
+  flushDB();
+}
+
+/**
+ * Returns the absolute path where the JSON database lives.
+ */
+export function getDbPath() {
+  if (!dbPath) initDB();
+  return dbPath;
+}
