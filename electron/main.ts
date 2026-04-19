@@ -287,6 +287,12 @@ ipcMain.on('open-database-folder', () => {
 })
 
 app.whenReady().then(() => {
+  // Add to Windows startup organically
+  app.setLoginItemSettings({
+    openAtLogin: true,
+    path: app.getPath('exe'),
+  })
+
   Menu.setApplicationMenu(null)
   createWindow()
   createWidget()
