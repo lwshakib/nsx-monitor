@@ -3,6 +3,7 @@ import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import si from 'systeminformation'
+import { saveNetworkData, getNetworkData } from './database'
 
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -81,6 +82,9 @@ async function updateStats() {
     const rawDown = Math.max(0, currentRx - prevRx)
     const rawUp = Math.max(0, currentTx - prevTx)
 
+    // Save to historical JSON storage
+    saveNetworkData(rawDown, rawUp)
+
     prevRx = currentRx
     prevTx = currentTx
 
@@ -121,7 +125,7 @@ async function updateStats() {
 function createWindow() {
   win = new BrowserWindow({
     icon: iconPath,
-    width: 900,
+    width: 700,
     height: 600,
     resizable: false,
     autoHideMenuBar: true,
@@ -236,6 +240,14 @@ app.on('activate', () => {
     createWindow()
     createWidget()
   }
+})
+
+ipcMain.handle('get-historical-data', () => {
+  return getNetworkData()
+})
+
+ipcMain.on('win:hide', () => {
+  win?.hide()
 })
 
 app.whenReady().then(() => {

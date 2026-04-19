@@ -3,18 +3,18 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: dark;
-  color: #f1f5f9;
+  color-scheme: light;
+  color: #1e293b;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --bg-color: #0a0a0c;
-  --text-main: #f1f5f9;
+  --bg-color: #ffffff;
+  --text-main: #1e293b;
   --text-muted: #64748b;
-  --text-dim: #475569;
+  --text-dim: #94a3b8;
   --primary-blue: #3b82f6;
   --primary-purple: #a855f7;
   --card-bg: rgba(255, 255, 255, 0.02);

@@ -1,4 +1,5 @@
 import React from 'react'
+import { NetworkHistory } from './NetworkHistory'
 
 export const NetworkDashboard: React.FC = () => {
   return (
@@ -16,7 +17,8 @@ export const NetworkDashboard: React.FC = () => {
         <span style={{ fontSize: '12px', color: '#000000', fontFamily: 'sans-serif' }}>NSX Monitor</span>
       </div>
       {/* Rest of the empty dashboard */}
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
+        <NetworkHistory />
       </div>
     </div>
   )
