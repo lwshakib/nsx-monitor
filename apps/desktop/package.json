@@ -13,6 +13,8 @@
     "@tailwindcss/vite": "^4.1.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "recharts": "3.8.0",
+    "systeminformation": "^5.31.5",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
