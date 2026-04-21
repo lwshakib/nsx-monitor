@@ -52,34 +52,34 @@ const Footer: React.FC = () => {
 
           <div className="relative z-10 flex flex-col w-full px-6 md:px-10">
           <div className="grid grid-cols-2 md:grid-cols-6 gap-x-8 gap-y-12 pb-16 border-b border-ui-border w-full">
-              <div className="flex flex-col items-start gap-4">
+              <div className="col-span-2 md:col-span-3 flex flex-col items-start gap-4">
                  <Logo className="mb-2" />
               <p className="text-sm text-ui-text-muted max-w-sm font-light leading-relaxed">
                 A high-fidelity network telemetry engine designed for precision monitoring. Track, analyze, and optimize your bandwidth with tactile desktop tools.
               </p>
             </div>
 
-            <div className="flex flex-col gap-4 text-balance">
-              <h4 className="text-[10px] font-mono font-bold tracking-widest text-ui-text">Platform</h4>
-              <nav className="flex flex-col gap-2.5 items-start">
+            <div className="flex flex-col gap-4 text-balance md:col-span-1 md:items-start">
+              <h4 className="text-[10px] font-mono tracking-widest text-ui-text-muted/50">Platform</h4>
+              <nav className="flex flex-col gap-3 items-start">
                 {['Engine', 'Studio', 'Research', 'Integrations'].map((item) => (
                   <a key={item} href="#" className="text-sm text-ui-text-muted hover:text-ui-text transition-colors">{item}</a>
                 ))}
               </nav>
             </div>
 
-            <div className="flex flex-col gap-4 text-balance">
-              <h4 className="text-[10px] font-mono font-bold tracking-widest text-ui-text">Resources</h4>
-              <nav className="flex flex-col gap-2.5 items-start">
+            <div className="flex flex-col gap-4 text-balance md:col-span-1 md:items-start">
+              <h4 className="text-[10px] font-mono tracking-widest text-ui-text-muted/50">Resources</h4>
+              <nav className="flex flex-col gap-3 items-start">
                 {['Documentation', 'API Guide', 'Changelog', 'Status'].map((item) => (
                   <a key={item} href="#" className="text-sm text-ui-text-muted hover:text-ui-text transition-colors">{item}</a>
                 ))}
               </nav>
             </div>
 
-            <div className="flex flex-col gap-4 text-balance">
-              <h4 className="text-[10px] font-mono font-bold tracking-widest text-ui-text">Company</h4>
-              <nav className="flex flex-col gap-2.5 items-start">
+            <div className="flex flex-col gap-4 text-balance md:col-span-1 md:items-start">
+              <h4 className="text-[10px] font-mono tracking-widest text-ui-text-muted/50">Company</h4>
+              <nav className="flex flex-col gap-3 items-start">
                 {['About', 'Careers', 'Press', 'Legal'].map((item) => (
                   <a key={item} href="#" className="text-sm text-ui-text-muted hover:text-ui-text transition-colors">{item}</a>
                 ))}
