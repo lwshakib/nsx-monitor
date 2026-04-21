@@ -11,7 +11,7 @@ const AuraHero: React.FC = () => {
   const actionsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const text = "Navigate your architecture in absolute clarity.";
+    const text = "Real-time Network Telemetry for Your Workspace.";
     if (titleRef.current) {
       titleRef.current.innerHTML = text.split(' ').map(w => 
         `<span class="inline-block overflow-hidden pb-1"><span class="t-word inline-block translate-y-full opacity-0">${w}</span></span>`
@@ -26,23 +26,23 @@ const AuraHero: React.FC = () => {
     const generators = {
       chart: () => `
         <div class="flex items-center justify-between mb-3">
-          <span class="text-[10px] text-neutral-400">Latency</span>
-          <span class="text-blue-400 flex items-center"><iconify-icon icon="solar:chart-square-bold-duotone"></iconify-icon></span>
+          <span class="text-[10px] text-neutral-400">Throughput</span>
+          <span class="text-blue-400 flex items-center"><iconify-icon icon="solar:graph-up-bold-duotone"></iconify-icon></span>
         </div>
         <div class="flex items-end gap-1 h-12">
           ${Array.from({ length: 6 }).map(() => `<div class="flex-1 bg-blue-500/20 rounded-t-sm" style="height:${Math.random() * 100}%"></div>`).join('')}
         </div>`,
       stats: () => `
-        <div class="text-[10px] text-muted-foreground mb-1">Nodes Active</div>
-        <div class="text-2xl font-mono text-foreground">1,024</div>
-        <div class="mt-2 text-[9px] text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded w-fit">+12.5%</div>`,
+        <div class="text-[10px] text-muted-foreground mb-1">Download Speed</div>
+        <div class="text-2xl font-mono text-foreground">${(Math.random() * 50).toFixed(1)} <span class="text-xs text-neutral-500">MB/s</span></div>
+        <div class="mt-2 text-[9px] text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded w-fit">Stable</div>`,
       status: () => `
         <div class="flex justify-between items-center mb-4">
-          <span class="text-[10px] text-muted-foreground">DB Sync</span>
-          <div class="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse shadow-[0_0_8px_#6366f1]"></div>
+          <span class="text-[10px] text-muted-foreground">Interface Eth0</span>
+          <div class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]"></div>
         </div>
         <div class="h-1 w-full bg-aura-border rounded-full overflow-hidden">
-          <div class="h-full bg-indigo-500 w-[85%]"></div>
+          <div class="h-full bg-emerald-500 w-[95%]"></div>
         </div>`
     };
 
@@ -155,27 +155,27 @@ const AuraHero: React.FC = () => {
               <a href="#" className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-normal text-aura-text-muted mb-8 border border-aura-border hover:bg-aura-border-bright transition-all backdrop-blur-md" 
                  style={{ background: 'var(--brand-bg)', transition: 'background 0.5s ease, border 0.5s ease' }}>
                 <span className="flex h-1.5 w-1.5 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
                 </span>
-                Core Infrastructure v3.0 deployed
+                Precision Monitoring v1.0.2 Live
                 <Icon icon="solar:alt-arrow-right-bold-duotone" className="text-xs text-aura-text-muted" />
               </a>
 
               <h1 ref={titleRef} id="telemetry-title" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal tracking-tight text-white mb-6 leading-[1.05]" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.5)' }}></h1>
 
               <p ref={subtitleRef} id="telemetry-subtitle" className="text-sm md:text-base text-neutral-400 mb-10 max-w-2xl leading-relaxed opacity-0">
-                A dimensional telemetry engine that translates complex microservices, databases, and edge networks
-                into an intuitive, explorable topology.
+                A high-performance desktop application for real-time bandwidth monitoring, 
+                historical usage tracking, and intelligent network diagnostics.
               </p>
 
               <div ref={actionsRef} id="telemetry-actions" className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto opacity-0">
                 <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-aura-text text-brand-bg font-semibold text-sm hover:opacity-80 transition-all active:scale-95 shadow-[0_0_30px_var(--accent-glow)] flex items-center justify-center gap-2.5">
-                  <Icon icon="solar:rocket-bold-duotone" className="text-lg" /> Initialize Instance
+                  <Icon icon="solar:download-bold-duotone" className="text-lg" /> Download for Windows
                 </button>
                 <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-surface text-aura-text font-normal text-sm hover:bg-aura-border-bright transition-all backdrop-blur-md border border-aura-border flex items-center justify-center gap-2.5" 
                         style={{ transition: 'background 0.5s ease, border 0.5s ease' }}>
-                  API Reference
+                  View GitHub
                 </button>
               </div>
             </main>

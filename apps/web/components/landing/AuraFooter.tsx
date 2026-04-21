@@ -20,18 +20,18 @@ const AuraFooter: React.FC = () => {
 
           <div className="relative z-10 flex flex-col items-center">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-surface border border-aura-border text-aura-text-muted text-[10px] font-mono uppercase tracking-[0.2em] mb-8 backdrop-blur-md shadow-[0_0_20px_var(--accent-glow)]">
-              <div className="w-1.5 h-1.5 rounded-full bg-aura-text animate-pulse shadow-[0_0_8px_var(--accent-glow)]"></div>
-              <span>Kernel Ready</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_var(--accent-glow)]"></div>
+              <span>Ready for Download</span>
             </div>
 
           <h2 className="text-4xl md:text-5xl font-normal text-aura-text tracking-tight mb-6 font-mono typewriter-text">
-            &gt; init_workspace()
+            &gt; get_nsx_monitor()
           </h2>
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <button className="w-full sm:w-auto group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-brand-bg bg-aura-text rounded-full transition-all duration-300 hover:scale-105 hover:bg-aura-text-muted shadow-[0_0_30px_var(--accent-glow)]">
-                Deploy Node
-                <Icon icon="solar:arrow-right-linear" className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+                Download v1.0
+                <Icon icon="solar:download-bold-duotone" className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
               </button>
             </div>
           </div>
@@ -54,7 +54,7 @@ const AuraFooter: React.FC = () => {
               <div className="flex flex-col items-start gap-4">
                  <Logo className="mb-2" />
               <p className="text-sm text-aura-text-muted max-w-sm font-light leading-relaxed">
-                A purely deterministic ecosystem designed for scale. Construct, monitor, and deploy with tactile precision across the global mesh network.
+                A high-fidelity network telemetry engine designed for precision monitoring. Track, analyze, and optimize your bandwidth with tactile desktop tools.
               </p>
             </div>
 
@@ -87,8 +87,8 @@ const AuraFooter: React.FC = () => {
           </div>
 
           <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-[10px] font-mono text-aura-text-muted tracking-widest">
-              © 2026 AURA TECHNOLOGIES. ALL RIGHTS RESERVED.
+            <div className="text-[10px] font-mono text-aura-text-muted tracking-widest text-balance">
+              © 2026 NSX MONITOR. PROFESSIONAL NETWORK TELEMETRY.
             </div>
             <div className="flex gap-6 text-aura-text-muted">
               <a href="#" className="hover:text-aura-text transition-colors"><Icon icon="ri:twitter-x-fill" className="text-lg" /></a>

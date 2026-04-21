@@ -10,30 +10,26 @@ const AuraNav: React.FC = () => {
         <Logo />
         
         <div className="hidden md:flex items-center gap-8 text-[10px] font-mono tracking-widest text-aura-text-muted">
-          <a href="#" className="hover:text-aura-text transition-colors duration-300 flex items-center gap-2 group">
+          <a href="#features" className="hover:text-aura-text transition-colors duration-300 flex items-center gap-2 group">
             <span className="w-1 h-1 rounded-full bg-aura-border group-hover:bg-aura-text transition-colors"></span>
-            ENGINE
+            FEATURES
           </a>
-          <a href="#" className="hover:text-aura-text transition-colors duration-300 flex items-center gap-2 group">
+          <a href="#dashboard" className="hover:text-aura-text transition-colors duration-300 flex items-center gap-2 group">
             <span className="w-1 h-1 rounded-full bg-aura-border group-hover:bg-aura-text transition-colors"></span>
-            STUDIO
+            DASHBOARD
           </a>
-          <a href="#" className="hover:text-aura-text transition-colors duration-300 flex items-center gap-2 group">
+          <a href="#docs" className="hover:text-aura-text transition-colors duration-300 flex items-center gap-2 group">
             <span className="w-1 h-1 rounded-full bg-aura-border group-hover:bg-aura-text transition-colors"></span>
-            RESEARCH
+            DOCUMENTATION
           </a>
         </div>
 
         <div className="flex items-center gap-4">
           <ModeToggle />
           
-          <div className="hidden md:flex flex-col text-[8px] font-mono text-aura-text-muted text-right uppercase tracking-wider">
-            <span>System: Online</span>
-            <span className="opacity-70">Ping: 12ms</span>
-          </div>
           <button className="px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-brand-bg bg-aura-text border border-aura-border rounded-full hover:opacity-80 transition-all active:scale-95 shadow-[0_0_20px_var(--accent-glow)] flex items-center gap-2">
-            Initialize
-            <Icon icon="solar:arrow-right-linear" />
+            Download v1.0
+            <Icon icon="solar:download-bold-duotone" />
           </button>
         </div>
       </div>

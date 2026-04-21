@@ -15,11 +15,11 @@ const AuraBentoGrid: React.FC = () => {
 
         <div className="flex flex-col items-start mb-16 px-6 md:px-10 fade-up">
           <h2 className="text-3xl md:text-5xl font-normal tracking-tight mb-4 text-aura-text">
-            Architecture Topology
+            Network Intelligence
           </h2>
           <p className="text-sm md:text-base text-aura-text-muted max-w-xl font-light leading-relaxed">
-            A precise mapping of interconnected systems operating synchronously.
-            Zero latency, total observability.
+            Precise mapping of your machine's network environment. 
+            Real-time speeds, zero-latency reporting.
           </p>
         </div>
 
@@ -61,16 +61,16 @@ const AuraBentoGrid: React.FC = () => {
 
               <div className="">
                 <h3 className="text-xl font-semibold mb-2 tracking-tight text-aura-text group-hover:translate-x-1 transition-transform">
-                  Data Telemetry
+                  Real-time Throughput
                 </h3>
                 <div className="flex gap-8 pt-4 border-t border-aura-border">
                   <div>
-                    <div className="text-[10px] text-aura-text-muted font-mono mb-1 uppercase text-right">THROUGHPUT</div>
-                    <div className="text-sm font-mono text-aura-text">840.2 TB/s</div>
+                    <div className="text-[10px] text-aura-text-muted font-mono mb-1 uppercase text-right">DOWNLOAD</div>
+                    <div className="text-sm font-mono text-aura-text">42.5 MB/s</div>
                   </div>
                   <div>
-                    <div className="text-[10px] text-aura-text-muted font-mono mb-1 uppercase text-right">LATENCY</div>
-                    <div className="text-sm font-mono text-aura-text">3.4 ms</div>
+                    <div className="text-[10px] text-aura-text-muted font-mono mb-1 uppercase text-right">UPLOAD</div>
+                    <div className="text-sm font-mono text-aura-text">8.2 MB/s</div>
                   </div>
                 </div>
               </div>
@@ -92,15 +92,15 @@ const AuraBentoGrid: React.FC = () => {
             </div>
 
             <div className="">
-              <h3 className="text-lg font-semibold mb-2 tracking-tight text-aura-text">Deep Stack</h3>
+              <h3 className="text-lg font-semibold mb-2 tracking-tight text-aura-text">Tray Integration</h3>
               <div className="space-y-1.5 pt-4 border-t border-aura-border">
                 <div className="flex justify-between text-[10px] font-mono text-aura-text-muted">
-                  <span>DOM_LAYER</span>
-                  <span className="text-aura-text">OK</span>
+                  <span>MIN_TRAY_UI</span>
+                  <span className="text-aura-text">READY</span>
                 </div>
                 <div className="flex justify-between text-[10px] font-mono text-aura-text-muted">
-                  <span>WEBGL_CTX</span>
-                  <span className="text-aura-text">OK</span>
+                  <span>FLOAT_WIDGET</span>
+                  <span className="text-aura-text">ACTIVE</span>
                 </div>
               </div>
             </div>
@@ -137,21 +137,21 @@ const AuraBentoGrid: React.FC = () => {
           <div className="col-span-1 md:col-span-4 row-span-1 p-8 rounded-[2rem] bg-aura-bg border border-aura-border relative overflow-hidden group hover:border-aura-border-bright transition-all duration-500 flex flex-col md:flex-row gap-8 items-center justify-between">
             <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-aura-border to-transparent pointer-events-none group-hover:from-aura-border-bright transition-colors"></div>
             <div className="relative z-10 max-w-lg text-left">
-              <h3 className="text-xl font-semibold text-aura-text mb-2 tracking-tight">Global Infrastructure</h3>
+              <h3 className="text-xl font-semibold text-aura-text mb-2 tracking-tight">Low Impact Design</h3>
               <p className="text-sm text-aura-text-muted font-light">
-                Distributed state synchronization ensuring sub-millisecond data availability across all active nodes.
+                Optimized C++ and Electron bindings ensure NSX Monitor stays silent in the background with minimal CPU usage.
               </p>
             </div>
             <div className="flex gap-12 relative z-10 w-full md:w-auto justify-between md:justify-end">
               <div>
-                <div className="text-3xl font-semibold text-aura-text tracking-tighter font-mono">24</div>
-                <div className="text-[10px] text-aura-text-muted font-mono uppercase mt-1">Regions</div>
+                <div className="text-3xl font-semibold text-aura-text tracking-tighter font-mono">1s</div>
+                <div className="text-[10px] text-aura-text-muted font-mono uppercase mt-1">Resolution</div>
               </div>
               <div className="">
                 <div className="text-3xl font-semibold text-aura-text tracking-tighter font-mono">
-                  400<span className="text-lg text-aura-text-muted">ms</span>
+                  12<span className="text-lg text-aura-text-muted">MB</span>
                 </div>
-                <div className="text-[10px] text-aura-text-muted font-mono uppercase mt-1">Replication</div>
+                <div className="text-[10px] text-aura-text-muted font-mono uppercase mt-1">Footprint</div>
               </div>
             </div>
           </div>

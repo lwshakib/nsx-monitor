@@ -31,7 +31,7 @@ const AuraCapabilities: React.FC = () => {
                 <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
                 <div className="font-mono text-[9px] text-aura-text-muted uppercase flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-aura-text-muted"></span>
-                  Memory Alloc
+                  IO_INTERFACE
                 </div>
                 <div className="h-1 w-full bg-aura-border rounded mt-3 overflow-hidden">
                   <div className="h-full bg-aura-text-muted w-3/4"></div>
@@ -54,9 +54,9 @@ const AuraCapabilities: React.FC = () => {
                     MOD_01
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-aura-text mb-3 tracking-tight">Spatial Interfaces</h3>
+                <h3 className="text-xl font-semibold text-aura-text mb-3 tracking-tight">Live Monitoring</h3>
                 <p className="text-sm text-aura-text-muted font-light leading-relaxed mb-8 flex-1">
-                  Constructing multi-dimensional web planes. Moving beyond flat coordinate systems into true Z-axis awareness.
+                  High-fidelity tracking of Rx and Tx bytes across all network interfaces with sub-second accuracy and real-time visualization.
                 </p>
                 <div className="flex items-center gap-2 mt-auto">
                   <div className="flex-1 h-[2px] bg-aura-border relative overflow-hidden">
@@ -99,9 +99,9 @@ const AuraCapabilities: React.FC = () => {
                     MOD_02
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-aura-text mb-3 tracking-tight relative z-10">Neural Integration</h3>
+                <h3 className="text-xl font-semibold text-aura-text mb-3 tracking-tight relative z-10">Historical Insights</h3>
                 <p className="text-sm text-aura-text-muted font-light leading-relaxed mb-8 flex-1 relative z-10">
-                  Embedded deterministic models enabling predictive rendering and autonomous state resolution.
+                  Comprehensive data persistence that logs your bandwidth usage over days, weeks, and months for deep analysis.
                 </p>
                 <div className="flex items-center gap-1 mt-auto relative z-10">
                   <div className="h-3 w-1 bg-aura-border-bright group-hover:bg-aura-text anim-bar-1 transition-colors"></div>
@@ -126,28 +126,28 @@ const AuraCapabilities: React.FC = () => {
 
               <div className="absolute inset-0 rounded-3xl bg-aura-bg-alt border border-aura-border-bright transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:translate3d(20px,-20px,-40px)] opacity-0 group-hover:opacity-100 flex flex-col justify-start p-6 overflow-hidden shadow-xl">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--accent-glow),transparent_50%)]"></div>
-                <div className="font-mono text-[9px] text-aura-text-muted uppercase">Latency Target</div>
-                <div className="font-mono text-[10px] text-emerald-400 mt-1">&lt;1.2MS</div>
+                <div className="font-mono text-[9px] text-aura-text-muted uppercase">Retention Policy</div>
+                <div className="font-mono text-[10px] text-emerald-400 mt-1">365 DAYS</div>
               </div>
 
               <div className="relative p-10 rounded-3xl bg-aura-bg border border-aura-border overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:border-aura-border-bright group-hover:shadow-[-30px_30px_50px_rgba(0,0,0,0.4)] group-hover:bg-brand-surface z-10 h-full flex flex-col group-hover:[transform:translateZ(20px)]">
                 <div className="absolute inset-0 bg-grid-small opacity-10 pointer-events-none group-hover:opacity-30 transition-opacity"></div>
                 <div className="flex justify-between items-start mb-8 relative z-10">
                   <div className="w-12 h-12 rounded-xl bg-aura-bg border border-aura-border flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                    <Icon icon="solar:code-scan-linear" className="text-2xl text-aura-text-muted group-hover:text-aura-text" />
+                    <Icon icon="solar:widget-2-linear" className="text-2xl text-aura-text-muted group-hover:text-aura-text" />
                   </div>
                   <div className="text-[9px] font-mono text-aura-text-muted border border-aura-border px-2 py-1 rounded bg-brand-surface">
                     MOD_03
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-aura-text mb-3 tracking-tight relative z-10">Low-Level Arch</h3>
+                <h3 className="text-xl font-semibold text-aura-text mb-3 tracking-tight relative z-10">Minimal Footprint</h3>
                 <p className="text-sm text-aura-text-muted font-light leading-relaxed mb-8 flex-1 relative z-10">
-                  Compiling direct to browser APIs. Stripping abstractions to deliver bare-metal performance for graphic pipelines.
+                  A lightweight desktop widget and system tray integration designed to monitor your network without interrupting your workflow.
                 </p>
                 <div className="font-mono text-[10px] text-aura-text-muted flex flex-col gap-1 relative z-10 mt-auto">
-                  <span className="group-hover:text-aura-text transition-colors transition-all duration-300">&gt; compile_shaders()</span>
-                  <span className="opacity-50 group-hover:opacity-100 transition-opacity delay-75 transition-all duration-300">&gt; init_webgl_ctx()</span>
-                  <span className="opacity-25 group-hover:opacity-100 transition-opacity delay-150 transition-all duration-300">&gt; OK</span>
+                  <span className="group-hover:text-aura-text transition-colors duration-300">&gt; start_widget_thread()</span>
+                  <span className="opacity-50 group-hover:opacity-100 transition-opacity delay-75 duration-300">&gt; query_pcap_stats()</span>
+                  <span className="opacity-25 group-hover:opacity-100 transition-opacity delay-150 duration-300">&gt; RUNNING</span>
                 </div>
               </div>
             </div>

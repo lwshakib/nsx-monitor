@@ -13,8 +13,8 @@ import "../styles/landing.css";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Aura | Spatial Intelligence" },
-    { name: "description", content: "A dimensional telemetry engine for complex architecture." },
+    { title: "NSX Monitor | Precision Network Telemetry" },
+    { name: "description", content: "Real-time bandwidth monitoring, historical data tracking, and a sleek desktop widget for Windows." },
   ];
 }
 
