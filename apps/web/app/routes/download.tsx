@@ -2,9 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import Nav from '../../components/landing/Nav';
 import Footer from '../../components/landing/Footer';
-import "../../app/styles/landing.css";
+import "../styles/landing.css";
+import type { Route } from "./+types/download";
 
-const DownloadPage: React.FC = () => {
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Download | NSX Monitor" },
+    { name: "description", content: "Get the NSX Monitor desktop application for Windows, macOS, or Linux." },
+  ];
+}
+
+export default function Download() {
     const [os, setOs] = useState<'Windows' | 'macOS' | 'Linux' | 'Unknown'>('Unknown');
 
     useEffect(() => {
@@ -55,7 +63,7 @@ const DownloadPage: React.FC = () => {
             <main className="relative z-10 pt-40 pb-20 px-6 md:px-10 max-w-6xl mx-auto flex flex-col items-center">
                 
                 {/* Row 1: Detected OS */}
-                <section className="w-full mb-20 fade-up opacity-100 translate-y-0">
+                <section className="w-full mb-20 fade-up opacity-100 translate-y-0 text-white">
                     <div className="p-[1px] rounded-[2.5rem] bg-gradient-to-b from-ui-border-bright to-transparent shadow-2xl">
                         <div className="bg-ui-bg-alt/80 backdrop-blur-xl rounded-[2.45rem] p-10 md:p-16 flex flex-col md:flex-row items-center gap-12 border border-ui-border">
                             <div className="w-32 h-32 md:w-48 md:h-48 rounded-[2rem] bg-brand-surface border border-ui-border flex items-center justify-center p-8 shadow-inner">
@@ -76,7 +84,7 @@ const DownloadPage: React.FC = () => {
                                         <Icon icon="solar:download-bold-duotone" className="text-xl" />
                                         Download NSX_Monitor{currentOs.ext}
                                     </button>
-                                    <span className="text-[10px] font-mono text-ui-text-muted">v1.2.4 | STABLE RELEASE</span>
+                                    <span className="text-[10px] font-mono text-ui-text-muted">STABLE RELEASE</span>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +122,7 @@ const DownloadPage: React.FC = () => {
                     })}
                 </section>
 
-                <div className="mt-20 p-8 border border-ui-border rounded-[2rem] bg-ui-bg-alt/40 backdrop-blur-sm max-w-4xl text-left flex flex-col md:flex-row items-center gap-8 fade-up">
+                <div className="mt-20 p-8 border border-ui-border rounded-[2rem] bg-ui-bg-alt/40 backdrop-blur-sm max-w-4xl text-left flex flex-col md:flex-row items-center gap-8 fade-up text-white">
                     <div className="w-12 h-12 rounded-xl bg-ui-text/5 border border-ui-border flex items-center justify-center text-ui-text">
                         <Icon icon="solar:info-square-bold-duotone" className="text-2xl" />
                     </div>
@@ -131,6 +139,4 @@ const DownloadPage: React.FC = () => {
             <Footer />
         </div>
     );
-};
-
-export default DownloadPage;
+}
