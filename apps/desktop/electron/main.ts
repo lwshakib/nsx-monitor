@@ -1,11 +1,9 @@
 import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen, shell, nativeTheme } from 'electron'
-import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import si from 'systeminformation'
 import { saveNetworkData, getNetworkData, clearDB, getDbPath } from './database'
 
-const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // The built directory structure
@@ -44,8 +42,9 @@ let widgetWin: BrowserWindow | null = null
 let tray: Tray | null = null
 const prevRxMap: Record<string, number> = {}
 const prevTxMap: Record<string, number> = {}
-const downQueue = [0, 0]
-const upQueue = [0, 0]
+const downQueue = [0, 0] // Stores calculated speed (bytes/sec)
+const upQueue = [0, 0]   // Stores calculated speed (bytes/sec)
+let lastUpdateTime = Date.now()
 
 function format(bytes: number) {
   const kb = bytes / 1024
@@ -56,19 +55,42 @@ function format(bytes: number) {
   return `${kb.toFixed(0)}K`
 }
 
+/**
+ * Checks if a network interface is a virtual or internal one that should be ignored.
+ */
+function isVirtualInterface(iface: string): boolean {
+  const name = iface.toLowerCase();
+  const virtualKeywords = [
+    'loopback', 'lo', 'virtualbox', 'vmware', 'vEthernet', 
+    'hyper-v', 'wsl', 'tunnel', 'tap', 'vpn', 'zerotier', 
+    'tailscale', 'pseudo', 'filter', 'teredo'
+  ];
+  return virtualKeywords.some(keyword => name.includes(keyword.toLowerCase()));
+}
+
 async function updateStats() {
   try {
+    const now = Date.now()
+    const dt = (now - lastUpdateTime) / 1000 // delta time in seconds
+    lastUpdateTime = now
+
+    // Ensure dt is not zero to avoid division by zero
+    const safeDt = dt > 0 ? dt : 1
+
     const stats = await si.networkStats()
-    if (!stats || stats.length === 0) return
+    if (!stats || stats.length === 0) {
+      setTimeout(updateStats, 1000)
+      return
+    }
 
     let currentRx = 0
     let currentTx = 0
     let rawTotalDown = 0
     let rawTotalUp = 0
     
-    // Sum across all valid active interfaces, bypassing loopback if possible
     for (const stat of stats) {
-       if (stat.iface !== 'lo' && !stat.iface.includes('Loopback')) {
+       // Filter out virtual/loopback interfaces to prevent traffic doubling
+       if (!isVirtualInterface(stat.iface)) {
            currentRx += stat.rx_bytes
            currentTx += stat.tx_bytes
            
@@ -85,11 +107,15 @@ async function updateStats() {
        }
     }
 
-    // 2-second moving window perfectly masks Windows performance counter 2s ticks
+    // Convert total bytes delta during this period to bytes per second
+    const normalizedDown = rawTotalDown / safeDt
+    const normalizedUp = rawTotalUp / safeDt
+
+    // 2-sample moving window for visual smoothness
     downQueue.shift()
-    downQueue.push(rawTotalDown)
+    downQueue.push(normalizedDown)
     upQueue.shift()
-    upQueue.push(rawTotalUp)
+    upQueue.push(normalizedUp)
 
     const down = (downQueue[0] + downQueue[1]) / 2
     const up = (upQueue[0] + upQueue[1]) / 2
@@ -116,6 +142,9 @@ async function updateStats() {
     }
   } catch (error) {
     console.error('Failed to update stats:', error)
+  } finally {
+    // Schedule next update after current one completes to prevent overlapping
+    setTimeout(updateStats, 1000)
   }
 }
 
@@ -310,7 +339,7 @@ app.whenReady().then(() => {
         }
       }
     }
+    lastUpdateTime = Date.now()
+    setTimeout(updateStats, 1000)
   })
-
-  setInterval(updateStats, 1000)
 })
