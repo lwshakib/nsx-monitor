@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import Logo from '../Logo';
+import { Link } from 'react-router';
 
 const Footer: React.FC = () => {
   return (
@@ -29,10 +30,10 @@ const Footer: React.FC = () => {
           </h2>
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <button className="w-full sm:w-auto group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-brand-bg bg-ui-text rounded-full transition-all duration-300 hover:scale-105 hover:bg-ui-text-muted shadow-[0_0_30px_var(--accent-glow)]">
-                Download v1.0
+              <Link to="/download" className="w-full sm:w-auto group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-brand-bg bg-ui-text rounded-full transition-all duration-300 hover:scale-105 hover:bg-ui-text-muted shadow-[0_0_30px_var(--accent-glow)]">
+                Download Now
                 <Icon icon="solar:download-bold-duotone" className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>

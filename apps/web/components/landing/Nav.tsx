@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 import { ModeToggle } from './ModeToggle';
 import Logo from '../Logo';
+import { Link } from 'react-router';
 
 const Nav: React.FC = () => {
   return (
@@ -27,10 +28,10 @@ const Nav: React.FC = () => {
         <div className="flex items-center gap-4">
           <ModeToggle />
           
-          <button className="px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-brand-bg bg-ui-text border border-ui-border rounded-full hover:opacity-80 transition-all active:scale-95 shadow-[0_0_20px_var(--accent-glow)] flex items-center gap-2">
-            Download v1.0
+          <Link to="/download" className="px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-brand-bg bg-ui-text border border-ui-border rounded-full hover:opacity-80 transition-all active:scale-95 shadow-[0_0_20px_var(--accent-glow)] flex items-center gap-2">
+            Download
             <Icon icon="solar:download-bold-duotone" />
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
