@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router';
 
 interface LogoProps {
   className?: string;
@@ -6,7 +6,7 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ className }) => {
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
+    <Link to="/" className={`flex items-center gap-2.5 hover:opacity-90 transition-opacity active:scale-95 ${className}`}>
       <svg 
         width="36" 
         height="36" 
@@ -97,7 +97,7 @@ const Logo: React.FC<LogoProps> = ({ className }) => {
       <span className="text-ui-text font-bold text-xl tracking-tighter">
         NSX Monitor
       </span>
-    </div>
+    </Link>
   );
 };
 
