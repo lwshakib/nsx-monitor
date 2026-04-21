@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
+import Logo from '../Logo';
 
 const AuraFooter: React.FC = () => {
   return (
@@ -50,11 +51,8 @@ const AuraFooter: React.FC = () => {
 
           <div className="relative z-10 flex flex-col w-full px-6 md:px-10">
           <div className="grid grid-cols-2 md:grid-cols-6 gap-x-8 gap-y-12 pb-16 border-b border-aura-border w-full">
-            <div className="col-span-2 md:col-span-2 lg:col-span-3 flex flex-col items-start gap-4">
-               <div className="text-aura-text font-bold text-xl tracking-tighter flex items-center gap-2 mb-2">
-                 <div className="w-8 h-8 bg-aura-text text-brand-bg rounded flex items-center justify-center font-mono">A</div>
-                 AURA
-               </div>
+              <div className="flex flex-col items-start gap-4">
+                 <Logo className="mb-2" />
               <p className="text-sm text-aura-text-muted max-w-sm font-light leading-relaxed">
                 A purely deterministic ecosystem designed for scale. Construct, monitor, and deploy with tactile precision across the global mesh network.
               </p>

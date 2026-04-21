@@ -1,15 +1,13 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { ModeToggle } from './ModeToggle';
+import Logo from '../Logo';
 
 const AuraNav: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 border-b border-aura-border bg-brand-bg/40 dark:bg-black/40 backdrop-blur-md transition-all duration-300">
       <div className="aura-container border-none flex justify-between items-center h-20 px-6 md:px-10">
-        <div className="flex gap-3 items-center">
-          <div className="w-8 h-8 bg-aura-text text-brand-bg rounded flex items-center justify-center font-bold text-xl transition-colors">A</div>
-          <span className="text-aura-text font-bold text-xl tracking-tighter">AURA</span>
-        </div>
+        <Logo />
         
         <div className="hidden md:flex items-center gap-8 text-[10px] font-mono tracking-widest text-aura-text-muted">
           <a href="#" className="hover:text-aura-text transition-colors duration-300 flex items-center gap-2 group">
