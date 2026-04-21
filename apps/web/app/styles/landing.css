@@ -1,7 +1,7 @@
 /* Aura Landing Page Styles */
 
 :root {
-  --aura-max-width: 1400px;
+  --ui-max-width: 1400px;
 }
 
 .dark {
@@ -10,12 +10,12 @@
   --brand-border: rgba(255, 255, 255, 0.08);
 
   /* Unified Aura System Tokens */
-  --aura-bg: #030303;
-  --aura-bg-alt: #0a0a0a;
-  --aura-border: rgba(255, 255, 255, 0.05);
-  --aura-border-bright: rgba(255, 255, 255, 0.08);
-  --aura-text: #ededed;
-  --aura-text-muted: #a1a1a1;
+  --ui-bg: #030303;
+  --ui-bg-alt: #0a0a0a;
+  --ui-border: rgba(255, 255, 255, 0.05);
+  --ui-border-bright: rgba(255, 255, 255, 0.08);
+  --ui-text: #ededed;
+  --ui-text-muted: #a1a1a1;
   
   --bg-grid-color: rgba(255, 255, 255, 0.05);
   --bg-mesh-opacity: 0.04;
@@ -28,12 +28,12 @@
   --brand-border: rgba(0, 0, 0, 0.08);
 
   /* Unified Aura System Tokens */
-  --aura-bg: #ffffff;
-  --aura-bg-alt: #f1f3f5;
-  --aura-border: rgba(0, 0, 0, 0.06);
-  --aura-border-bright: rgba(0, 0, 0, 0.1);
-  --aura-text: #1a1a1a;
-  --aura-text-muted: #666666;
+  --ui-bg: #ffffff;
+  --ui-bg-alt: #f1f3f5;
+  --ui-border: rgba(0, 0, 0, 0.06);
+  --ui-border-bright: rgba(0, 0, 0, 0.1);
+  --ui-text: #1a1a1a;
+  --ui-text-muted: #666666;
 
   --bg-grid-color: rgba(0, 0, 0, 0.04);
   --bg-mesh-opacity: 0.02;
@@ -43,7 +43,7 @@
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--brand-bg);
-  color: var(--aura-text);
+  color: var(--ui-text);
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
@@ -167,17 +167,17 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 
 /* Custom Utilities */
-.aura-container {
+.ui-container {
   width: 100%;
-  max-width: var(--aura-max-width);
+  max-width: var(--ui-max-width);
   margin-left: auto;
   margin-right: auto;
-  border-left: 1px solid var(--aura-border);
-  border-right: 1px solid var(--aura-border);
+  border-left: 1px solid var(--ui-border);
+  border-right: 1px solid var(--ui-border);
   position: relative;
 }
 
-.aura-section {
+.ui-section {
   position: relative;
   z-index: 10;
   background-color: transparent;
@@ -532,9 +532,9 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 /* Horizontal Scroll Styles */
 .schema-card-enhanced {
-  background-color: var(--aura-bg-alt);
-  background-image: linear-gradient(var(--aura-bg-alt), var(--aura-bg-alt)),
-    linear-gradient(to bottom right, var(--aura-border-bright), var(--aura-border));
+  background-color: var(--ui-bg-alt);
+  background-image: linear-gradient(var(--ui-bg-alt), var(--ui-bg-alt)),
+    linear-gradient(to bottom right, var(--ui-border-bright), var(--ui-border));
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
   border: 1px solid transparent;

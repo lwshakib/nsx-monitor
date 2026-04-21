@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 import gsap from 'gsap';
 
-const AuraHero: React.FC = () => {
+const Hero: React.FC = () => {
   const tunnelRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -41,7 +41,7 @@ const AuraHero: React.FC = () => {
           <span class="text-[10px] text-muted-foreground">Interface Eth0</span>
           <div class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]"></div>
         </div>
-        <div class="h-1 w-full bg-aura-border rounded-full overflow-hidden">
+        <div class="h-1 w-full bg-ui-border rounded-full overflow-hidden">
           <div class="h-full bg-emerald-500 w-[95%]"></div>
         </div>`
     };
@@ -53,8 +53,8 @@ const AuraHero: React.FC = () => {
     if (tunnelRef.current) {
       for (let i = 0; i < numPanels; i++) {
         const el = document.createElement('div');
-        el.className = 'absolute top-1/2 left-1/2 w-48 p-4 rounded-xl backdrop-blur-xl border border-aura-border flex flex-col will-change-transform';
-        el.style.background = 'var(--aura-bg-alt)';
+        el.className = 'absolute top-1/2 left-1/2 w-48 p-4 rounded-xl backdrop-blur-xl border border-ui-border flex flex-col will-change-transform';
+        el.style.background = 'var(--ui-bg-alt)';
         el.style.opacity = '0.8';
         el.style.zIndex = '0';
         el.style.transition = 'background 0.5s ease, border 0.5s ease';
@@ -117,27 +117,27 @@ const AuraHero: React.FC = () => {
   }, []);
 
   return (
-    <section className="aura-section overflow-hidden flex flex-col w-full h-[800px] md:h-screen" id="nexus-engine-hero">
-      <div className="aura-container flex-1 flex flex-col bg-aura-bg overflow-hidden"
+    <section className="ui-section overflow-hidden flex flex-col w-full h-[800px] md:h-screen" id="nexus-engine-hero">
+      <div className="ui-container flex-1 flex flex-col bg-ui-bg overflow-hidden"
            style={{ background: 'radial-gradient(ellipse at top, var(--accent-glow) 0%, transparent 100%)', transition: 'background 0.5s ease' }}>
         
         {/* Corner Decorative Markers */}
-        <div className="absolute top-4 left-4 w-3.5 h-3.5 text-aura-border-bright z-50">
+        <div className="absolute top-4 left-4 w-3.5 h-3.5 text-ui-border-bright z-50">
           <Icon icon="solar:add-linear" />
         </div>
-        <div className="absolute top-4 right-4 w-3.5 h-3.5 text-aura-border-bright z-50">
+        <div className="absolute top-4 right-4 w-3.5 h-3.5 text-ui-border-bright z-50">
           <Icon icon="solar:add-linear" />
         </div>
-        <div className="absolute bottom-4 left-4 w-3.5 h-3.5 text-aura-border-bright z-50">
+        <div className="absolute bottom-4 left-4 w-3.5 h-3.5 text-ui-border-bright z-50">
           <Icon icon="solar:add-linear" />
         </div>
-        <div className="absolute bottom-4 right-4 w-3.5 h-3.5 text-aura-border-bright z-50">
+        <div className="absolute bottom-4 right-4 w-3.5 h-3.5 text-ui-border-bright z-50">
           <Icon icon="solar:add-linear" />
         </div>
 
         <div className="flex-1 flex flex-col p-4 sm:p-6 lg:p-8">
-          <div ref={viewportRef} id="telemetry-viewport" className="relative flex-1 w-full rounded-[2rem] overflow-hidden flex flex-col items-center justify-center min-h-[500px] border border-aura-border"
-               style={{ background: 'linear-gradient(var(--brand-bg), var(--brand-bg)) padding-box, linear-gradient(180deg, var(--aura-border-bright) 0%, transparent 100%) border-box', transition: 'background 0.5s ease, border 0.5s ease' }}>
+          <div ref={viewportRef} id="telemetry-viewport" className="relative flex-1 w-full rounded-[2rem] overflow-hidden flex flex-col items-center justify-center min-h-[500px] border border-ui-border"
+               style={{ background: 'linear-gradient(var(--brand-bg), var(--brand-bg)) padding-box, linear-gradient(180deg, var(--ui-border-bright) 0%, transparent 100%) border-box', transition: 'background 0.5s ease, border 0.5s ease' }}>
 
             {/* Atmospheric Glows */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
@@ -152,14 +152,14 @@ const AuraHero: React.FC = () => {
 
             {/* Content Overlay */}
             <main className="relative z-40 flex-1 flex flex-col items-center justify-center text-center px-6 w-full max-w-5xl mx-auto">
-              <a href="#" className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-normal text-aura-text-muted mb-8 border border-aura-border hover:bg-aura-border-bright transition-all backdrop-blur-md" 
+              <a href="#" className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-normal text-ui-text-muted mb-8 border border-ui-border hover:bg-ui-border-bright transition-all backdrop-blur-md" 
                  style={{ background: 'var(--brand-bg)', transition: 'background 0.5s ease, border 0.5s ease' }}>
                 <span className="flex h-1.5 w-1.5 relative">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
                 </span>
                 Precision Monitoring v1.0.2 Live
-                <Icon icon="solar:alt-arrow-right-bold-duotone" className="text-xs text-aura-text-muted" />
+                <Icon icon="solar:alt-arrow-right-bold-duotone" className="text-xs text-ui-text-muted" />
               </a>
 
               <h1 ref={titleRef} id="telemetry-title" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal tracking-tight text-white mb-6 leading-[1.05]" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.5)' }}></h1>
@@ -170,10 +170,10 @@ const AuraHero: React.FC = () => {
               </p>
 
               <div ref={actionsRef} id="telemetry-actions" className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto opacity-0">
-                <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-aura-text text-brand-bg font-semibold text-sm hover:opacity-80 transition-all active:scale-95 shadow-[0_0_30px_var(--accent-glow)] flex items-center justify-center gap-2.5">
+                <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-ui-text text-brand-bg font-semibold text-sm hover:opacity-80 transition-all active:scale-95 shadow-[0_0_30px_var(--accent-glow)] flex items-center justify-center gap-2.5">
                   <Icon icon="solar:download-bold-duotone" className="text-lg" /> Download for Windows
                 </button>
-                <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-surface text-aura-text font-normal text-sm hover:bg-aura-border-bright transition-all backdrop-blur-md border border-aura-border flex items-center justify-center gap-2.5" 
+                <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-surface text-ui-text font-normal text-sm hover:bg-ui-border-bright transition-all backdrop-blur-md border border-ui-border flex items-center justify-center gap-2.5" 
                         style={{ transition: 'background 0.5s ease, border 0.5s ease' }}>
                   View GitHub
                 </button>
@@ -188,4 +188,4 @@ const AuraHero: React.FC = () => {
   );
 };
 
-export default AuraHero;
+export default Hero;
