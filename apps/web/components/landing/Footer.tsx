@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-surface/30 blur-[100px] rounded-full pointer-events-none opacity-50"></div>
 
           <div className="relative z-10 flex flex-col items-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-surface border border-ui-border text-ui-text-muted text-[10px] font-mono uppercase tracking-[0.2em] mb-8 backdrop-blur-md shadow-[0_0_20px_var(--accent-glow)]">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-surface border border-ui-border text-ui-text-muted text-[10px] font-mono tracking-[0.2em] mb-8 backdrop-blur-md shadow-[0_0_20px_var(--accent-glow)]">
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_var(--accent-glow)]"></div>
               <span>Ready for Download</span>
             </div>
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
             &gt; get_nsx_monitor()
           </h2>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center gap-4 text-white">
               <Link to="/download" className="w-full sm:w-auto group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-brand-bg bg-ui-text rounded-full transition-all duration-300 hover:scale-105 hover:bg-ui-text-muted shadow-[0_0_30px_var(--accent-glow)]">
                 Download Now
                 <Icon icon="solar:download-bold-duotone" className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-4 text-balance">
-              <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-ui-text">Platform</h4>
+              <h4 className="text-[10px] font-mono font-bold tracking-widest text-ui-text">Platform</h4>
               <nav className="flex flex-col gap-2.5 items-start">
                 {['Engine', 'Studio', 'Research', 'Integrations'].map((item) => (
                   <a key={item} href="#" className="text-sm text-ui-text-muted hover:text-ui-text transition-colors">{item}</a>
@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-4 text-balance">
-              <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-ui-text">Resources</h4>
+              <h4 className="text-[10px] font-mono font-bold tracking-widest text-ui-text">Resources</h4>
               <nav className="flex flex-col gap-2.5 items-start">
                 {['Documentation', 'API Guide', 'Changelog', 'Status'].map((item) => (
                   <a key={item} href="#" className="text-sm text-ui-text-muted hover:text-ui-text transition-colors">{item}</a>
@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-4 text-balance">
-              <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-ui-text">Company</h4>
+              <h4 className="text-[10px] font-mono font-bold tracking-widest text-ui-text">Company</h4>
               <nav className="flex flex-col gap-2.5 items-start">
                 {['About', 'Careers', 'Press', 'Legal'].map((item) => (
                   <a key={item} href="#" className="text-sm text-ui-text-muted hover:text-ui-text transition-colors">{item}</a>
@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
 
           <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-[10px] font-mono text-ui-text-muted tracking-widest text-balance">
-              © 2026 NSX MONITOR. PROFESSIONAL NETWORK TELEMETRY.
+              © 2026 NSX Monitor. Professional Network Telemetry.
             </div>
             <div className="flex gap-6 text-ui-text-muted">
               <a href="#" className="hover:text-ui-text transition-colors"><Icon icon="ri:twitter-x-fill" className="text-lg" /></a>

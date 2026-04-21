@@ -70,51 +70,51 @@ const HorizontalScroll: React.FC = () => {
   const cards = [
     {
       id: "01",
-      title: "Deterministic Rendering",
-      description: "Frame-perfect fidelity mapped directly to execution cycles. Every pixel shift is calculated and predictable.",
+      title: "Real-time Telemetry",
+      description: "Low-level packet inspection engine that monitors bandwidth throughput at the interface layer with zero overhead.",
       icon: "m12 19 7-7 3 3-7 7-3-3z",
       iconPath2: "m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z",
       iconPath3: "m2 2 7.586 7.586",
-      configName: "Shader Config",
-      configValue: "STRICT_MODE"
+      configName: "Scan Frequency",
+      configValue: "Native / 1ms"
     },
     {
       id: "02",
-      title: "Input Arbitration",
-      description: "Coalescing multi-modal inputs into a single authoritative event stream with zero-delay processing.",
+      title: "Packet Arbitration",
+      description: "Intelligent sorting of TCP/UDP streams to identify process-specific bandwidth consumption on your Windows machine.",
       icon: "M14 4.1 12 6",
       iconPath2: "m5.1 8-2.9-.8",
       iconPath3: "m6 12-1.9 2",
       iconPath4: "M7.2 2.2 8 5.1",
       iconPath5: "M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z",
-      configName: "Polling Rate",
-      configValue: "1000 HZ"
+      configName: "DPI Engine",
+      configValue: "NSX_CORE_v2"
     },
     {
       id: "03",
-      title: "Mesh Synchronization",
-      description: "CRDT-based state reconciliation ensuring all connected endpoints reflect truth instantaneously.",
-      configName: "Topology",
-      configValue: "PEER_2_PEER"
+      title: "Interface Sync",
+      description: "Native synchronization with Ethernet, Wi-Fi, and Virtual adapters ensuring 1:1 reporting accuracy.",
+      configName: "Adapter Type",
+      configValue: "Auto-detect"
     },
     {
         id: "04",
-        title: "Memory Allocation",
-        description: "Dynamic heap management and memory pooling ensuring zero garbage collection pauses during peak loads.",
-        configName: "Buffer Size",
-        configValue: "2048 MB"
+        title: "Memory Profiling",
+        description: "Lightweight memory footprint that keeps NSX Monitor running in the background without affecting system performance.",
+        configName: "Ram Usage",
+        configValue: "< 45 MB"
     },
     {
         id: "05",
         title: "Global Propagation",
-        description: "Instantaneous state broadcast to edge nodes worldwide using hyper-optimized binary protocols.",
-        configName: "Target Latency",
+        description: "Sync your telemetry data across multiple devices for unified network monitoring and historical audit trails.",
+        configName: "Sync Latency",
         configValue: "~12 MS"
     }
   ];
 
   return (
-    <section ref={sectionRef} className="ui-section h-screen relative" id="h-scroll-section">
+    <section ref={sectionRef} className="ui-section h-screen relative" id="engine">
       <div className="sticky h-screen top-0 items-start ui-container border-y border-ui-border flex flex-col justify-center overflow-hidden">
         {/* Corner Decorative Markers */}
         <div className="absolute -top-[7.5px] -left-[7.5px] w-3.5 h-3.5 text-ui-border-bright z-50">
@@ -169,8 +169,8 @@ const HorizontalScroll: React.FC = () => {
                 <p className="text-sm text-ui-text-muted font-light leading-relaxed mb-8">
                   {card.description}
                 </p>
-                <div className="p-4 bg-brand-surface border border-ui-border rounded-lg flex justify-between items-center group-hover:border-ui-border-bright transition-all transition-colors">
-                  <span className="text-[10px] font-mono text-ui-text-muted uppercase">
+                <div className="p-4 bg-brand-surface border border-ui-border rounded-lg flex justify-between items-center group-hover:border-ui-border-bright transition-all">
+                  <span className="text-[10px] font-mono text-ui-text-muted">
                     {card.configName}
                   </span>
                   <span className="text-[10px] font-mono text-ui-text">

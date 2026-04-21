@@ -31,7 +31,7 @@ const BentoGrid: React.FC = () => {
               <div className="flex justify-between items-start">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-brand-surface border border-ui-border">
                   <div className="w-1.5 h-1.5 rounded-full bg-ui-text animate-pulse"></div>
-                  <span className="text-[10px] font-mono text-ui-text uppercase tracking-widest">Live Feed</span>
+                  <span className="text-[10px] font-mono text-ui-text tracking-widest">Live Feed</span>
                 </div>
                 <Icon icon="solar:chart-square-linear" className="text-ui-text-muted text-xl group-hover:text-ui-text transition-colors" />
               </div>
@@ -65,11 +65,11 @@ const BentoGrid: React.FC = () => {
                 </h3>
                 <div className="flex gap-8 pt-4 border-t border-ui-border">
                   <div>
-                    <div className="text-[10px] text-ui-text-muted font-mono mb-1 uppercase text-right">DOWNLOAD</div>
+                    <div className="text-[10px] text-ui-text-muted font-mono mb-1 text-right">Download</div>
                     <div className="text-sm font-mono text-ui-text">42.5 MB/s</div>
                   </div>
                   <div>
-                    <div className="text-[10px] text-ui-text-muted font-mono mb-1 uppercase text-right">UPLOAD</div>
+                    <div className="text-[10px] text-ui-text-muted font-mono mb-1 text-right">Upload</div>
                     <div className="text-sm font-mono text-ui-text">8.2 MB/s</div>
                   </div>
                 </div>
@@ -77,11 +77,11 @@ const BentoGrid: React.FC = () => {
             </div>
           </div>
 
-          {/* Deep Stack Box */}
+          {/* Tray Integration Box */}
           <div className="col-span-1 md:col-span-1 row-span-2 p-8 rounded-[2.5rem] bg-ui-bg border border-ui-border relative overflow-hidden group hover:border-ui-border-bright transition-all duration-500 flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <Icon icon="solar:layers-minimalistic-linear" className="text-ui-text-muted text-xl group-hover:text-ui-text transition-colors" />
-              <div className="text-[10px] font-mono text-ui-text-muted">Z-AXIS</div>
+              <div className="text-[10px] font-mono text-ui-text-muted">Z-Axis</div>
             </div>
 
             {/* Floating 3D Layers */}
@@ -95,18 +95,18 @@ const BentoGrid: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2 tracking-tight text-ui-text">Tray Integration</h3>
               <div className="space-y-1.5 pt-4 border-t border-ui-border">
                 <div className="flex justify-between text-[10px] font-mono text-ui-text-muted">
-                  <span>MIN_TRAY_UI</span>
-                  <span className="text-ui-text">READY</span>
+                  <span>Tray Interface</span>
+                  <span className="text-ui-text">Ready</span>
                 </div>
                 <div className="flex justify-between text-[10px] font-mono text-ui-text-muted">
-                  <span>FLOAT_WIDGET</span>
-                  <span className="text-ui-text">ACTIVE</span>
+                  <span>Floating Widget</span>
+                  <span className="text-ui-text">Active</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Small Square 1 */}
+          {/* Square 1: Uptime */}
           <div className="col-span-1 row-span-1 p-6 rounded-[2rem] bg-ui-bg border border-ui-border relative overflow-hidden group hover:border-ui-border-bright transition-all duration-500 flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <Icon icon="solar:shield-check-linear" className="text-ui-text-muted text-xl group-hover:text-ui-text transition-colors" />
@@ -116,11 +116,11 @@ const BentoGrid: React.FC = () => {
               <div className="text-3xl font-semibold text-ui-text tracking-tighter mb-1 font-mono">
                 99.99<span className="text-lg">%</span>
               </div>
-              <h3 className="text-xs font-mono text-ui-text-muted uppercase">Uptime Integrity</h3>
+              <h3 className="text-xs font-mono text-ui-text-muted">Uptime Integrity</h3>
             </div>
           </div>
 
-          {/* Small Square 2 */}
+          {/* Square 2: Signal */}
           <div className="col-span-1 row-span-1 p-6 rounded-[2rem] bg-ui-bg border border-ui-border relative overflow-hidden group hover:border-ui-border-bright transition-all duration-500 flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <Icon icon="solar:radar-linear" className="text-ui-text-muted text-xl group-hover:text-ui-text transition-colors" />
@@ -130,7 +130,7 @@ const BentoGrid: React.FC = () => {
                 <path d="M0,10 Q5,20 10,10 T20,10 T30,10 T40,10 T50,10 T60,10 T70,10 T80,10 T90,10 T100,10" fill="none" stroke="currentColor" strokeWidth="1" className="text-ui-text/30"></path>
               </svg>
             </div>
-            <h3 className="text-xs font-mono text-ui-text-muted uppercase">Signal Noise</h3>
+            <h3 className="text-xs font-mono text-ui-text-muted">Signal Noise</h3>
           </div>
 
           {/* Wide Bottom Box */}
@@ -139,19 +139,19 @@ const BentoGrid: React.FC = () => {
             <div className="relative z-10 max-w-lg text-left">
               <h3 className="text-xl font-semibold text-ui-text mb-2 tracking-tight">Low Impact Design</h3>
               <p className="text-sm text-ui-text-muted font-light">
-                Optimized C++ and Electron bindings ensure NSX Monitor stays silent in the background with minimal CPU usage.
+                Optimized C++ and Electron bindings ensure NSX Monitor stays silent in the background with minimal CPU usage on your PC.
               </p>
             </div>
             <div className="flex gap-12 relative z-10 w-full md:w-auto justify-between md:justify-end">
               <div>
                 <div className="text-3xl font-semibold text-ui-text tracking-tighter font-mono">1s</div>
-                <div className="text-[10px] text-ui-text-muted font-mono uppercase mt-1">Resolution</div>
+                <div className="text-[10px] text-ui-text-muted font-mono mt-1">Resolution</div>
               </div>
               <div className="">
                 <div className="text-3xl font-semibold text-ui-text tracking-tighter font-mono">
                   12<span className="text-lg text-ui-text-muted">MB</span>
                 </div>
-                <div className="text-[10px] text-ui-text-muted font-mono uppercase mt-1">Footprint</div>
+                <div className="text-[10px] text-ui-text-muted font-mono mt-1">Footprint</div>
               </div>
             </div>
           </div>

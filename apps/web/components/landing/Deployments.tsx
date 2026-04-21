@@ -4,13 +4,13 @@ import { Icon } from '@iconify/react';
 const Deployments: React.FC = () => {
   const deployments = [
     {
-      title: "Quantum Ledger",
-      category: "Fintech System",
-      image: "https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/variants/468eeec1-e10c-4305-ad63-50cff0e023dc/1600w.png"
+      title: "Network Analytics",
+      category: "Traffic Engine",
+      image: "/laptop_app_demo.png"
     },
     {
-      title: "Synthetix Core",
-      category: "AI Platform",
+      title: "Process Insights",
+      category: "System Monitor",
       image: "https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/variants/823f2b22-afcd-4c1d-b3f6-c025e505e98c/1600w.jpg"
     }
   ];
@@ -27,12 +27,12 @@ const Deployments: React.FC = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center fade-up relative z-10 px-6 md:px-10">
-          <div className="relative w-full overflow-hidden mb-24 flex items-center opacity-20 group-hover:opacity-40 transition-opacity duration-1000">
+          <div className="relative w-full overflow-hidden mb-24 flex items-center opacity-20 group-hover:opacity-40 transition-opacity duration-1000 select-none">
             <div className="flex whitespace-nowrap animate-[marquee_25s_linear_infinite]">
-              <h2 className="text-[10vw] font-bold uppercase tracking-tighter text-ui-text mx-8">DEPLOYMENTS</h2>
-              <h2 className="text-[10vw] font-bold uppercase tracking-tighter text-transparent mx-8 stroke-ui-text" style={{ WebkitTextStroke: '1px var(--ui-text)' }}>DEPLOYMENTS</h2>
-              <h2 className="text-[10vw] font-bold uppercase tracking-tighter text-ui-text mx-8">DEPLOYMENTS</h2>
-              <h2 className="text-[10vw] font-bold uppercase tracking-tighter text-transparent mx-8 stroke-ui-text" style={{ WebkitTextStroke: '1px var(--ui-text)' }}>DEPLOYMENTS</h2>
+              <h2 className="text-[10vw] font-bold tracking-tighter text-ui-text mx-8">Engine Deployment</h2>
+              <h2 className="text-[10vw] font-bold tracking-tighter text-transparent mx-8 stroke-ui-text" style={{ WebkitTextStroke: '1px var(--ui-text)' }}>Engine Deployment</h2>
+              <h2 className="text-[10vw] font-bold tracking-tighter text-ui-text mx-8">Engine Deployment</h2>
+              <h2 className="text-[10vw] font-bold tracking-tighter text-transparent mx-8 stroke-ui-text" style={{ WebkitTextStroke: '1px var(--ui-text)' }}>Engine Deployment</h2>
             </div>
           </div>
 
@@ -41,7 +41,7 @@ const Deployments: React.FC = () => {
             <a key={deployment.title} href="#" className={`group/proj block relative rounded-[2rem] overflow-hidden aspect-[4/3] border border-ui-border hover:border-ui-border-bright transition-all duration-500 shadow-2xl bg-ui-bg-alt p-2 ${idx === 1 ? 'md:mt-24' : ''}`}>
               <div className="absolute top-6 right-6 z-20 bg-brand-surface/80 backdrop-blur-md border border-ui-border text-ui-text font-mono text-[10px] px-3 py-1 rounded-full opacity-0 group-hover/proj:opacity-100 translate-y-2 group-hover/proj:translate-y-0 transition-all duration-300 flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-ui-text animate-pulse"></div>
-                LIVE
+                Live
               </div>
               <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden bg-brand-surface">
                 <img src={deployment.image} alt={deployment.title} className="w-full h-full object-cover filter grayscale opacity-40 group-hover/proj:opacity-80 group-hover/proj:scale-105 transition-all duration-700 mix-blend-luminosity" />

@@ -47,13 +47,13 @@ export default function Download() {
 
     const osData = {
         Windows: {
-            icon: "logos:microsoft-windows",
+            icon: "logos:microsoft-windows-icon",
             name: "Windows",
             ext: ".exe",
             desc: "Universal installer for Windows 10/11 x64 architecture."
         },
         macOS: {
-            icon: "logos:apple",
+            icon: "catppuccin:macos",
             name: "macOS",
             ext: ".dmg",
             desc: "Native Apple Silicon and Intel support with universal binary."
@@ -85,7 +85,7 @@ export default function Download() {
 
             <main className="relative z-10 pt-40 pb-20 px-6 md:px-10 max-w-6xl mx-auto flex flex-col items-center">
                 
-                {/* Row 1: Detected OS - REMOVED fade-up for immediate visibility */}
+                {/* Row 1: Detected OS */}
                 <section className="w-full mb-20">
                     <div className="p-[1px] rounded-[2.5rem] bg-gradient-to-b from-ui-border-bright to-transparent shadow-2xl">
                         <div className="bg-ui-bg-alt/80 backdrop-blur-xl rounded-[2.45rem] p-10 md:p-16 flex flex-col md:flex-row items-center gap-12 border border-ui-border">
@@ -93,7 +93,7 @@ export default function Download() {
                                 <Icon icon={currentOs.icon} className="text-[100px]" />
                             </div>
                             <div className="flex-1 text-center md:text-left text-white">
-                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ui-text/10 border border-ui-border text-ui-text-muted text-[10px] font-mono uppercase tracking-widest mb-6">
+                                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ui-text/10 border border-ui-border text-ui-text-muted text-[10px] font-mono tracking-widest mb-6">
                                     {os === 'Unknown' ? 'System Detection' : 'Recommended for your system'}
                                 </div>
                                 <h1 className="text-4xl md:text-6xl font-normal tracking-tight text-white mb-6 leading-tight">
@@ -105,9 +105,9 @@ export default function Download() {
                                 <div className="flex flex-col sm:flex-row items-center gap-4">
                                     <button className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-ui-text text-brand-bg font-bold text-base hover:opacity-90 transition-all active:scale-95 shadow-[0_0_40px_var(--accent-glow)] flex items-center justify-center gap-3">
                                         <Icon icon="solar:download-bold-duotone" className="text-xl" />
-                                        Download NSX_Monitor{currentOs.ext}
+                                        Download for {currentOs.name === 'Other Platforms' ? 'Desktop' : currentOs.name}
                                     </button>
-                                    <span className="text-[10px] font-mono text-ui-text-muted uppercase">STABLE RELEASE</span>
+                                    <span className="text-[10px] font-mono text-ui-text-muted uppercase">Stable Release</span>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@ export default function Download() {
                     <div className="h-px bg-ui-border flex-1"></div>
                 </div>
 
-                {/* Row 2: Three Cards - REMOVED fade-up for immediate visibility */}
+                {/* Row 2: Three Cards */}
                 <section className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                     {['Windows', 'macOS', 'Linux'].map((platform) => {
                         const data = osData[platform as keyof typeof osData];
@@ -137,7 +137,7 @@ export default function Download() {
                                         {data.desc}
                                     </p>
                                     <button className="w-full py-3.5 rounded-xl bg-brand-surface border border-ui-border text-ui-text text-sm font-semibold hover:bg-ui-text hover:text-brand-bg transition-all duration-300 flex items-center justify-center gap-2">
-                                        Download {data.ext}
+                                        Download for {data.name}
                                     </button>
                                 </div>
                             </div>

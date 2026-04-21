@@ -48,27 +48,29 @@ const Hero: React.FC = () => {
 
         {/* Content */}
         <main className="relative z-10 flex flex-col items-center justify-center text-center px-6 w-full max-w-5xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-mono tracking-widest text-ui-text-muted mb-8 border border-ui-border bg-brand-surface/50 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-mono tracking-widest text-ui-text-muted mb-8 border border-ui-border bg-brand-surface/50 backdrop-blur-sm shadow-sm group">
             <span className="flex h-1.5 w-1.5 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
             </span>
-            SYSTEM ONLINE
+            System Online
           </div>
 
           <h1 ref={titleRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal tracking-tight text-ui-text mb-6 leading-[1.05] max-w-4xl"></h1>
 
           <p ref={subtitleRef} className="text-sm md:text-base text-ui-text-muted mb-10 max-w-2xl leading-relaxed opacity-0">
             A high-performance desktop application for real-time bandwidth monitoring, 
-            historical usage tracking, and intelligent network diagnostics.
+            historical usage tracking, and intelligent network diagnostics across all Windows interfaces.
           </p>
 
           <div ref={actionsRef} className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto opacity-0">
-            <Link to="/download" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-ui-text text-brand-bg font-semibold text-sm hover:opacity-90 transition-all active:scale-95 shadow-[0_0_30px_var(--accent-glow)] flex items-center justify-center gap-2.5">
-              <Icon icon="solar:download-bold-duotone" className="text-lg" /> Download NSX Monitor
+            <Link to="/download" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-ui-text text-brand-bg font-bold text-sm hover:opacity-90 transition-all active:scale-95 shadow-[0_0_30px_var(--accent-glow)] flex items-center justify-center gap-2.5">
+              <Icon icon="solar:download-bold-duotone" className="text-xl" />
+              Download for Windows
             </Link>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-surface text-ui-text font-normal text-sm hover:bg-ui-border-bright transition-all backdrop-blur-md border border-ui-border flex items-center justify-center gap-2.5">
-              View GitHub
+            <a href="https://github.com/lwshakib/nsx-monitor" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-surface text-ui-text font-normal text-sm hover:bg-ui-border-bright transition-all backdrop-blur-md border border-ui-border flex items-center justify-center gap-2.5 shadow-sm">
+              <Icon icon="ri:github-fill" className="text-xl" />
+              View Source
             </a>
           </div>
         </main>

@@ -16,9 +16,9 @@ const Convergence: React.FC = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--accent-glow),transparent_50%)] pointer-events-none"></div>
         
         <div className="relative z-20 flex flex-col items-center text-center px-6 mb-20 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-ui-border bg-brand-surface backdrop-blur-md mb-8 shadow-[0_0_20px_var(--accent-glow)]">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-ui-border bg-brand-surface backdrop-blur-md mb-8 shadow-[0_0_20px_var(--accent-glow)]">
             <span className="h-1.5 w-1.5 rounded-full bg-ui-text animate-pulse"></span>
-            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-ui-text-muted">
+            <span className="text-[10px] font-mono tracking-widest text-ui-text-muted">
               Unified System
             </span>
           </div>
@@ -28,7 +28,8 @@ const Convergence: React.FC = () => {
           </h2>
 
         <p className="max-w-md mx-auto text-sm text-ui-text-muted font-light leading-relaxed">
-          Multiple scattered elements, fragmented workflows, and disparate interfaces are pulled into a singular cognitive core. Complexity compressed into absolute control.
+          The NSX Monitor engine pulls fragmented network insights into a singular cognitive core.
+          Experience the power of total network transparency on your desktop.
         </p>
       </div>
 
@@ -42,9 +43,7 @@ const Convergence: React.FC = () => {
         <div className="absolute top-1/2 left-1/2 z-30 pointer-events-none -translate-x-1/2 -translate-y-1/2" style={{ animation: 'core-pulse-anim 2s ease-in-out infinite' }}>
           <div className="absolute inset-0 rounded-full bg-ui-text opacity-20 blur-xl animate-pulse"></div>
           <div className="relative w-20 h-20 bg-ui-text text-brand-bg rounded-full flex items-center justify-center shadow-[0_0_60px_var(--accent-glow),inset_0_0_20px_rgba(0,0,0,0.1)] before:content-[''] before:absolute before:-inset-4 before:border before:border-dashed before:border-ui-border-bright before:rounded-full before:animate-[spin_6s_linear_infinite]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-pulse">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-            </svg>
+            <Icon icon="solar:bolt-bold-duotone" className="text-3xl animate-pulse" />
           </div>
         </div>
 
@@ -59,11 +58,7 @@ const Convergence: React.FC = () => {
         {/* 2. Database */}
         <div className="absolute top-1/2 left-1/2 p-3 bg-brand-surface/50 border border-ui-border rounded-xl backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.2)] z-20 text-ui-text-muted" 
              style={{ '--tx': '260px', '--ty': '-180px', '--rot': '-20deg', animation: 'gravity-well-anim 4.8s cubic-bezier(0.5, 0, 0.8, 1) infinite both', animationDelay: '0.6s' } as React.CSSProperties}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-            <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
-            <path d="M3 12A9 3 0 0 0 21 12"></path>
-          </svg>
+          <Icon icon="solar:database-linear" className="text-xl" />
         </div>
 
         {/* 3. Custom Toggle */}
@@ -93,10 +88,7 @@ const Convergence: React.FC = () => {
         {/* 6. Settings */}
         <div className="absolute top-1/2 left-1/2 p-3 bg-brand-surface/50 border border-ui-border rounded-xl backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.2)] z-20 text-ui-text-muted" 
              style={{ '--tx': '300px', '--ty': '60px', '--rot': '-25deg', animation: 'gravity-well-anim 4.8s cubic-bezier(0.5, 0, 0.8, 1) infinite both', animationDelay: '2.2s' } as React.CSSProperties}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
-            <circle cx="12" cy="12" r="3"></circle>
-          </svg>
+          <Icon icon="solar:settings-linear" className="text-xl" />
         </div>
 
         {/* 7. User Profile Placeholder */}
@@ -109,10 +101,7 @@ const Convergence: React.FC = () => {
         {/* 8. Security Shield */}
         <div className="absolute top-1/2 left-1/2 p-3 bg-brand-surface/50 border border-ui-border rounded-xl backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.2)] z-20 text-emerald-400" 
              style={{ '--tx': '100px', '--ty': '-280px', '--rot': '-15deg', animation: 'gravity-well-anim 4.8s cubic-bezier(0.5, 0, 0.8, 1) infinite both', animationDelay: '3.0s' } as React.CSSProperties}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2-1 4-2 8-2 2 0 6 1 8 2a1 1 0 0 1 1 1z"></path>
-            <path d="m9 12 2 2 4-4"></path>
-          </svg>
+          <Icon icon="solar:shield-check-linear" className="text-xl" />
         </div>
 
         {/* 9. Custom Slider */}
@@ -126,18 +115,7 @@ const Convergence: React.FC = () => {
         {/* 10. CPU Node */}
         <div className="absolute top-1/2 left-1/2 p-3 bg-brand-surface/50 border border-ui-border rounded-xl backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.2)] z-20 text-ui-text-muted" 
              style={{ '--tx': '160px', '--ty': '300px', '--rot': '-35deg', animation: 'gravity-well-anim 4.8s cubic-bezier(0.5, 0, 0.8, 1) infinite both', animationDelay: '3.8s' } as React.CSSProperties}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect width="16" height="16" x="4" y="4" rx="2"></rect>
-            <rect width="6" height="6" x="9" y="9" rx="1"></rect>
-            <path d="M15 2v2"></path>
-            <path d="M15 20v2"></path>
-            <path d="M2 15h2"></path>
-            <path d="M2 9h2"></path>
-            <path d="M20 15h2"></path>
-            <path d="M20 9h2"></path>
-            <path d="M9 2v2"></path>
-            <path d="M9 20v2"></path>
-          </svg>
+          <Icon icon="solar:cpu-bolt-linear" className="text-xl" />
         </div>
 
         {/* 11. Line Graph */}

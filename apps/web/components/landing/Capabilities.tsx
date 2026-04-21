@@ -4,12 +4,12 @@ import { Icon } from '@iconify/react';
 const Capabilities: React.FC = () => {
   return (
     <section className="ui-section z-10 pt-32 pb-32 overflow-hidden" id="capabilities">
-      <div className="ui-container border-t border-white/5 pt-20">
+      <div className="ui-container border-t border-ui-border pt-20">
         {/* Corner Decorative Markers */}
-        <div className="absolute -top-[7px] -left-[7px] w-3.5 h-3.5 text-white/20 z-50">
+        <div className="absolute -top-[7px] -left-[7px] w-3.5 h-3.5 text-ui-border-bright z-50">
           <Icon icon="solar:add-linear" />
         </div>
-        <div className="absolute -top-[7px] -right-[7px] w-3.5 h-3.5 text-white/20 z-50">
+        <div className="absolute -top-[7px] -right-[7px] w-3.5 h-3.5 text-ui-border-bright z-50">
           <Icon icon="solar:add-linear" />
         </div>
 
@@ -18,8 +18,8 @@ const Capabilities: React.FC = () => {
             Core Primitives
           </h2>
           <div className="h-px bg-ui-border flex-1"></div>
-          <span className="text-[9px] font-mono text-ui-text-muted tracking-widest">
-            SYS_CAPABILITIES
+          <span className="text-[9px] font-mono text-ui-text-muted tracking-widest uppercase">
+            System Capabilities
           </span>
         </div>
 
@@ -34,7 +34,7 @@ const Capabilities: React.FC = () => {
                     <Icon icon="solar:box-minimalistic-linear" className="text-2xl text-ui-text-muted group-hover:text-ui-text" />
                   </div>
                   <div className="text-[9px] font-mono text-ui-text-muted border border-ui-border px-2 py-1 rounded bg-brand-surface">
-                    MOD_01
+                    Module 01
                   </div>
                 </div>
                 <h3 className="text-xl font-semibold text-ui-text mb-3 tracking-tight">Live Monitoring</h3>
@@ -62,7 +62,7 @@ const Capabilities: React.FC = () => {
                   </div>
                   <div className="text-[9px] font-mono text-ui-text-muted border border-ui-border px-2 py-1 rounded bg-brand-surface flex items-center gap-1">
                     <div className="w-1 h-1 bg-ui-text rounded-full animate-pulse"></div>
-                    MOD_02
+                    Module 02
                   </div>
                 </div>
                 <h3 className="text-xl font-semibold text-ui-text mb-3 tracking-tight relative z-10">Historical Insights</h3>
@@ -91,7 +91,7 @@ const Capabilities: React.FC = () => {
                     <Icon icon="solar:widget-2-linear" className="text-2xl text-ui-text-muted group-hover:text-ui-text" />
                   </div>
                   <div className="text-[9px] font-mono text-ui-text-muted border border-ui-border px-2 py-1 rounded bg-brand-surface">
-                    MOD_03
+                    Module 03
                   </div>
                 </div>
                 <h3 className="text-xl font-semibold text-ui-text mb-3 tracking-tight relative z-10">Minimal Footprint</h3>
