@@ -94,7 +94,7 @@ const Logo: React.FC<LogoProps> = ({ className }) => {
           </clipPath>
         </defs>
       </svg>
-      <span className="text-aura-text font-bold text-xl tracking-tighter">
+      <span className="text-ui-text font-bold text-xl tracking-tighter">
         NSX Monitor
       </span>
     </div>

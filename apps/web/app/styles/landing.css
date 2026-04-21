@@ -1,4 +1,4 @@
-/* Aura Landing Page Styles */
+/* UI Landing Page Styles */
 
 :root {
   --ui-max-width: 1400px;
@@ -9,7 +9,7 @@
   --brand-surface: rgba(255, 255, 255, 0.03);
   --brand-border: rgba(255, 255, 255, 0.08);
 
-  /* Unified Aura System Tokens */
+  /* Unified UI System Tokens */
   --ui-bg: #030303;
   --ui-bg-alt: #0a0a0a;
   --ui-border: rgba(255, 255, 255, 0.05);
@@ -27,7 +27,7 @@
   --brand-surface: rgba(0, 0, 0, 0.02);
   --brand-border: rgba(0, 0, 0, 0.08);
 
-  /* Unified Aura System Tokens */
+  /* Unified UI System Tokens */
   --ui-bg: #ffffff;
   --ui-bg-alt: #f1f3f5;
   --ui-border: rgba(0, 0, 0, 0.06);

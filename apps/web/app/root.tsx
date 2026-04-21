@@ -25,7 +25,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <ThemeProvider defaultTheme="dark" storageKey="aura-ui-theme">
+        <ThemeProvider defaultTheme="dark" storageKey="nsx-monitor-theme">
           <TooltipProvider>
             {children}
           </TooltipProvider>
