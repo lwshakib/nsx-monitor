@@ -16,10 +16,33 @@ export default function Download() {
     const [os, setOs] = useState<'Windows' | 'macOS' | 'Linux' | 'Unknown'>('Unknown');
 
     useEffect(() => {
+        // OS Detection
         const userAgent = window.navigator.userAgent;
         if (userAgent.indexOf('Win') !== -1) setOs('Windows');
         else if (userAgent.indexOf('Mac') !== -1) setOs('macOS');
         else if (userAgent.indexOf('Linux') !== -1) setOs('Linux');
+
+        // Animation Visibility Observer (Keeping it for other elements)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const handleIntersect = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(handleIntersect, observerOptions);
+        const targets = document.querySelectorAll('.fade-up, .scale-in');
+        targets.forEach(target => observer.observe(target));
+
+        return () => observer.disconnect();
     }, []);
 
     const osData = {
@@ -62,14 +85,14 @@ export default function Download() {
 
             <main className="relative z-10 pt-40 pb-20 px-6 md:px-10 max-w-6xl mx-auto flex flex-col items-center">
                 
-                {/* Row 1: Detected OS */}
-                <section className="w-full mb-20 fade-up opacity-100 translate-y-0 text-white">
+                {/* Row 1: Detected OS - REMOVED fade-up for immediate visibility */}
+                <section className="w-full mb-20">
                     <div className="p-[1px] rounded-[2.5rem] bg-gradient-to-b from-ui-border-bright to-transparent shadow-2xl">
                         <div className="bg-ui-bg-alt/80 backdrop-blur-xl rounded-[2.45rem] p-10 md:p-16 flex flex-col md:flex-row items-center gap-12 border border-ui-border">
                             <div className="w-32 h-32 md:w-48 md:h-48 rounded-[2rem] bg-brand-surface border border-ui-border flex items-center justify-center p-8 shadow-inner">
                                 <Icon icon={currentOs.icon} className="text-[100px]" />
                             </div>
-                            <div className="flex-1 text-center md:text-left">
+                            <div className="flex-1 text-center md:text-left text-white">
                                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ui-text/10 border border-ui-border text-ui-text-muted text-[10px] font-mono uppercase tracking-widest mb-6">
                                     {os === 'Unknown' ? 'System Detection' : 'Recommended for your system'}
                                 </div>
@@ -77,21 +100,21 @@ export default function Download() {
                                     Download for {currentOs.name}
                                 </h1>
                                 <p className="text-ui-text-muted text-base md:text-lg mb-10 max-w-xl font-light">
-                                    {currentOs.desc} Get the full desktop Experience with native performance.
+                                    {currentOs.desc} Get the full desktop experience with native performance.
                                 </p>
                                 <div className="flex flex-col sm:flex-row items-center gap-4">
                                     <button className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-ui-text text-brand-bg font-bold text-base hover:opacity-90 transition-all active:scale-95 shadow-[0_0_40px_var(--accent-glow)] flex items-center justify-center gap-3">
                                         <Icon icon="solar:download-bold-duotone" className="text-xl" />
                                         Download NSX_Monitor{currentOs.ext}
                                     </button>
-                                    <span className="text-[10px] font-mono text-ui-text-muted">STABLE RELEASE</span>
+                                    <span className="text-[10px] font-mono text-ui-text-muted uppercase">STABLE RELEASE</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <div className="w-full flex items-center gap-6 mb-12 fade-up">
+                <div className="w-full flex items-center gap-6 mb-12">
                     <div className="h-px bg-ui-border flex-1"></div>
                     <h2 className="text-[10px] font-mono tracking-[0.3em] font-bold uppercase text-ui-text-muted">
                         All Platforms
@@ -99,8 +122,8 @@ export default function Download() {
                     <div className="h-px bg-ui-border flex-1"></div>
                 </div>
 
-                {/* Row 2: Three Cards */}
-                <section className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full fade-up delay-200">
+                {/* Row 2: Three Cards - REMOVED fade-up for immediate visibility */}
+                <section className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                     {['Windows', 'macOS', 'Linux'].map((platform) => {
                         const data = osData[platform as keyof typeof osData];
                         return (
@@ -122,7 +145,7 @@ export default function Download() {
                     })}
                 </section>
 
-                <div className="mt-20 p-8 border border-ui-border rounded-[2rem] bg-ui-bg-alt/40 backdrop-blur-sm max-w-4xl text-left flex flex-col md:flex-row items-center gap-8 fade-up text-white">
+                <div className="mt-20 p-8 border border-ui-border rounded-[2rem] bg-ui-bg-alt/40 backdrop-blur-sm max-w-4xl text-left flex flex-col md:flex-row items-center gap-8 text-white">
                     <div className="w-12 h-12 rounded-xl bg-ui-text/5 border border-ui-border flex items-center justify-center text-ui-text">
                         <Icon icon="solar:info-square-bold-duotone" className="text-2xl" />
                     </div>
