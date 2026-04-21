@@ -91,45 +91,53 @@ const Nav: React.FC = () => {
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[85%] sm:max-w-sm bg-brand-bg border-l border-ui-border p-0 flex flex-col h-full shadow-2xl">
+              <SheetContent side="right" className="w-[85%] sm:max-w-sm bg-background backdrop-blur-none border-l border-ui-border p-0 flex flex-col h-full shadow-2xl">
                 <SheetHeader className="h-20 px-6 border-b border-ui-border flex flex-row items-center justify-between">
                   <SheetTitle className="text-left">
                     <Logo />
                   </SheetTitle>
                 </SheetHeader>
 
-                <div className="flex flex-col h-full p-10">
-                  <nav className="flex flex-col gap-6">
-                    {navLinks.map((link) => (
+                <div className="flex flex-col h-full p-8 md:p-10">
+                  <nav className="flex flex-col gap-4">
+                    <p className="text-[10px] tracking-[0.2em] text-ui-text-muted/50 mb-4 px-2 sidebar-item-anim" style={{ animationDelay: '0.1s' }}>Navigation</p>
+                    {navLinks.map((link, index) => (
                       <a 
                         key={link.id}
                         href={`#${link.id}`} 
                         onClick={(e) => scrollToSection(e, link.id)}
-                        className="text-2xl font-normal tracking-tight text-ui-text-muted hover:text-ui-text transition-colors flex items-center gap-4 group py-2"
+                        className="text-xs tracking-[0.2em] text-ui-text-muted hover:text-ui-text transition-colors flex items-center gap-4 group py-3 px-2 rounded-xl hover:bg-ui-text/5 sidebar-item-anim"
+                        style={{ animationDelay: `${0.2 + index * 0.1}s` }}
                       >
-                         <span className="w-2 h-2 rounded-full bg-ui-border group-hover:bg-ui-text transition-colors"></span>
+                         <span className="w-1.5 h-1.5 rounded-full bg-ui-border group-hover:bg-ui-text transition-all scale-75 group-hover:scale-100"></span>
                         {link.name}
                       </a>
                     ))}
+                    
+                    <div className="h-[1px] w-full bg-ui-border/50 my-6 sidebar-item-anim" style={{ animationDelay: `${0.2 + navLinks.length * 0.1}s` }}></div>
+                    
+                    <p className="text-[10px] tracking-[0.2em] text-ui-text-muted/50 mb-4 px-2 sidebar-item-anim" style={{ animationDelay: `${0.3 + navLinks.length * 0.1}s` }}>External</p>
                     <a 
                       href="https://github.com/lwshakib/nsx-monitor" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center gap-4 text-xl text-ui-text-muted hover:text-ui-text transition-colors py-4 border-t border-ui-border/50 mt-4"
+                      className="flex items-center gap-4 text-xs tracking-[0.2em] text-ui-text-muted hover:text-ui-text transition-colors py-3 px-2 rounded-xl hover:bg-ui-text/5 sidebar-item-anim"
+                      style={{ animationDelay: `${0.4 + navLinks.length * 0.1}s` }}
                     >
-                      <Icon icon="ri:github-fill" className="text-2xl" />
-                      GitHub Repository
+                      <Icon icon="ri:github-fill" className="text-lg" />
+                      Repository
                     </a>
                   </nav>
 
-                  <div className="mt-auto pb-10">
+                  <div className="mt-auto pb-6">
                     <Link 
                       to="/download" 
                       onClick={() => setIsOpen(false)}
-                      className="w-full px-8 py-5 text-sm font-bold uppercase tracking-widest text-brand-bg bg-ui-text rounded-2xl flex items-center justify-center gap-3 shadow-[0_0_30px_var(--accent-glow)]"
+                      className="w-full px-6 py-4 text-[10px] font-bold tracking-[0.2em] text-brand-bg bg-ui-text rounded-xl flex items-center justify-center gap-3 shadow-[0_10px_30px_-10px_var(--accent-glow)] active:scale-[0.98] transition-all sidebar-item-anim"
+                      style={{ animationDelay: `${0.5 + navLinks.length * 0.1}s` }}
                     >
-                      Download NSX Monitor
-                      <Icon icon="solar:download-bold-duotone" className="text-xl" />
+                      Download App
+                      <Icon icon="solar:download-bold-duotone" className="text-base" />
                     </Link>
                   </div>
                 </div>

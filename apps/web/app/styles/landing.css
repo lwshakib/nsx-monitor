@@ -47,6 +47,25 @@ body {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+/* Minimal Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ui-border-bright);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-text-muted);
+}
+
 .font-mono {
   font-family: 'JetBrains Mono', monospace;
 }
@@ -668,4 +687,21 @@ input[type="range"]::-webkit-slider-runnable-track {
   border-right: 3px solid #fff;
   width: 19ch;
   animation: type 5s steps(19, end) infinite, blink 0.8s step-end infinite;
+}
+
+/* Sidebar Item Entrance Animation */
+@keyframes sidebarItemIn {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.sidebar-item-anim {
+  animation: sidebarItemIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
 }
