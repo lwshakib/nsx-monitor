@@ -1,38 +1,44 @@
-import React from 'react';
-import { Icon } from '@iconify/react';
-import Logo from '../Logo';
-import { Link } from 'react-router';
+import React from "react"
+import { Icon } from "@iconify/react"
+import Logo from "../Logo"
+import { Link } from "react-router"
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full flex flex-col">
+    <footer className="flex w-full flex-col">
       {/* CTA Section */}
       <section className="ui-section overflow-hidden py-32" id="cta">
-        <div className="ui-container border-t border-ui-border py-24 flex flex-col items-center text-center">
+        <div className="ui-container border-ui-border flex flex-col items-center border-t py-24 text-center">
           {/* Corner Decorative Markers */}
-          <div className="absolute -top-[7.5px] -left-[7.5px] w-3.5 h-3.5 text-ui-border-bright z-50">
+          <div className="text-ui-border-bright absolute -top-[7.5px] -left-[7.5px] z-50 h-3.5 w-3.5">
             <Icon icon="solar:add-linear" />
           </div>
-          <div className="absolute -top-[7.5px] -right-[7.5px] w-3.5 h-3.5 text-ui-border-bright z-50">
+          <div className="text-ui-border-bright absolute -top-[7.5px] -right-[7.5px] z-50 h-3.5 w-3.5">
             <Icon icon="solar:add-linear" />
           </div>
 
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-surface/30 blur-[100px] rounded-full pointer-events-none opacity-50"></div>
+          <div className="bg-brand-surface/30 pointer-events-none absolute top-0 left-1/2 h-[300px] w-[600px] -translate-x-1/2 rounded-full opacity-50 blur-[100px]"></div>
 
           <div className="relative z-10 flex flex-col items-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-surface border border-ui-border text-ui-text-muted text-[10px] font-mono tracking-[0.2em] mb-8 backdrop-blur-md shadow-[0_0_20px_var(--accent-glow)]">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_var(--accent-glow)]"></div>
+            <div className="bg-brand-surface border-ui-border text-ui-text-muted mb-8 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[10px] tracking-[0.2em] shadow-[0_0_20px_var(--accent-glow)] backdrop-blur-md">
+              <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500 shadow-[0_0_8px_var(--accent-glow)]"></div>
               <span>Ready for Download</span>
             </div>
 
-          <h2 className="text-4xl md:text-5xl font-normal text-ui-text tracking-tight mb-6 font-mono typewriter-text">
-            &gt; get_nsx_monitor()
-          </h2>
+            <h2 className="text-ui-text typewriter-text mb-6 font-mono text-4xl font-normal tracking-tight md:text-5xl">
+              &gt; get_nsx_monitor()
+            </h2>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 text-white">
-              <Link to="/download" className="w-full sm:w-auto group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-brand-bg bg-ui-text rounded-full transition-all duration-300 hover:scale-105 hover:bg-ui-text-muted shadow-[0_0_30px_var(--accent-glow)]">
+            <div className="flex flex-col items-center gap-4 text-white sm:flex-row">
+              <Link
+                to="/download"
+                className="group text-brand-bg bg-ui-text hover:bg-ui-text-muted relative inline-flex w-full items-center justify-center rounded-full px-8 py-3.5 text-sm font-bold tracking-widest uppercase shadow-[0_0_30px_var(--accent-glow)] transition-all duration-300 hover:scale-105 sm:w-auto"
+              >
                 Download Now
-                <Icon icon="solar:download-bold-duotone" className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+                <Icon
+                  icon="solar:download-bold-duotone"
+                  className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
+                />
               </Link>
             </div>
           </div>
@@ -40,68 +46,104 @@ const Footer: React.FC = () => {
       </section>
 
       {/* Footer Section */}
-      <section className="ui-section bg-brand-surface/5 py-20 border-t border-ui-border">
+      <section className="ui-section bg-brand-surface/5 border-ui-border border-t py-20">
         <div className="ui-container border-ui-border pt-16 pb-12">
           {/* Corner Decorative Markers */}
-          <div className="absolute -top-[7.5px] -left-[7.5px] w-3.5 h-3.5 text-ui-border-bright z-50">
+          <div className="text-ui-border-bright absolute -top-[7.5px] -left-[7.5px] z-50 h-3.5 w-3.5">
             <Icon icon="solar:add-linear" />
           </div>
-          <div className="absolute -top-[7.5px] -right-[7.5px] w-3.5 h-3.5 text-ui-border-bright z-50">
+          <div className="text-ui-border-bright absolute -top-[7.5px] -right-[7.5px] z-50 h-3.5 w-3.5">
             <Icon icon="solar:add-linear" />
           </div>
 
-          <div className="relative z-10 flex flex-col w-full px-6 md:px-10">
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-x-8 gap-y-12 pb-16 border-b border-ui-border w-full">
-              <div className="col-span-2 md:col-span-3 flex flex-col items-start gap-4">
-                 <Logo className="mb-2" />
-              <p className="text-sm text-ui-text-muted max-w-sm font-light leading-relaxed">
-                A high-fidelity network telemetry engine designed for precision monitoring. Track, analyze, and optimize your bandwidth with tactile desktop tools.
-              </p>
+          <div className="relative z-10 flex w-full flex-col px-6 md:px-10">
+            <div className="border-ui-border grid w-full grid-cols-2 gap-x-8 gap-y-12 border-b pb-16 md:grid-cols-6">
+              <div className="col-span-2 flex flex-col items-start gap-4 md:col-span-3">
+                <Logo className="mb-2" />
+                <p className="text-ui-text-muted max-w-sm text-sm leading-relaxed font-light">
+                  A high-fidelity network telemetry engine designed for
+                  precision monitoring. Track, analyze, and optimize your
+                  bandwidth with tactile desktop tools.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-4 text-balance md:col-span-1 md:items-start">
+                <h4 className="text-ui-text-muted/50 font-mono text-[10px] tracking-widest">
+                  Platform
+                </h4>
+                <nav className="flex flex-col items-start gap-3">
+                  {["Engine", "Studio", "Research", "Integrations"].map(
+                    (item) => (
+                      <a
+                        key={item}
+                        href="#"
+                        className="text-ui-text-muted hover:text-ui-text text-sm transition-colors"
+                      >
+                        {item}
+                      </a>
+                    )
+                  )}
+                </nav>
+              </div>
+
+              <div className="flex flex-col gap-4 text-balance md:col-span-1 md:items-start">
+                <h4 className="text-ui-text-muted/50 font-mono text-[10px] tracking-widest">
+                  Resources
+                </h4>
+                <nav className="flex flex-col items-start gap-3">
+                  {["Documentation", "API Guide", "Changelog", "Status"].map(
+                    (item) => (
+                      <a
+                        key={item}
+                        href="#"
+                        className="text-ui-text-muted hover:text-ui-text text-sm transition-colors"
+                      >
+                        {item}
+                      </a>
+                    )
+                  )}
+                </nav>
+              </div>
+
+              <div className="flex flex-col gap-4 text-balance md:col-span-1 md:items-start">
+                <h4 className="text-ui-text-muted/50 font-mono text-[10px] tracking-widest">
+                  Company
+                </h4>
+                <nav className="flex flex-col items-start gap-3">
+                  {["About", "Careers", "Press", "Legal"].map((item) => (
+                    <a
+                      key={item}
+                      href="#"
+                      className="text-ui-text-muted hover:text-ui-text text-sm transition-colors"
+                    >
+                      {item}
+                    </a>
+                  ))}
+                </nav>
+              </div>
             </div>
 
-            <div className="flex flex-col gap-4 text-balance md:col-span-1 md:items-start">
-              <h4 className="text-[10px] font-mono tracking-widest text-ui-text-muted/50">Platform</h4>
-              <nav className="flex flex-col gap-3 items-start">
-                {['Engine', 'Studio', 'Research', 'Integrations'].map((item) => (
-                  <a key={item} href="#" className="text-sm text-ui-text-muted hover:text-ui-text transition-colors">{item}</a>
-                ))}
-              </nav>
-            </div>
-
-            <div className="flex flex-col gap-4 text-balance md:col-span-1 md:items-start">
-              <h4 className="text-[10px] font-mono tracking-widest text-ui-text-muted/50">Resources</h4>
-              <nav className="flex flex-col gap-3 items-start">
-                {['Documentation', 'API Guide', 'Changelog', 'Status'].map((item) => (
-                  <a key={item} href="#" className="text-sm text-ui-text-muted hover:text-ui-text transition-colors">{item}</a>
-                ))}
-              </nav>
-            </div>
-
-            <div className="flex flex-col gap-4 text-balance md:col-span-1 md:items-start">
-              <h4 className="text-[10px] font-mono tracking-widest text-ui-text-muted/50">Company</h4>
-              <nav className="flex flex-col gap-3 items-start">
-                {['About', 'Careers', 'Press', 'Legal'].map((item) => (
-                  <a key={item} href="#" className="text-sm text-ui-text-muted hover:text-ui-text transition-colors">{item}</a>
-                ))}
-              </nav>
-            </div>
-          </div>
-
-          <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-[10px] font-mono text-ui-text-muted tracking-widest text-balance">
-              © 2026 NSX Monitor. Professional Network Telemetry.
-            </div>
-            <div className="flex gap-6 text-ui-text-muted">
-              <a href="#" className="hover:text-ui-text transition-colors"><Icon icon="ri:twitter-x-fill" className="text-lg" /></a>
-              <a href="#" className="hover:text-ui-text transition-colors"><Icon icon="ri:github-fill" className="text-lg" /></a>
-              <a href="#" className="hover:text-ui-text transition-colors"><Icon icon="ri:discord-fill" className="text-lg" /></a>
-            </div>
+            <div className="flex flex-col items-center justify-between gap-6 pt-8 md:flex-row">
+              <div className="text-ui-text-muted font-mono text-[10px] tracking-widest text-balance">
+                © 2026 NSX Monitor. Professional Network Telemetry.
+              </div>
+              <div className="text-ui-text-muted flex gap-6">
+                <a href="#" className="hover:text-ui-text transition-colors">
+                  <Icon icon="ri:twitter-x-fill" className="text-lg" />
+                </a>
+                <a href="#" className="hover:text-ui-text transition-colors">
+                  <Icon icon="ri:github-fill" className="text-lg" />
+                </a>
+                <a href="#" className="hover:text-ui-text transition-colors">
+                  <Icon icon="ri:discord-fill" className="text-lg" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
