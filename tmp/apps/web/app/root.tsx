@@ -9,6 +9,8 @@ import {
 
 import type { Route } from "./+types/root"
 import "@workspace/ui/globals.css"
+import { TooltipProvider } from "@workspace/ui/components/tooltip"
+import { ThemeProvider } from "./components/theme-provider"
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,11 +18,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+        <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" async></script>
         <Meta />
         <Links />
       </head>
       <body>
-        {children}
+        <ThemeProvider defaultTheme="dark" storageKey="aura-ui-theme">
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
+        </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
