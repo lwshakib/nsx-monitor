@@ -1,14 +1,14 @@
 {
   "name": "desktop",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Professional-grade network telemetry suite for high-precision bandwidth monitoring.",
   "author": "lwshakib",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder --publish never",
-    "release": "tsc && vite build && electron-builder --publish always --debug",
+    "release": "tsc && vite build && electron-builder --publish always",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
