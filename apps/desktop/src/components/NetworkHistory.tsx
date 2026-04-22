@@ -51,7 +51,7 @@ export const NetworkHistory: React.FC = () => {
         } else {
           setDbStatus('Error')
         }
-      }).catch((err: any) => {
+      }).catch((err: unknown) => {
         console.error("Could not fetch DB", err)
         setDbStatus('Error')
       })
