@@ -322,75 +322,72 @@ export const NetworkHistory: React.FC = () => {
             </>
           ) : (
             <div className="flex-1 p-5 flex justify-center items-center">
-              {(ResponsiveContainer as any) && (
-                <ResponsiveContainer width="100%" height="100%">
-                  {(LineChart as any) && (
-                    <LineChart
+              {(() => {
+                const RespContainer = ResponsiveContainer as any;
+                const LChart = LineChart as any;
+                const XA = XAxis as any;
+                const YA = YAxis as any;
+                const Lgd = Legend as any;
+                const Ln = Line as any;
+                const RTip = RechartsTooltip as any;
+                const CGrid = CartesianGrid as any;
+
+                return (
+                  <RespContainer width="100%" height="100%">
+                    <LChart
                       data={getChartData()}
                       margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
                     >
-                      <CartesianGrid
+                      <CGrid
                         strokeDasharray="3 3"
                         className="stroke-border"
                         vertical={false}
                       />
-                      {(XAxis as any) && (
-                        <XAxis
-                          dataKey="name"
-                          className="stroke-muted-foreground"
-                          fontSize={11}
-                          tickMargin={8}
-                        />
-                      )}
-                      {(YAxis as any) && (
-                        <YAxis
-                          className="stroke-muted-foreground"
-                          fontSize={11}
-                          width={50}
-                        />
-                      )}
-                      {(RechartsTooltip as any) && (
-                        <RechartsTooltip
-                          contentStyle={{
-                            backgroundColor: "var(--card)",
-                            borderRadius: "0.5rem",
-                            border: "1px solid var(--border)",
-                            boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
-                            fontSize: "12px",
-                            color: "var(--card-foreground)",
-                          }}
-                          itemStyle={{ padding: 0 }}
-                        />
-                      )}
-                      {(Legend as any) && (
-                        <Legend
-                          wrapperStyle={{ fontSize: "12px", paddingTop: "10px" }}
-                        />
-                      )}
-                      {(Line as any) && (
-                        <>
-                          <Line
-                            type="monotone"
-                            dataKey="Received"
-                            stroke="var(--chart-2)"
-                            strokeWidth={2}
-                            dot={{ r: 3 }}
-                            activeDot={{ r: 6 }}
-                          />
-                          <Line
-                            type="monotone"
-                            dataKey="Sent"
-                            stroke="var(--chart-5)"
-                            strokeWidth={2}
-                            dot={{ r: 3 }}
-                            activeDot={{ r: 6 }}
-                          />
-                        </>
-                      )}
-                    </LineChart>
-                  )}
-                </ResponsiveContainer>
-              )}
+                      <XA
+                        dataKey="name"
+                        className="stroke-muted-foreground"
+                        fontSize={11}
+                        tickMargin={8}
+                      />
+                      <YA
+                        className="stroke-muted-foreground"
+                        fontSize={11}
+                        width={50}
+                      />
+                      <RTip
+                        contentStyle={{
+                          backgroundColor: "var(--card)",
+                          borderRadius: "0.5rem",
+                          border: "1px solid var(--border)",
+                          boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
+                          fontSize: "12px",
+                          color: "var(--card-foreground)",
+                        }}
+                        itemStyle={{ padding: 0 }}
+                      />
+                      <Lgd
+                        wrapperStyle={{ fontSize: "12px", paddingTop: "10px" }}
+                      />
+                      <Ln
+                        type="monotone"
+                        dataKey="Received"
+                        stroke="var(--chart-2)"
+                        strokeWidth={2}
+                        dot={{ r: 3 }}
+                        activeDot={{ r: 6 }}
+                      />
+                      <Ln
+                        type="monotone"
+                        dataKey="Sent"
+                        stroke="var(--chart-5)"
+                        strokeWidth={2}
+                        dot={{ r: 3 }}
+                        activeDot={{ r: 6 }}
+                      />
+                    </LChart>
+                  </RespContainer>
+                );
+              })()}
             </div>
           )}
         </div>
