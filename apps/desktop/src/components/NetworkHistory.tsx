@@ -323,6 +323,7 @@ export const NetworkHistory: React.FC = () => {
           ) : (
             <div className="flex-1 p-5 flex justify-center items-center">
               {(() => {
+                /* eslint-disable @typescript-eslint/no-explicit-any */
                 const RespContainer = ResponsiveContainer as any;
                 const LChart = LineChart as any;
                 const XA = XAxis as any;
@@ -331,6 +332,7 @@ export const NetworkHistory: React.FC = () => {
                 const Ln = Line as any;
                 const RTip = RechartsTooltip as any;
                 const CGrid = CartesianGrid as any;
+                /* eslint-enable @typescript-eslint/no-explicit-any */
 
                 return (
                   <RespContainer width="100%" height="100%">
