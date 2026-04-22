@@ -1,5 +1,14 @@
 /// <reference types="vite-plugin-electron/electron-env" />
 
+interface NetworkStats {
+  down: number;
+  up: number;
+  totalDown: number;
+  totalUp: number;
+  iface: string;
+  operstate: string;
+}
+
 declare namespace NodeJS {
   interface ProcessEnv {
     /**
@@ -24,6 +33,6 @@ declare namespace NodeJS {
 // Used in Renderer process, expose in `preload.ts`
 interface Window {
   ipcRenderer: import('electron').IpcRenderer & {
-    onNetworkStats(callback: (stats: any) => void): () => void
+    onNetworkStats(callback: (stats: NetworkStats) => void): () => void
   }
 }

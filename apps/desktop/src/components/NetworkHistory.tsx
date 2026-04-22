@@ -32,11 +32,13 @@ function getWeekNumber(d: Date) {
   return { year: date.getUTCFullYear(), week: weekNo };
 }
 
+type NetworkUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB';
+
 export const NetworkHistory: React.FC = () => {
   const [data, setData] = useState<DB>({})
   const [group, setGroup] = useState<'Day' | 'Week' | 'Month' | 'Year'>('Day')
   const [viewMode, setViewMode] = useState<'Data' | 'Graph'>('Data')
-  const [unit, setUnit] = useState<'B' | 'KB' | 'MB' | 'GB' | 'TB'>('MB')
+  const [unit, setUnit] = useState<NetworkUnit>('MB')
   const [interfaces, setInterfaces] = useState<string[]>([])
   const [selectedInterface, setSelectedInterface] = useState<string>('')
   const [dbStatus, setDbStatus] = useState<'fetching' | 'Ok' | 'Error'>('fetching')
@@ -381,7 +383,7 @@ export const NetworkHistory: React.FC = () => {
              <div className="mb-1 text-muted-foreground font-medium">Unit:</div>
              <select 
                value={unit} 
-               onChange={(e) => setUnit(e.target.value as any)} 
+               onChange={(e) => setUnit(e.target.value as NetworkUnit)} 
                className="w-full p-1 border border-border rounded-sm bg-card text-foreground"
              >
                <option value="B">B</option>

@@ -22,7 +22,7 @@ export const NetworkWidget: React.FC = () => {
     const handleContextMenu = (e: MouseEvent) => e.preventDefault()
     window.addEventListener('contextmenu', handleContextMenu)
 
-    const cleanup = window.ipcRenderer.onNetworkStats((stats: any) => {
+    const cleanup = window.ipcRenderer.onNetworkStats((stats: NetworkStats) => {
       setDown(stats.down)
       setUp(stats.up)
     })

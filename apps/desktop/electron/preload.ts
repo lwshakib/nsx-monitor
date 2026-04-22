@@ -20,8 +20,8 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
   },
 
   // Specialized handlers
-  onNetworkStats(callback: (stats: any) => void) {
-    const listener = (_: any, stats: any) => callback(stats)
+  onNetworkStats(callback: (stats: NetworkStats) => void) {
+    const listener = (_: unknown, stats: NetworkStats) => callback(stats)
     ipcRenderer.on('network-stats', listener)
     return () => ipcRenderer.off('network-stats', listener)
   }

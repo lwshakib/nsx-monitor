@@ -28,6 +28,12 @@ let cache: DB | null = null;
 let lastFlush = Date.now();
 let pendingChanges = false;
 
+interface LegacyDailyData {
+  down: number;
+  up: number;
+  hours?: HourlyData[];
+}
+
 /**
  * Initializes the JSON database in the user's AppData directory
  */
@@ -41,16 +47,16 @@ export function initDB() {
       
       let migrated = false;
       Object.keys(cache!).forEach(date => {
+        const potentialLegacy = cache![date] as unknown as LegacyDailyData;
         // Legacy check: if the date holds raw 'down'/'up' integers directly instead of an iface map
-        if (typeof (cache![date] as any).down === 'number') {
-           const legacyData = cache![date] as any;
+        if (typeof potentialLegacy.down === 'number') {
            cache![date] = {
              "Legacy Interface": {
-               down: legacyData.down,
-               up: legacyData.up,
-               hours: legacyData.hours
+               down: potentialLegacy.down,
+               up: potentialLegacy.up,
+               hours: potentialLegacy.hours
              }
-           } as any;
+           };
            migrated = true;
         }
       });

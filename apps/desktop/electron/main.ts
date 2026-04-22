@@ -40,6 +40,7 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 
 let win: BrowserWindow | null = null
 let widgetWin: BrowserWindow | null = null
 let tray: Tray | null = null
+let isQuitting = false
 const prevRxMap: Record<string, number> = {}
 const prevTxMap: Record<string, number> = {}
 const downQueue = [0, 0] // Stores calculated speed (bytes/sec)
@@ -198,7 +199,7 @@ function createWindow() {
   }
 
   win.on('close', (event) => {
-    if ((app as any).isQuitting) {
+    if (isQuitting) {
       win = null
     } else {
       event.preventDefault()
@@ -236,7 +237,7 @@ function createWidget() {
   }
 
   widgetWin.on('close', (event) => {
-    if ((app as any).isQuitting) {
+    if (isQuitting) {
       widgetWin = null
     } else {
       event.preventDefault()
@@ -263,7 +264,7 @@ function initTray() {
     }},
     { type: 'separator' },
     { label: 'Quit', click: () => {
-      (app as any).isQuitting = true
+      isQuitting = true
       app.quit()
     }}
   ])
