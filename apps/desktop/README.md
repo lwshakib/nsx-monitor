@@ -45,9 +45,9 @@ pnpm --filter desktop build
 
 ### Database Location
 The historical network data is stored in the user's data directory as `network_data.json`.
-- **Windows**: `%APPDATA%/desktop/network_data.json`
-- **macOS**: `~/Library/Application Support/desktop/network_data.json`
-- **Linux**: `~/.config/desktop/network_data.json`
+- **Windows**: `%APPDATA%/NSX Monitor/network_data.json`
+- **macOS**: `~/Library/Application Support/NSX Monitor/network_data.json`
+- **Linux**: `~/.config/NSX Monitor/network_data.json`
 
 ### Supported Platforms
 - Windows 10/11 (x64/ARM64)
