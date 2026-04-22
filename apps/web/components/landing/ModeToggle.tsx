@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "../theme-provider"
 import { Button } from "@workspace/ui/components/button"
@@ -6,12 +6,12 @@ import { Button } from "@workspace/ui/components/button"
 export function ModeToggle() {
   const { theme, setTheme } = useTheme()
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     // Determine target theme based on current effective theme
     const root = window.document.documentElement
     const isDark = root.classList.contains("dark")
     setTheme(isDark ? "light" : "dark")
-  }
+  }, [setTheme])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -26,7 +26,7 @@ export function ModeToggle() {
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [theme])
+  }, [theme, toggleTheme])
 
   return (
     <Button

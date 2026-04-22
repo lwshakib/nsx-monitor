@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
@@ -27,7 +28,7 @@ const badgeVariants = cva(
   }
 )
 
-function Badge({
+export function Badge({
   className,
   variant = "default",
   asChild = false,
@@ -46,4 +47,4 @@ function Badge({
   )
 }
 
-export { Badge, badgeVariants }
+export { badgeVariants }

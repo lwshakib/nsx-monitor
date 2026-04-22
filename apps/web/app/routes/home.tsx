@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home"
+/* eslint-disable react-refresh/only-export-components */
 import React, { useEffect } from "react"
 import Nav from "../../components/landing/Nav"
 import Hero from "../../components/landing/Hero"
@@ -11,7 +11,7 @@ import Deployments from "../../components/landing/Deployments"
 import Footer from "../../components/landing/Footer"
 import "../styles/landing.css"
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "NSX Monitor | Precision Network Telemetry" },
     {

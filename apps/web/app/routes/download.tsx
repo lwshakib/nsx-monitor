@@ -1,11 +1,11 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { useEffect, useState } from "react"
 import { Icon } from "@iconify/react"
 import Nav from "../../components/landing/Nav"
 import Footer from "../../components/landing/Footer"
 import "../styles/landing.css"
-import type { Route } from "./+types/download"
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Download | NSX Monitor" },
     {

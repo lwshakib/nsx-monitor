@@ -18,11 +18,9 @@ function DrawerTrigger({
 function DrawerPortal({
   children,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Portal> & {
-  children?: React.ReactNode
-}) {
+}: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
   return (
-    <DrawerPrimitive.Portal {...(props as any)}>
+    <DrawerPrimitive.Portal {...props}>
       {children}
     </DrawerPrimitive.Portal>
   )
