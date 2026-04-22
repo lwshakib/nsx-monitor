@@ -3,7 +3,6 @@ import { Icon } from "@iconify/react"
 import { Menu } from "lucide-react"
 import { ModeToggle } from "./ModeToggle"
 import Logo from "../Logo"
-import { Link } from "react-router"
 import { DOWNLOAD_URLS } from "../../app/lib/constants"
 import {
   Sheet,

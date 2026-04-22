@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Icon } from "@iconify/react"
-import { Link } from "react-router"
 import { gsap } from "gsap/dist/gsap"
 import { DOWNLOAD_URLS } from "../../app/lib/constants"
 

@@ -3,10 +3,12 @@
   <h1>NSX Monitor</h1>
 </div>
 
-![NSX Monitor Dark Mode](apps/web/public/app_dark_demo.png)
-![NSX Monitor Light Mode](apps/web/public/app_light_demo.png)
 
 **NSX Monitor** is a professional-grade network telemetry suite designed for high-precision bandwidth monitoring and historical data analysis. It combines a powerful Electron-based desktop application with a sleek, interactive web landing page, all unified within a modern monorepo architecture.
+
+
+![NSX Monitor Dark Mode](apps/web/public/app_dark_demo.png)
+![NSX Monitor Light Mode](apps/web/public/app_light_demo.png)
 
 ---
 
