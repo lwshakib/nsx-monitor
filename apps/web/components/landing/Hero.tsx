@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react"
 import { Icon } from "@iconify/react"
 import { Link } from "react-router"
-import gsap from "gsap"
+import { gsap } from "gsap/dist/gsap"
+import { DOWNLOAD_URLS } from "../../app/lib/constants"
 
 const Hero: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -88,13 +89,13 @@ const Hero: React.FC = () => {
             ref={actionsRef}
             className="flex w-full flex-col items-center gap-4 opacity-0 sm:w-auto sm:flex-row"
           >
-            <Link
-              to="/download"
+            <a
+              href={DOWNLOAD_URLS.win}
               className="bg-ui-text text-brand-bg flex w-full items-center justify-center gap-2.5 rounded-xl px-8 py-4 text-sm font-bold shadow-[0_0_30px_var(--accent-glow)] transition-all hover:opacity-90 active:scale-95 sm:w-auto"
             >
               <Icon icon="solar:download-bold-duotone" className="text-xl" />
               Download for Windows
-            </Link>
+            </a>
             <a
               href="https://github.com/lwshakib/nsx-monitor"
               target="_blank"
