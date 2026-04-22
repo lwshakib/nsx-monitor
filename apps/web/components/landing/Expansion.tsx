@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import { Icon } from "@iconify/react"
 import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 
 gsap.registerPlugin(ScrollTrigger)
 
