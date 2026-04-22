@@ -9,7 +9,7 @@ const Hero: React.FC = () => {
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const actionsRef = useRef<HTMLDivElement>(null)
   const [osName, setOsName] = useState("Windows")
-  const [downloadUrl, setDownloadUrl] = useState(DOWNLOAD_URLS.win)
+  const [downloadUrl, setDownloadUrl] = useState<string>(DOWNLOAD_URLS.win)
 
   useEffect(() => {
     const userAgent = typeof window !== "undefined" ? window.navigator.userAgent : ""
