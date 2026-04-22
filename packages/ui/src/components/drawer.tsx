@@ -18,9 +18,12 @@ function DrawerTrigger({
 function DrawerPortal({
   children,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
+}: React.ComponentProps<typeof DrawerPrimitive.Portal> & {
+  children?: React.ReactNode
+}) {
   return (
-    <DrawerPrimitive.Portal {...props}>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <DrawerPrimitive.Portal {...(props as any)}>
       {children}
     </DrawerPrimitive.Portal>
   )
@@ -54,7 +57,7 @@ function DrawerContent({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Content>) {
   return (
-    <DrawerPortal data-slot="drawer-portal">
+    <DrawerPortal>
       <DrawerOverlay />
       <DrawerPrimitive.Content
         data-slot="drawer-content"
