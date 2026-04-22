@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Icon } from "@iconify/react"
 import Nav from "../../components/landing/Nav"
 import Footer from "../../components/landing/Footer"
+import { DOWNLOAD_URLS } from "../lib/constants"
 import "../styles/landing.css"
 
 export function meta() {
@@ -60,24 +61,28 @@ export default function Download() {
       name: "Windows",
       ext: ".exe",
       desc: "Universal installer for Windows 10/11 x64 architecture.",
+      url: DOWNLOAD_URLS.win,
     },
     macOS: {
       icon: "catppuccin:macos",
       name: "macOS",
       ext: ".dmg",
       desc: "Native Apple Silicon and Intel support with universal binary.",
+      url: DOWNLOAD_URLS.mac,
     },
     Linux: {
       icon: "logos:linux-tux",
       name: "Linux",
       ext: ".AppImage",
       desc: "Distro-agnostic AppImage for all major Linux distributions.",
+      url: DOWNLOAD_URLS.lin,
     },
     Unknown: {
       icon: "solar:question-square-bold-duotone",
       name: "Other Platforms",
       ext: "",
       desc: "Select your platform manually below to get started.",
+      url: "#",
     },
   }
 
@@ -114,7 +119,10 @@ export default function Download() {
                   performance.
                 </p>
                 <div className="flex flex-col items-center gap-4 sm:flex-row">
-                  <button className="bg-ui-text text-brand-bg flex w-full items-center justify-center gap-3 rounded-2xl px-10 py-5 text-base font-bold shadow-[0_0_40px_var(--accent-glow)] transition-all hover:opacity-90 active:scale-95 sm:w-auto">
+                  <a
+                    href={currentOs.url}
+                    className="bg-ui-text text-brand-bg flex w-full items-center justify-center gap-3 rounded-2xl px-10 py-5 text-base font-bold shadow-[0_0_40px_var(--accent-glow)] transition-all hover:opacity-90 active:scale-95 sm:w-auto"
+                  >
                     <Icon
                       icon="solar:download-bold-duotone"
                       className="text-xl"
@@ -123,7 +131,7 @@ export default function Download() {
                     {currentOs.name === "Other Platforms"
                       ? "Desktop"
                       : currentOs.name}
-                  </button>
+                  </a>
                   <span className="text-ui-text-muted font-mono text-[10px] uppercase">
                     Stable Release
                   </span>
@@ -160,9 +168,12 @@ export default function Download() {
                   <p className="text-ui-text-muted mb-8 flex-1 text-xs leading-relaxed font-light">
                     {data.desc}
                   </p>
-                  <button className="bg-brand-surface border-ui-border text-ui-text hover:bg-ui-text hover:text-brand-bg flex w-full items-center justify-center gap-2 rounded-xl border py-3.5 text-sm font-semibold transition-all duration-300">
+                  <a
+                    href={data.url}
+                    className="bg-brand-surface border-ui-border text-ui-text hover:bg-ui-text hover:text-brand-bg flex w-full items-center justify-center gap-2 rounded-xl border py-3.5 text-sm font-semibold transition-all duration-300"
+                  >
                     Download for {data.name}
-                  </button>
+                  </a>
                 </div>
               </div>
             )

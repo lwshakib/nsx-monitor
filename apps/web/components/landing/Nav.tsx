@@ -4,6 +4,7 @@ import { Menu } from "lucide-react"
 import { ModeToggle } from "./ModeToggle"
 import Logo from "../Logo"
 import { Link } from "react-router"
+import { DOWNLOAD_URLS } from "../../app/lib/constants"
 import {
   Sheet,
   SheetContent,
@@ -15,6 +16,13 @@ import { Button } from "@workspace/ui/components/button"
 
 const Nav: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [downloadUrl, setDownloadUrl] = React.useState<string>(DOWNLOAD_URLS.win)
+
+  React.useEffect(() => {
+    const userAgent = window.navigator.userAgent
+    if (userAgent.indexOf("Mac") !== -1) setDownloadUrl(DOWNLOAD_URLS.mac)
+    else if (userAgent.indexOf("Linux") !== -1) setDownloadUrl(DOWNLOAD_URLS.lin)
+  }, [])
 
   const scrollToSection = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -77,13 +85,13 @@ const Nav: React.FC = () => {
           <ModeToggle />
 
           {/* Download Button (Desktop Only) */}
-          <Link
-            to="/download"
+          <a
+            href={downloadUrl}
             className="text-brand-bg bg-ui-text border-ui-border hidden items-center gap-2 rounded-full border px-5 py-2.5 text-[10px] font-bold tracking-widest uppercase shadow-[0_0_20px_var(--accent-glow)] transition-all hover:opacity-80 active:scale-95 md:flex"
           >
             Download
             <Icon icon="solar:download-bold-duotone" />
-          </Link>
+          </a>
 
           {/* Mobile Menu with Shadcn Sheet */}
           <div className="lg:hidden">
@@ -159,8 +167,8 @@ const Nav: React.FC = () => {
                   </nav>
 
                   <div className="mt-auto pb-6">
-                    <Link
-                      to="/download"
+                    <a
+                      href={downloadUrl}
                       onClick={() => setIsOpen(false)}
                       className="text-brand-bg bg-ui-text sidebar-item-anim flex w-full items-center justify-center gap-3 rounded-xl px-6 py-4 text-[10px] font-bold tracking-[0.2em] shadow-[0_10px_30px_-10px_var(--accent-glow)] transition-all active:scale-[0.98]"
                       style={{
@@ -172,7 +180,7 @@ const Nav: React.FC = () => {
                         icon="solar:download-bold-duotone"
                         className="text-base"
                       />
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </SheetContent>
