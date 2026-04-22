@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Icon } from "@iconify/react"
 import { Link } from "react-router"
 import { gsap } from "gsap/dist/gsap"
@@ -8,8 +8,19 @@ const Hero: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const actionsRef = useRef<HTMLDivElement>(null)
+  const [osName, setOsName] = useState("Windows")
+  const [downloadUrl, setDownloadUrl] = useState(DOWNLOAD_URLS.win)
 
   useEffect(() => {
+    const userAgent = typeof window !== "undefined" ? window.navigator.userAgent : ""
+    if (userAgent.indexOf("Mac") !== -1) {
+      setOsName("macOS")
+      setDownloadUrl(DOWNLOAD_URLS.mac)
+    } else if (userAgent.indexOf("Linux") !== -1) {
+      setOsName("Linux")
+      setDownloadUrl(DOWNLOAD_URLS.lin)
+    }
+
     const text = "Real-time Network Telemetry for Your Workspace."
     if (titleRef.current) {
       titleRef.current.innerHTML = text
@@ -90,11 +101,11 @@ const Hero: React.FC = () => {
             className="flex w-full flex-col items-center gap-4 opacity-0 sm:w-auto sm:flex-row"
           >
             <a
-              href={DOWNLOAD_URLS.win}
+              href={downloadUrl}
               className="bg-ui-text text-brand-bg flex w-full items-center justify-center gap-2.5 rounded-xl px-8 py-4 text-sm font-bold shadow-[0_0_30px_var(--accent-glow)] transition-all hover:opacity-90 active:scale-95 sm:w-auto"
             >
               <Icon icon="solar:download-bold-duotone" className="text-xl" />
-              Download for Windows
+              Download for {osName}
             </a>
             <a
               href="https://github.com/lwshakib/nsx-monitor"
