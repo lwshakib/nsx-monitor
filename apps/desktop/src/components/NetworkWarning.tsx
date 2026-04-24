@@ -128,7 +128,7 @@ export const NetworkWarning: React.FC<NetworkWarningProps> = ({ onBack }) => {
                   <label className="text-[10px] font-bold text-muted-foreground">Period</label>
                   <select 
                     value={newType}
-                    onChange={(e) => setNewType(e.target.value as any)}
+                    onChange={(e) => setNewType(e.target.value as UsageLimit['type'])}
                     className="w-full bg-background border border-border rounded px-2 py-1.5 text-xs text-foreground outline-none focus:border-primary"
                   >
                     <option>Daily</option>

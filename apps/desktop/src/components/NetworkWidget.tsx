@@ -37,11 +37,11 @@ export const NetworkWidget: React.FC = () => {
   return (
     <div className="widget-container">
       <div className="widget-row">
-        <span>↓</span>
+        <span>D:</span>
         <span className="widget-value">{formatSpeed(down)}</span>
       </div>
       <div className="widget-row" style={{ marginTop: '2px' }}>
-        <span>↑</span>
+        <span>U:</span>
         <span className="widget-value">{formatSpeed(up)}</span>
       </div>
     </div>

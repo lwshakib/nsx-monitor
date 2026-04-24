@@ -10,7 +10,7 @@ interface HourlyData {
   up: number;
 }
 
-interface DailyData {
+export interface DailyData {
   down: number;
   up: number;
   hours?: HourlyData[];
@@ -30,6 +30,7 @@ export interface UsageLimit {
 
 export interface AppSettings {
   notificationsEnabled: boolean;
+  speedUnit: 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'b' | 'Kb' | 'Mb' | 'Gb' | 'Tb';
 }
 
 export interface DB {
@@ -191,7 +192,7 @@ export function saveUsageLimits(limits: UsageLimit[]) {
 
 export function getAppSettings(): AppSettings {
   if (!cache) initDB();
-  return (cache!.settings as AppSettings) || { notificationsEnabled: true };
+  return (cache!.settings as AppSettings) || { notificationsEnabled: true, speedUnit: 'MB' };
 }
 
 export function saveAppSettings(settings: AppSettings) {

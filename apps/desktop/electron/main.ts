@@ -2,7 +2,7 @@ import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen, shell, na
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import si from 'systeminformation'
-import { saveNetworkData, getNetworkData, clearDB, getDbPath, getUsageLimits, saveUsageLimits, UsageLimit, getAppSettings, saveAppSettings, AppSettings } from './database'
+import { saveNetworkData, getNetworkData, clearDB, getDbPath, getUsageLimits, saveUsageLimits, UsageLimit, getAppSettings, saveAppSettings, AppSettings, DailyData } from './database'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -93,9 +93,9 @@ function checkLimits() {
       periodKey = now.toISOString().split('T')[0];
       const dayData = data[periodKey];
       if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
-        Object.values(dayData).forEach((iface: any) => {
-          currentTotal += (iface.down + iface.up);
-        });
+                Object.values(dayData).forEach((iface: DailyData) => {
+                  currentTotal += (iface.down + iface.up);
+                });
       }
     } else if (limit.type === 'Weekly') {
        const d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
@@ -115,7 +115,7 @@ function checkLimits() {
           if (`${wd.getUTCFullYear()}-W${wNo}` === periodKey) {
              const dayData = data[dateStr];
              if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
-               Object.values(dayData).forEach((iface: any) => {
+               Object.values(dayData).forEach((iface: DailyData) => {
                   currentTotal += (iface.down + iface.up);
                });
              }
@@ -128,7 +128,7 @@ function checkLimits() {
           if (dateStr.startsWith(periodKey)) {
              const dayData = data[dateStr];
              if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
-               Object.values(dayData).forEach((iface: any) => {
+               Object.values(dayData).forEach((iface: DailyData) => {
                   currentTotal += (iface.down + iface.up);
                });
              }
@@ -141,7 +141,7 @@ function checkLimits() {
           if (dateStr.startsWith(periodKey)) {
              const dayData = data[dateStr];
              if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
-               Object.values(dayData).forEach((iface: any) => {
+               Object.values(dayData).forEach((iface: DailyData) => {
                   currentTotal += (iface.down + iface.up);
                });
              }
@@ -226,7 +226,7 @@ async function updateStats() {
     checkLimits();
 
     if (tray) {
-      tray.setToolTip(`NSX Monitor\nDown: ${format(down)}/s\nUp: ${format(up)}/s`)
+      tray.setToolTip(`NSX Monitor\nDownload: ${format(down)}/s\nUpload: ${format(up)}/s`)
     }
 
     const payload = {

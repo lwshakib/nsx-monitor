@@ -243,39 +243,39 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
       const currentYear = new Date().getFullYear()
       const years = Array.from({ length: 5 }, (_, i) => (currentYear - 2 + i).toString())
       
-      const yearlyTotals: Record<string, { Sent: number, Received: number }> = {}
+      const yearlyTotals: Record<string, { Upload: number, Download: number }> = {}
       Object.keys(activeData).forEach(dateStr => {
         const year = new Date(dateStr).getFullYear().toString()
-        if (!yearlyTotals[year]) yearlyTotals[year] = { Sent: 0, Received: 0 }
-        yearlyTotals[year].Sent += activeData[dateStr].up
-        yearlyTotals[year].Received += activeData[dateStr].down
+        if (!yearlyTotals[year]) yearlyTotals[year] = { Upload: 0, Download: 0 }
+        yearlyTotals[year].Upload += activeData[dateStr].up
+        yearlyTotals[year].Download += activeData[dateStr].down
       })
 
       return years.map(year => ({
         name: year,
-        Sent: yearlyTotals[year] ? formatRaw(yearlyTotals[year].Sent) : 0,
-        Received: yearlyTotals[year] ? formatRaw(yearlyTotals[year].Received) : 0
+        Upload: yearlyTotals[year] ? formatRaw(yearlyTotals[year].Upload) : 0,
+        Download: yearlyTotals[year] ? formatRaw(yearlyTotals[year].Download) : 0
       }))
     } 
     else if (group === 'Month') {
       // Monthly breakdown for the current/latest year
       const latestDay = Object.keys(activeData).sort().pop()
       const latestYear = latestDay ? new Date(latestDay).getFullYear() : new Date().getFullYear()
-      const yearData = MONTH_NAMES.map(m => ({ name: m.substring(0, 3), Sent: 0, Received: 0 }))
+      const yearData = MONTH_NAMES.map(m => ({ name: m.substring(0, 3), Upload: 0, Download: 0 }))
       
       Object.keys(activeData).forEach(dateStr => {
         const d = new Date(dateStr)
         if (d.getFullYear() === latestYear) {
-          yearData[d.getMonth()].Sent += activeData[dateStr].up
-          yearData[d.getMonth()].Received += activeData[dateStr].down
+          yearData[d.getMonth()].Upload += activeData[dateStr].up
+          yearData[d.getMonth()].Download += activeData[dateStr].down
         }
       })
-      return yearData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received) }))
+      return yearData.map(d => ({ ...d, Upload: formatRaw(d.Upload), Download: formatRaw(d.Download) }))
     }
     else if (group === 'Week') {
       // Daily breakdown for the current/latest week
       const daysStr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-      const weekData = daysStr.map(m => ({ name: m, Sent: 0, Received: 0 }))
+      const weekData = daysStr.map(m => ({ name: m, Upload: 0, Download: 0 }))
       
       const latestDay = Object.keys(activeData).sort().pop()
       const baseDate = latestDay ? new Date(latestDay) : new Date()
@@ -291,11 +291,11 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
         d.setHours(0,0,0,0)
         const diffDays = Math.round((d.getTime() - monday.getTime()) / 86400000)
         if (diffDays >= 0 && diffDays <= 6) {
-          weekData[diffDays].Sent += activeData[dateStr].up
-          weekData[diffDays].Received += activeData[dateStr].down
+          weekData[diffDays].Upload += activeData[dateStr].up
+          weekData[diffDays].Download += activeData[dateStr].down
         }
       })
-      return weekData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received) }))
+      return weekData.map(d => ({ ...d, Upload: formatRaw(d.Upload), Download: formatRaw(d.Download) }))
     }
     else {
       // Day = daily breakdown for the current/latest month
@@ -303,15 +303,15 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
       const latestDate = latestDay ? new Date(latestDay) : new Date()
       const numDays = new Date(latestDate.getFullYear(), latestDate.getMonth() + 1, 0).getDate()
       
-      const monthData = Array.from({length: numDays}, (_, i) => ({ name: `${i+1}`, Sent: 0, Received: 0 }))
+      const monthData = Array.from({length: numDays}, (_, i) => ({ name: `${i+1}`, Upload: 0, Download: 0 }))
       Object.keys(activeData).forEach(dateStr => {
         const d = new Date(dateStr)
         if (d.getFullYear() === latestDate.getFullYear() && d.getMonth() === latestDate.getMonth()) {
-          monthData[d.getDate() - 1].Sent += activeData[dateStr].up
-          monthData[d.getDate() - 1].Received += activeData[dateStr].down
+          monthData[d.getDate() - 1].Upload += activeData[dateStr].up
+          monthData[d.getDate() - 1].Download += activeData[dateStr].down
         }
       })
-      return monthData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received) }))
+      return monthData.map(d => ({ ...d, Upload: formatRaw(d.Upload), Download: formatRaw(d.Download) }))
     }
   }
 
@@ -344,8 +344,8 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
             <>
               <div className="flex text-xs p-2 border-b border-border bg-muted/50 font-medium text-foreground">
                  <div className="w-[80px]"></div>
-                 <div className="flex-1 text-right">Sent</div>
-                 <div className="flex-1 text-right">Received</div>
+                 <div className="flex-1 text-right">Upload</div>
+                 <div className="flex-1 text-right">Download</div>
                  <div className="flex-1 text-right">Total</div>
               </div>
               <div className="flex-1 overflow-y-auto bg-card p-2">
@@ -404,7 +404,7 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
                       />
                       <Ln
                         type="monotone"
-                        dataKey="Received"
+                        dataKey="Download"
                         stroke="var(--chart-2)"
                         strokeWidth={2}
                         dot={{ r: 3 }}
@@ -412,7 +412,7 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
                       />
                       <Ln
                         type="monotone"
-                        dataKey="Sent"
+                        dataKey="Upload"
                         stroke="var(--chart-5)"
                         strokeWidth={2}
                         dot={{ r: 3 }}
