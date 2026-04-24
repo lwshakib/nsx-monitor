@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { FolderOpen, Trash2, ChevronLeft, Bell } from 'lucide-react'
+import { FolderOpen, Trash2, ChevronLeft, Bell, Settings } from 'lucide-react'
 
 interface NetworkSettingsProps {
   onBack: () => void;
 }
 
 export const NetworkSettings: React.FC<NetworkSettingsProps> = ({ onBack }) => {
-  const [settings, setSettings] = useState({ notificationsEnabled: true })
+  const [settings, setSettings] = useState({ notificationsEnabled: true, speedUnit: 'MB' })
 
   useEffect(() => {
     window.ipcRenderer.invoke('get-app-settings').then(setSettings)
   }, [])
 
-  const toggleNotifications = () => {
-    const newSettings = { ...settings, notificationsEnabled: !settings.notificationsEnabled }
-    setSettings(newSettings)
+  const updateSetting = (key: string, value: any) => {
+    const newSettings = { ...settings, [key]: value }
+    setSettings(newSettings as any)
     window.ipcRenderer.send('save-app-settings', newSettings)
+  }
+
+  const toggleNotifications = () => {
+    updateSetting('notificationsEnabled', !settings.notificationsEnabled)
   }
 
   const handleOpenFolder = () => {
@@ -43,23 +47,54 @@ export const NetworkSettings: React.FC<NetworkSettingsProps> = ({ onBack }) => {
 
       <div className="space-y-6">
         <section>
-          <h3 className="text-xs font-semibold text-muted-foreground mb-3 tracking-wider">Notifications</h3>
-          <div className="flex items-center justify-between p-3 rounded-lg border border-border bg-card">
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
-                <Bell size={16} />
+          <h3 className="text-xs font-semibold text-muted-foreground mb-3 tracking-wider">Configuration</h3>
+          
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 rounded-lg border border-border bg-card">
+              <div className="flex items-center">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                  <Bell size={16} />
+                </div>
+                <div>
+                  <div className="text-[13px] font-medium text-foreground">Usage Alerts</div>
+                  <div className="text-[11px] text-muted-foreground">Notify when data limits are reached</div>
+                </div>
               </div>
-              <div>
-                <div className="text-[13px] font-medium text-foreground">Usage Alerts</div>
-                <div className="text-[11px] text-muted-foreground">Notify when data limits are reached</div>
-              </div>
+              <button 
+                onClick={toggleNotifications}
+                className={`w-9 h-5 rounded-full transition-colors relative ${settings.notificationsEnabled ? 'bg-primary' : 'bg-muted'}`}
+              >
+                <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all ${settings.notificationsEnabled ? 'left-5' : 'left-1'}`} />
+              </button>
             </div>
-            <button 
-              onClick={toggleNotifications}
-              className={`w-9 h-5 rounded-full transition-colors relative ${settings.notificationsEnabled ? 'bg-primary' : 'bg-muted'}`}
-            >
-              <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all ${settings.notificationsEnabled ? 'left-5' : 'left-1'}`} />
-            </button>
+
+            <div className="flex items-center justify-between p-3 rounded-lg border border-border bg-card">
+              <div className="flex items-center">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 text-primary">
+                  <Settings size={16} />
+                </div>
+                <div>
+                  <div className="text-[13px] font-medium text-foreground">Speed Unit</div>
+                  <div className="text-[11px] text-muted-foreground">Unit used for the widget display</div>
+                </div>
+              </div>
+              <select 
+                value={settings.speedUnit}
+                onChange={(e) => updateSetting('speedUnit', e.target.value)}
+                className="bg-background border border-border rounded px-2 py-1 text-xs text-foreground outline-none focus:border-primary"
+              >
+                <option value="B">B/s</option>
+                <option value="KB">KB/s</option>
+                <option value="MB">MB/s</option>
+                <option value="GB">GB/s</option>
+                <option value="TB">TB/s</option>
+                <option value="b">b/s</option>
+                <option value="Kb">Kb/s</option>
+                <option value="Mb">Mb/s</option>
+                <option value="Gb">Gb/s</option>
+                <option value="Tb">Tb/s</option>
+              </select>
+            </div>
           </div>
         </section>
 

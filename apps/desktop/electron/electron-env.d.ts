@@ -33,6 +33,7 @@ declare namespace NodeJS {
 // Used in Renderer process, expose in `preload.ts`
 interface Window {
   ipcRenderer: import('electron').IpcRenderer & {
-    onNetworkStats(callback: (stats: NetworkStats) => void): () => void
+    onNetworkStats(callback: (stats: NetworkStats) => void): () => void;
+    onAppSettingsUpdate(callback: (settings: any) => void): () => void;
   }
 }

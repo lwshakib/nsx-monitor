@@ -438,6 +438,8 @@ ipcMain.handle('get-app-settings', () => {
 
 ipcMain.on('save-app-settings', (_event, settings: AppSettings) => {
   saveAppSettings(settings);
+  if (win && !win.isDestroyed()) win.webContents.send('app-settings-updated', settings);
+  if (widgetWin && !widgetWin.isDestroyed()) widgetWin.webContents.send('app-settings-updated', settings);
 })
 
 app.whenReady().then(() => {
