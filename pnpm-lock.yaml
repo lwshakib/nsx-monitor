@@ -26,6 +26,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.2.1(vite@5.4.21(@types/node@25.3.0)(lightningcss@1.31.1))
+      lucide-react:
+        specifier: ^1.8.0
+        version: 1.8.0(react@18.3.1)
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -9228,6 +9231,10 @@ snapshots:
   lru-cache@6.0.0:
     dependencies:
       yallist: 4.0.0
+
+  lucide-react@1.8.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   lucide-react@1.8.0(react@19.2.4):
     dependencies:

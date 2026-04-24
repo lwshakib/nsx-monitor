@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer } from 'recharts'
+import { Bell, Settings } from 'lucide-react'
 
 interface HourlyData {
   down: number;
@@ -34,7 +35,11 @@ function getWeekNumber(d: Date) {
 
 type NetworkUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB';
 
-export const NetworkHistory: React.FC = () => {
+interface NetworkHistoryProps {
+  onNavigate: (view: 'History' | 'Settings' | 'Warning') => void;
+}
+
+export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) => {
   const [data, setData] = useState<DB>({})
   const [group, setGroup] = useState<'Day' | 'Week' | 'Month' | 'Year'>('Day')
   const [viewMode, setViewMode] = useState<'Data' | 'Graph'>('Data')
@@ -475,19 +480,25 @@ export const NetworkHistory: React.FC = () => {
              </select>
           </div>
 
-          <div className="mb-auto text-primary">
-             <div className="text-foreground mb-1 font-medium">Database:</div>
-             <div className="cursor-pointer mb-2 hover:underline opacity-90 transition-opacity" onClick={() => window.ipcRenderer.send('open-database-folder')}>Open Folder</div>
-             <div className="cursor-pointer mb-1 text-destructive hover:underline opacity-90 transition-opacity" onClick={() => {
-               if (window.confirm('Are you sure you want to completely erase all historical network data? This cannot be undone.')) {
-                 window.ipcRenderer.send('clear-database')
-               }
-             }}>Clear Database</div>
-          </div>
-
-          <div className="flex flex-col gap-2 mt-4">
-            <button className="px-2 py-1.5 bg-card text-card-foreground border border-border rounded-md cursor-pointer shadow-sm text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors">Warning</button>
-            <button className="px-2 py-1.5 bg-card text-card-foreground border border-border rounded-md cursor-pointer shadow-sm text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => window.ipcRenderer.send('win:hide')}>Close</button>
+          <div className="flex flex-col gap-2 mt-auto">
+             <button 
+               onClick={() => onNavigate('Warning')}
+               className="flex items-center justify-center gap-2 px-2 py-2 bg-primary/10 text-primary border border-primary/20 rounded-md cursor-pointer shadow-sm text-xs font-bold hover:bg-primary hover:text-primary-foreground transition-all"
+             >
+               <Bell size={14} /> Warnings
+             </button>
+             <button 
+               onClick={() => onNavigate('Settings')}
+               className="flex items-center justify-center gap-2 px-2 py-2 bg-card text-card-foreground border border-border rounded-md cursor-pointer shadow-sm text-xs font-medium hover:bg-accent transition-all"
+             >
+               <Settings size={14} /> Settings
+             </button>
+             <button 
+               onClick={() => window.ipcRenderer.send('win:hide')}
+               className="flex items-center justify-center gap-2 px-2 py-2 bg-card text-card-foreground border border-border rounded-md cursor-pointer shadow-sm text-xs font-medium hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 transition-all"
+             >
+               Close
+             </button>
           </div>
         </div>
       </div>

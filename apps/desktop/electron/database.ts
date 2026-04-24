@@ -20,8 +20,20 @@ interface InterfaceDataMap {
   [ifaceName: string]: DailyData;
 }
 
-interface DB {
-  [date: string]: InterfaceDataMap; // date in YYYY-MM-DD format
+export interface UsageLimit {
+  id: string;
+  type: 'Daily' | 'Weekly' | 'Monthly' | 'Yearly';
+  value: number; // bytes
+  enabled: boolean;
+  lastNotified?: string;
+}
+
+export interface AppSettings {
+  notificationsEnabled: boolean;
+}
+
+export interface DB {
+  [key: string]: InterfaceDataMap | UsageLimit[] | AppSettings | undefined;
 }
 
 let cache: DB | null = null;
@@ -88,26 +100,28 @@ export function saveNetworkData(ifaceName: string, downDelta: number, upDelta: n
                   String(today.getDate()).padStart(2, '0');
 
   if (!cache![dateStr]) cache![dateStr] = {};
+  
+  const dayData = cache![dateStr] as InterfaceDataMap;
 
-  if (!cache![dateStr][ifaceName]) {
-    cache![dateStr][ifaceName] = { 
+  if (!dayData[ifaceName]) {
+    dayData[ifaceName] = { 
       down: 0, 
       up: 0, 
       hours: Array(24).fill(null).map(() => ({down: 0, up: 0}))
     };
   }
   
-  if (!cache![dateStr][ifaceName].hours) {
-    cache![dateStr][ifaceName].hours = Array(24).fill(null).map(() => ({down: 0, up: 0}));
+  if (!dayData[ifaceName].hours) {
+    dayData[ifaceName].hours = Array(24).fill(null).map(() => ({down: 0, up: 0}));
   }
 
   const currentHour = today.getHours();
 
-  cache![dateStr][ifaceName].down += downDelta;
-  cache![dateStr][ifaceName].up += upDelta;
-  if(cache![dateStr][ifaceName].hours && cache![dateStr][ifaceName].hours[currentHour]) {
-     cache![dateStr][ifaceName].hours[currentHour].down += downDelta;
-     cache![dateStr][ifaceName].hours[currentHour].up += upDelta;
+  dayData[ifaceName].down += downDelta;
+  dayData[ifaceName].up += upDelta;
+  if(dayData[ifaceName].hours && dayData[ifaceName].hours[currentHour]) {
+     dayData[ifaceName].hours[currentHour].down += downDelta;
+     dayData[ifaceName].hours[currentHour].up += upDelta;
   }
   
   pendingChanges = true;
@@ -141,9 +155,9 @@ app.on('will-quit', () => {
 /**
  * Returns the entire database cache for UI consumption
  */
-export function getNetworkData() {
+export function getNetworkData(): DB {
   if (!cache) initDB();
-  return cache;
+  return cache!;
 }
 
 /**
@@ -161,4 +175,28 @@ export function clearDB() {
 export function getDbPath() {
   if (!dbPath) initDB();
   return dbPath;
+}
+
+export function getUsageLimits(): UsageLimit[] {
+  if (!cache) initDB();
+  return (cache!.limits as UsageLimit[]) || [];
+}
+
+export function saveUsageLimits(limits: UsageLimit[]) {
+  if (!cache) initDB();
+  cache!.limits = limits;
+  pendingChanges = true;
+  flushDB();
+}
+
+export function getAppSettings(): AppSettings {
+  if (!cache) initDB();
+  return (cache!.settings as AppSettings) || { notificationsEnabled: true };
+}
+
+export function saveAppSettings(settings: AppSettings) {
+  if (!cache) initDB();
+  cache!.settings = settings;
+  pendingChanges = true;
+  flushDB();
 }

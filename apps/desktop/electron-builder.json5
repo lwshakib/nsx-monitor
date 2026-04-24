@@ -44,7 +44,7 @@
   },
   "publish": {
     "provider": "github",
-    "owner": "lwshakib",
+    "owner": "Shakib Khan",
     "repo": "nsx-monitor",
     "releaseType": "release"
   }

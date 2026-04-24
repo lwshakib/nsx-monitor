@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NetworkHistory } from './NetworkHistory'
+import { NetworkSettings } from './NetworkSettings'
+import { NetworkWarning } from './NetworkWarning'
 
 export const NetworkDashboard: React.FC = () => {
+  const [activeView, setActiveView] = useState<'History' | 'Settings' | 'Warning'>('History')
+
   return (
     <div className="w-screen h-screen overflow-hidden flex flex-col bg-background text-foreground">
       {/* Custom Title Bar */}
@@ -9,9 +13,11 @@ export const NetworkDashboard: React.FC = () => {
         <img src="./logo.svg" alt="logo" className="w-4 h-4 mr-2" />
         <span className="text-xs font-sans text-foreground">NSX Monitor</span>
       </div>
-      {/* Rest of the empty dashboard */}
-      <div className="flex-1">
-        <NetworkHistory />
+      
+      <div className="flex-1 overflow-hidden flex flex-col">
+        {activeView === 'History' && <NetworkHistory onNavigate={setActiveView} />}
+        {activeView === 'Settings' && <NetworkSettings onBack={() => setActiveView('History')} />}
+        {activeView === 'Warning' && <NetworkWarning onBack={() => setActiveView('History')} />}
       </div>
     </div>
   )

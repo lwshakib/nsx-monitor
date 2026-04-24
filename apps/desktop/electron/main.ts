@@ -1,8 +1,8 @@
-import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen, shell, nativeTheme } from 'electron'
+import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen, shell, nativeTheme, Notification } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import si from 'systeminformation'
-import { saveNetworkData, getNetworkData, clearDB, getDbPath } from './database'
+import { saveNetworkData, getNetworkData, clearDB, getDbPath, getUsageLimits, saveUsageLimits, UsageLimit, getAppSettings, saveAppSettings, AppSettings } from './database'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -73,6 +73,94 @@ function isVirtualInterface(iface: string): boolean {
   return virtualKeywords.some(keyword => name.includes(keyword.toLowerCase()));
 }
 
+function checkLimits() {
+  const settings = getAppSettings();
+  if (!settings.notificationsEnabled) return;
+
+  const limits = getUsageLimits();
+  const enabledLimits = limits.filter(l => l.enabled);
+  if (enabledLimits.length === 0) return;
+
+  const data = getNetworkData();
+  if (!data) return;
+  const now = new Date();
+  
+  enabledLimits.forEach(limit => {
+    let currentTotal = 0;
+    let periodKey = '';
+
+    if (limit.type === 'Daily') {
+      periodKey = now.toISOString().split('T')[0];
+      const dayData = data[periodKey];
+      if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
+        Object.values(dayData).forEach((iface: any) => {
+          currentTotal += (iface.down + iface.up);
+        });
+      }
+    } else if (limit.type === 'Weekly') {
+       const d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+       d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+       const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+       const weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+       periodKey = `${d.getUTCFullYear()}-W${weekNo}`;
+
+       Object.keys(data).forEach(dateStr => {
+          if (dateStr === 'limits') return;
+          const date = new Date(dateStr);
+          if (isNaN(date.getTime())) return;
+          const wd = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+          wd.setUTCDate(wd.getUTCDate() + 4 - (wd.getUTCDay() || 7));
+          const wYearStart = new Date(Date.UTC(wd.getUTCFullYear(), 0, 1));
+          const wNo = Math.ceil((((wd.getTime() - wYearStart.getTime()) / 86400000) + 1) / 7);
+          if (`${wd.getUTCFullYear()}-W${wNo}` === periodKey) {
+             const dayData = data[dateStr];
+             if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
+               Object.values(dayData).forEach((iface: any) => {
+                  currentTotal += (iface.down + iface.up);
+               });
+             }
+          }
+       });
+    } else if (limit.type === 'Monthly') {
+       periodKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+       Object.keys(data).forEach(dateStr => {
+          if (dateStr === 'limits') return;
+          if (dateStr.startsWith(periodKey)) {
+             const dayData = data[dateStr];
+             if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
+               Object.values(dayData).forEach((iface: any) => {
+                  currentTotal += (iface.down + iface.up);
+               });
+             }
+          }
+       });
+    } else if (limit.type === 'Yearly') {
+       periodKey = `${now.getFullYear()}`;
+       Object.keys(data).forEach(dateStr => {
+          if (dateStr === 'limits') return;
+          if (dateStr.startsWith(periodKey)) {
+             const dayData = data[dateStr];
+             if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
+               Object.values(dayData).forEach((iface: any) => {
+                  currentTotal += (iface.down + iface.up);
+               });
+             }
+          }
+       });
+    }
+
+    if (currentTotal >= limit.value && limit.lastNotified !== periodKey) {
+      new Notification({
+        title: `NSX Monitor: ${limit.type} Limit Reached`,
+        body: `Usage: ${format(currentTotal)} (Limit: ${format(limit.value)})`,
+        icon: getIconPath()
+      }).show();
+      limit.lastNotified = periodKey;
+      saveUsageLimits(limits);
+    }
+  });
+}
+
 async function updateStats() {
   const startTime = Date.now()
   try {
@@ -133,6 +221,9 @@ async function updateStats() {
 
     const down = (downQueue[0] + downQueue[1]) / 2
     const up = (upQueue[0] + upQueue[1]) / 2
+
+    // Check usage limits and notify if needed
+    checkLimits();
 
     if (tray) {
       tray.setToolTip(`NSX Monitor\nDown: ${format(down)}/s\nUp: ${format(up)}/s`)
@@ -331,6 +422,22 @@ ipcMain.on('open-database-folder', () => {
   if (dbPath) {
     shell.showItemInFolder(dbPath)
   }
+})
+
+ipcMain.handle('get-usage-limits', () => {
+  return getUsageLimits();
+})
+
+ipcMain.on('save-usage-limits', (_event, limits: UsageLimit[]) => {
+  saveUsageLimits(limits);
+})
+
+ipcMain.handle('get-app-settings', () => {
+  return getAppSettings();
+})
+
+ipcMain.on('save-app-settings', (_event, settings: AppSettings) => {
+  saveAppSettings(settings);
 })
 
 app.whenReady().then(() => {
