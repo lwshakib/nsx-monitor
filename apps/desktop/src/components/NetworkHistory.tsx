@@ -48,35 +48,36 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
   const [selectedInterface, setSelectedInterface] = useState<string>('')
   const [dbStatus, setDbStatus] = useState<'fetching' | 'Ok' | 'Error'>('fetching')
 
-  useEffect(() => {
-    // Polling hook for background data
-    const fetchDB = () => {
-      window.ipcRenderer.invoke('get-historical-data').then((res: DB) => {
-        if (res) {
-          setData(res)
-          setDbStatus('Ok')
-        } else {
-          setDbStatus('Error')
-        }
-      }).catch((err: unknown) => {
-        console.error("Could not fetch DB", err)
+  // Function to fetch the historical data on demand
+  const fetchDB = () => {
+    setDbStatus('fetching')
+    window.ipcRenderer.invoke('get-historical-data').then((res: DB) => {
+      if (res) {
+        setData(res)
+        setDbStatus('Ok')
+      } else {
         setDbStatus('Error')
-      })
-    }
+      }
+    }).catch((err: unknown) => {
+      console.error("Could not fetch DB", err)
+      setDbStatus('Error')
+    })
+  }
 
-    fetchDB()
-    const intv = setInterval(fetchDB, 5000)
-
-    // Fetch Interfaces
+  // Initial mount: fetch interfaces
+  useEffect(() => {
     window.ipcRenderer.invoke('get-network-interfaces').then((res: string[]) => {
       if (res && res.length > 0) {
         setInterfaces(res)
         setSelectedInterface(prev => prev ? prev : res[0])
       }
     }).catch(() => {})
-    
-    return () => clearInterval(intv)
   }, [])
+
+  // Fetch data only when group or interface changes
+  useEffect(() => {
+    fetchDB()
+  }, [group, selectedInterface])
 
   // Resolve the DB mapping to plain date -> DailyData based on active interface targeted
   const getFilteredData = (): Record<string, DailyData> => {
@@ -103,7 +104,11 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
   }
 
   const formatStr = (bytes: number) => {
-    return (bytes / getMultiplier()).toFixed(0);
+    const val = bytes / getMultiplier();
+    if (val >= 1000000) {
+      return val.toExponential(2).replace('e+', 'e');
+    }
+    return val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   // --- TABLE RENDERER ---
@@ -386,9 +391,17 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
                       <YA
                         className="stroke-muted-foreground"
                         fontSize={11}
-                        width={50}
+                        width={60}
+                        tickFormatter={(value: number) => {
+                          if (value >= 1000000) return value.toExponential(1).replace('e+', 'e');
+                          return value.toLocaleString();
+                        }}
                       />
-                      <RTip
+                       <RTip
+                        formatter={(value: number) => {
+                          if (value >= 1000000) return value.toExponential(2).replace('e+', 'e');
+                          return value.toLocaleString();
+                        }}
                         contentStyle={{
                           backgroundColor: "var(--card)",
                           borderRadius: "0.5rem",

@@ -55,9 +55,11 @@ export const NetworkWidget: React.FC = () => {
     }
     const val = bytes / (multipliers[targetUnit] || 1)
     
-    // For very small values, show more decimals or just 0
-    if (val === 0) return `0 ${targetUnit}/s`
-    if (val < 0.01) return `<0.01 ${targetUnit}/s`
+    if (val < 0.01) return `0 ${targetUnit}/s`
+    
+    if (val >= 1000000) {
+      return `${val.toExponential(2).replace('e+', 'e')} ${targetUnit}/s`
+    }
     
     return `${val.toFixed(2)} ${targetUnit}/s`
   }
