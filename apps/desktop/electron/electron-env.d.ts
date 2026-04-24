@@ -34,6 +34,6 @@ declare namespace NodeJS {
 interface Window {
   ipcRenderer: import('electron').IpcRenderer & {
     onNetworkStats(callback: (stats: NetworkStats) => void): () => void;
-    onAppSettingsUpdate(callback: (settings: any) => void): () => void;
+    onAppSettingsUpdate(callback: (settings: Record<string, string | boolean>) => void): () => void;
   }
 }

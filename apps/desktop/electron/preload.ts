@@ -25,8 +25,8 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     ipcRenderer.on('network-stats', listener)
     return () => ipcRenderer.off('network-stats', listener)
   },
-  onAppSettingsUpdate(callback: (settings: any) => void) {
-    const listener = (_: unknown, settings: any) => callback(settings)
+  onAppSettingsUpdate(callback: (settings: Record<string, string | boolean>) => void) {
+    const listener = (_: unknown, settings: Record<string, string | boolean>) => callback(settings)
     ipcRenderer.on('app-settings-updated', listener)
     return () => ipcRenderer.off('app-settings-updated', listener)
   }

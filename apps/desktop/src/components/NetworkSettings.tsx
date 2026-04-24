@@ -5,16 +5,21 @@ interface NetworkSettingsProps {
   onBack: () => void;
 }
 
+interface AppSettings {
+  notificationsEnabled: boolean;
+  speedUnit: string;
+}
+
 export const NetworkSettings: React.FC<NetworkSettingsProps> = ({ onBack }) => {
-  const [settings, setSettings] = useState({ notificationsEnabled: true, speedUnit: 'MB' })
+  const [settings, setSettings] = useState<AppSettings>({ notificationsEnabled: true, speedUnit: 'MB' })
 
   useEffect(() => {
     window.ipcRenderer.invoke('get-app-settings').then(setSettings)
   }, [])
 
-  const updateSetting = (key: string, value: any) => {
+  const updateSetting = (key: keyof AppSettings, value: string | boolean) => {
     const newSettings = { ...settings, [key]: value }
-    setSettings(newSettings as any)
+    setSettings(newSettings as AppSettings)
     window.ipcRenderer.send('save-app-settings', newSettings)
   }
 
