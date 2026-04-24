@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react'
 const formatSpeed = (bytes: number) => {
   const kb = bytes / 1024
   const mb = kb / 1024
-  if (mb >= 10) return `${mb.toFixed(1)} MB/s`
   if (mb >= 1) return `${mb.toFixed(2)} MB/s`
-  if (kb >= 1) return `${kb.toFixed(0)} KB/s`
-  return `${bytes} B/s`
+  if (kb >= 1) return `${kb.toFixed(2)} KB/s`
+  return `${bytes.toFixed(0)} B/s`
 }
 
 export const NetworkWidget: React.FC = () => {

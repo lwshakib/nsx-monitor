@@ -20,16 +20,19 @@ export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
  */
 const getIconPath = (): string => {
   const platform = process.platform;
-  const basePath = process.env.APP_ROOT;
+  // In dev, assets are in 'public'. In prod, Vite copies them to 'dist'.
+  const resourceDir = VITE_DEV_SERVER_URL 
+    ? path.join(process.env.APP_ROOT, 'public') 
+    : RENDERER_DIST;
 
   switch (platform) {
     case 'win32':
-      return path.join(basePath, 'public', 'icons', 'win', 'icon.ico');
+      return path.join(resourceDir, 'icons', 'win', 'icon.ico');
     case 'darwin':
-      return path.join(basePath, 'public', 'icons', 'mac', 'icon.icns');
+      return path.join(resourceDir, 'icons', 'mac', 'icon.icns');
     case 'linux':
     default:
-      return path.join(basePath, 'public', 'icons', 'png', '256x256.png');
+      return path.join(resourceDir, 'icons', 'png', '256x256.png');
   }
 };
 
@@ -50,10 +53,9 @@ let lastUpdateTime = Date.now()
 function format(bytes: number) {
   const kb = bytes / 1024
   const mb = kb / 1024
-  if (mb >= 10) return `${mb.toFixed(0)}M`
-  if (mb >= 1) return `${mb.toFixed(1)}M`
-  if (kb >= 100) return `${kb.toFixed(0)}K`
-  return `${kb.toFixed(0)}K`
+  if (mb >= 1) return `${mb.toFixed(2)}M`
+  if (kb >= 1) return `${kb.toFixed(2)}K`
+  return `${bytes.toFixed(0)}B`
 }
 
 /**
