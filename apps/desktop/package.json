@@ -1,7 +1,7 @@
 {
   "name": "desktop",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Professional-grade network telemetry suite for high-precision bandwidth monitoring.",
   "author": "lwshakib",
   "type": "module",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
+    "electron-updater": "^6.8.3",
     "lucide-react": "^1.9.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",

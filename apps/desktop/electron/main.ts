@@ -1,8 +1,43 @@
 import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen, shell, nativeTheme, Notification } from 'electron'
+import { autoUpdater } from 'electron-updater'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import si from 'systeminformation'
 import { saveNetworkData, getNetworkData, clearDB, getDbPath, getUsageLimits, saveUsageLimits, UsageLimit, getAppSettings, saveAppSettings, AppSettings, DailyData } from './database'
+
+/**
+ * Configure and initialize the auto-updater.
+ */
+function setupAutoUpdater() {
+  // Basic configuration
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = true;
+
+  autoUpdater.on('update-available', (info) => {
+    console.log('Update available:', info.version);
+    new Notification({
+      title: 'NSX Monitor: Update Available',
+      body: `Version ${info.version} is being downloaded automatically.`,
+      icon: getIconPath()
+    }).show();
+  });
+
+  autoUpdater.on('update-downloaded', (info) => {
+    console.log('Update downloaded:', info.version);
+    new Notification({
+      title: 'NSX Monitor: Update Ready',
+      body: `Version ${info.version} has been downloaded and will install on restart.`,
+      icon: getIconPath()
+    }).show();
+  });
+
+  autoUpdater.on('error', (err) => {
+    console.error('Auto-updater error:', err);
+  });
+
+  // Check for updates
+  autoUpdater.checkForUpdatesAndNotify();
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -451,6 +486,7 @@ app.whenReady().then(() => {
 
   Menu.setApplicationMenu(null)
   createWindow()
+  setupAutoUpdater()
   createWidget()
   initTray()
   
