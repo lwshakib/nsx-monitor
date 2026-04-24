@@ -47,7 +47,6 @@ function InputOTPSlot({
 }: React.ComponentProps<"div"> & {
   index: number
 }) {
-  // @ts-expect-error - OTPInputContext uses React 18 Context type, incompatible with React 19's useContext
   const inputOTPContext = React.useContext(OTPInputContext)
   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {}
 
