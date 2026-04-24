@@ -49,6 +49,8 @@ const prevTxMap: Record<string, number> = {}
 const downQueue = [0, 0] // Stores calculated speed (bytes/sec)
 const upQueue = [0, 0]   // Stores calculated speed (bytes/sec)
 let lastUpdateTime = Date.now()
+let cachedIfaces: string[] = []
+let lastIfaceRefresh = 0
 
 function format(bytes: number) {
   const kb = bytes / 1024
@@ -72,17 +74,26 @@ function isVirtualInterface(iface: string): boolean {
 }
 
 async function updateStats() {
+  const startTime = Date.now()
   try {
-    const now = Date.now()
-    const dt = (now - lastUpdateTime) / 1000 // delta time in seconds
-    lastUpdateTime = now
-
-    // Ensure dt is not zero to avoid division by zero
+    const dt = (startTime - lastUpdateTime) / 1000 // delta time in seconds
+    lastUpdateTime = startTime
     const safeDt = dt > 0 ? dt : 1
 
-    const stats = await si.networkStats()
+    // Refresh interface list every 30 seconds to handle network changes
+    if (Date.now() - lastIfaceRefresh > 30000 || cachedIfaces.length === 0) {
+      const allIfaces = await si.networkInterfaces()
+      if (Array.isArray(allIfaces)) {
+        cachedIfaces = allIfaces
+          .filter(i => !isVirtualInterface(i.iface))
+          .map(i => i.iface)
+      }
+      lastIfaceRefresh = Date.now()
+    }
+
+    // Polling specific interfaces is significantly faster on Windows
+    const stats = await si.networkStats(cachedIfaces.join(','))
     if (!stats || stats.length === 0) {
-      setTimeout(updateStats, 1000)
       return
     }
 
@@ -146,8 +157,10 @@ async function updateStats() {
   } catch (error) {
     console.error('Failed to update stats:', error)
   } finally {
-    // Schedule next update after current one completes to prevent overlapping
-    setTimeout(updateStats, 1000)
+    // Self-adjusting timer to maintain precise 1-second intervals
+    const executionTime = Date.now() - startTime
+    const nextDelay = Math.max(0, 1000 - executionTime)
+    setTimeout(updateStats, nextDelay)
   }
 }
 
@@ -333,16 +346,24 @@ app.whenReady().then(() => {
   initTray()
   
   // Initial stats to avoid first jump
-  si.networkStats().then(stats => {
+  si.networkInterfaces().then(allIfaces => {
+    if (Array.isArray(allIfaces)) {
+      cachedIfaces = allIfaces
+        .filter(i => !isVirtualInterface(i.iface))
+        .map(i => i.iface)
+      lastIfaceRefresh = Date.now()
+    }
+    return si.networkStats(cachedIfaces.join(','))
+  }).then(stats => {
     if (stats && stats.length > 0) {
       for (const stat of stats) {
-        if (stat.iface !== 'lo' && !stat.iface.includes('Loopback')) {
+        if (!isVirtualInterface(stat.iface)) {
           prevRxMap[stat.iface] = stat.rx_bytes
           prevTxMap[stat.iface] = stat.tx_bytes
         }
       }
     }
     lastUpdateTime = Date.now()
-    setTimeout(updateStats, 1000)
+    updateStats() // Start the loop immediately
   })
 })

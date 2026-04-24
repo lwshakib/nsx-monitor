@@ -132,36 +132,47 @@ export const NetworkHistory: React.FC = () => {
         </div>
       ))
     } else if (group === 'Week') {
-      const groupedByYear: Record<string, Record<string, { up: number, down: number }>> = {}
-      Object.keys(activeData).forEach(dateStr => {
-        const d = new Date(dateStr)
-        const weekInfo = getWeekNumber(d)
-        const year = String(weekInfo.year)
-        const weekLabel = `Week ${weekInfo.week}`
-        
-        if (!groupedByYear[year]) groupedByYear[year] = {}
-        if (!groupedByYear[year][weekLabel]) groupedByYear[year][weekLabel] = { up: 0, down: 0 }
-        
-        groupedByYear[year][weekLabel].up += activeData[dateStr].up
-        groupedByYear[year][weekLabel].down += activeData[dateStr].down
-      })
+      const activeData = getFilteredData()
+      const latestDay = Object.keys(activeData).sort().pop()
+      if (!latestDay) return <div className="p-5 text-center text-xs text-muted-foreground">No data collected yet.</div>
 
-      return Object.entries(groupedByYear).sort((a,b) => b[0].localeCompare(a[0])).map(([year, weeks]) => (
-        <div key={year} className="mb-[15px]">
+      const baseDate = new Date(latestDay)
+      const weekInfo = getWeekNumber(baseDate)
+      const weekLabel = `Week ${weekInfo.week}`
+      
+      const currentDay = baseDate.getDay()
+      const distToMon = currentDay === 0 ? 6 : currentDay - 1
+      const monday = new Date(baseDate)
+      monday.setDate(monday.getDate() - distToMon)
+      monday.setHours(0,0,0,0)
+
+      const daysStr = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+      const weekRows = []
+
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(monday)
+        d.setDate(monday.getDate() + i)
+        const dateStr = d.toISOString().split('T')[0]
+        const stats = activeData[dateStr] || { up: 0, down: 0 }
+        weekRows.push({ name: daysStr[i], ...stats })
+      }
+
+      return (
+        <div className="mb-[15px]">
           <div className="py-1 px-2 text-foreground text-[13px] font-medium flex items-center">
-            <span className="mr-[10px]">{year}</span>
+            <span className="mr-[10px]">{weekLabel}</span>
             <div className="flex-1 h-[1px] bg-border" />
           </div>
-          {Object.entries(weeks).sort((a,b) => parseInt(a[0].split(' ')[1]) - parseInt(b[0].split(' ')[1])).map(([weekLabel, obj]) => (
-            <div key={weekLabel} className="flex text-xs py-1 px-2 text-muted-foreground">
-              <div className="w-[80px]">{weekLabel}</div>
-              <div className="flex-1 text-right">{formatStr(obj.up)}</div>
-              <div className="flex-1 text-right">{formatStr(obj.down)}</div>
-              <div className="flex-1 text-right">{formatStr(obj.up + obj.down)}</div>
+          {weekRows.map((d, i) => (
+            <div key={i} className="flex text-xs py-1 px-2 text-muted-foreground">
+              <div className="w-[80px]">{d.name}</div>
+              <div className="flex-1 text-right">{formatStr(d.up)}</div>
+              <div className="flex-1 text-right">{formatStr(d.down)}</div>
+              <div className="flex-1 text-right">{formatStr(d.up + d.down)}</div>
             </div>
           ))}
         </div>
-      ))
+      )
     } else if (group === 'Month') {
       const groupedByYear: Record<string, Record<string, { up: number, down: number }>> = {}
       Object.keys(activeData).forEach(dateStr => {
@@ -221,65 +232,81 @@ export const NetworkHistory: React.FC = () => {
   // --- CHART RENDERER ---
   const getChartData = () => {
     const activeData = getFilteredData()
+    
     if (group === 'Year') {
-      const yearData = MONTH_NAMES.map(m => ({ name: m.substring(0, 3), Sent: 0, Received: 0 }));
+      // Show a 5-year window with the current year at the center for better context
+      const currentYear = new Date().getFullYear()
+      const years = Array.from({ length: 5 }, (_, i) => (currentYear - 2 + i).toString())
+      
+      const yearlyTotals: Record<string, { Sent: number, Received: number }> = {}
       Object.keys(activeData).forEach(dateStr => {
-        const d = new Date(dateStr);
-        yearData[d.getMonth()].Sent += activeData[dateStr].up;
-        yearData[d.getMonth()].Received += activeData[dateStr].down;
-      });
-      return yearData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
+        const year = new Date(dateStr).getFullYear().toString()
+        if (!yearlyTotals[year]) yearlyTotals[year] = { Sent: 0, Received: 0 }
+        yearlyTotals[year].Sent += activeData[dateStr].up
+        yearlyTotals[year].Received += activeData[dateStr].down
+      })
+
+      return years.map(year => ({
+        name: year,
+        Sent: yearlyTotals[year] ? formatRaw(yearlyTotals[year].Sent) : 0,
+        Received: yearlyTotals[year] ? formatRaw(yearlyTotals[year].Received) : 0
+      }))
     } 
-    else if (group === 'Week') {
-      const daysStr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-      const weekData = daysStr.map(m => ({ name: m, Sent: 0, Received: 0 }));
-      
-      const latestDay = Object.keys(activeData).sort().pop();
-      const baseDate = latestDay ? new Date(latestDay) : new Date();
-      
-      const currentDay = baseDate.getDay();
-      const distToMon = currentDay === 0 ? 6 : currentDay - 1;
-      const monday = new Date(baseDate);
-      monday.setDate(monday.getDate() - distToMon);
-      monday.setHours(0,0,0,0);
-      
-      Object.keys(activeData).forEach(dateStr => {
-        const d = new Date(dateStr);
-        d.setHours(0,0,0,0);
-        const diffDays = Math.round((d.getTime() - monday.getTime()) / 86400000);
-        if (diffDays >= 0 && diffDays <= 6) {
-          weekData[diffDays].Sent += activeData[dateStr].up;
-          weekData[diffDays].Received += activeData[dateStr].down;
-        }
-      });
-      return weekData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
-    }
     else if (group === 'Month') {
-      const latestDay = Object.keys(activeData).sort().pop();
-      const latestDate = latestDay ? new Date(latestDay) : new Date();
-      const numDays = new Date(latestDate.getFullYear(), latestDate.getMonth() + 1, 0).getDate();
+      // Monthly breakdown for the current/latest year
+      const latestDay = Object.keys(activeData).sort().pop()
+      const latestYear = latestDay ? new Date(latestDay).getFullYear() : new Date().getFullYear()
+      const yearData = MONTH_NAMES.map(m => ({ name: m.substring(0, 3), Sent: 0, Received: 0 }))
       
-      const monthData = Array.from({length: numDays}, (_, i) => ({ name: `${i+1}`, Sent: 0, Received: 0 }));
       Object.keys(activeData).forEach(dateStr => {
-        const d = new Date(dateStr);
-        if (d.getFullYear() === latestDate.getFullYear() && d.getMonth() === latestDate.getMonth()) {
-          monthData[d.getDate() - 1].Sent += activeData[dateStr].up;
-          monthData[d.getDate() - 1].Received += activeData[dateStr].down;
+        const d = new Date(dateStr)
+        if (d.getFullYear() === latestYear) {
+          yearData[d.getMonth()].Sent += activeData[dateStr].up
+          yearData[d.getMonth()].Received += activeData[dateStr].down
         }
-      });
-      return monthData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received)}));
+      })
+      return yearData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received) }))
+    }
+    else if (group === 'Week') {
+      // Daily breakdown for the current/latest week
+      const daysStr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+      const weekData = daysStr.map(m => ({ name: m, Sent: 0, Received: 0 }))
+      
+      const latestDay = Object.keys(activeData).sort().pop()
+      const baseDate = latestDay ? new Date(latestDay) : new Date()
+      
+      const currentDay = baseDate.getDay()
+      const distToMon = currentDay === 0 ? 6 : currentDay - 1
+      const monday = new Date(baseDate)
+      monday.setDate(monday.getDate() - distToMon)
+      monday.setHours(0,0,0,0)
+      
+      Object.keys(activeData).forEach(dateStr => {
+        const d = new Date(dateStr)
+        d.setHours(0,0,0,0)
+        const diffDays = Math.round((d.getTime() - monday.getTime()) / 86400000)
+        if (diffDays >= 0 && diffDays <= 6) {
+          weekData[diffDays].Sent += activeData[dateStr].up
+          weekData[diffDays].Received += activeData[dateStr].down
+        }
+      })
+      return weekData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received) }))
     }
     else {
-      // Day = 24 hours of the most recent active day
-      const latestDay = Object.keys(activeData).sort().pop();
-      if (!latestDay || !activeData[latestDay].hours) {
-        return Array.from({length: 24}, (_, i) => ({ name: `${i}:00`, Sent: 0, Received: 0 }));
-      }
-      return activeData[latestDay].hours!.map((h, i) => ({ 
-        name: `${i}:00`, 
-        Sent: formatRaw(h.up), 
-        Received: formatRaw(h.down)
-      }));
+      // Day = daily breakdown for the current/latest month
+      const latestDay = Object.keys(activeData).sort().pop()
+      const latestDate = latestDay ? new Date(latestDay) : new Date()
+      const numDays = new Date(latestDate.getFullYear(), latestDate.getMonth() + 1, 0).getDate()
+      
+      const monthData = Array.from({length: numDays}, (_, i) => ({ name: `${i+1}`, Sent: 0, Received: 0 }))
+      Object.keys(activeData).forEach(dateStr => {
+        const d = new Date(dateStr)
+        if (d.getFullYear() === latestDate.getFullYear() && d.getMonth() === latestDate.getMonth()) {
+          monthData[d.getDate() - 1].Sent += activeData[dateStr].up
+          monthData[d.getDate() - 1].Received += activeData[dateStr].down
+        }
+      })
+      return monthData.map(d => ({ ...d, Sent: formatRaw(d.Sent), Received: formatRaw(d.Received) }))
     }
   }
 
