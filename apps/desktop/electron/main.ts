@@ -41,6 +41,9 @@ function setupAutoUpdater() {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+app.name = 'NSX Monitor'
+app.setAppUserModelId('com.nsx.monitor')
+
 // The built directory structure
 process.env.APP_ROOT = path.join(__dirname, '..')
 
