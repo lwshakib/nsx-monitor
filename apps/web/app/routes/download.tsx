@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Icon } from "@iconify/react"
 import Nav from "../../components/landing/Nav"
 import Footer from "../../components/landing/Footer"
-import { DOWNLOAD_URLS } from "../lib/constants"
+import { DOWNLOAD_URLS } from "../../lib/constants"
 import "../styles/landing.css"
 
 export function meta() {
