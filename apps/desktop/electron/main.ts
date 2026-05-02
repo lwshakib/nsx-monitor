@@ -84,8 +84,8 @@ let tray: Tray | null = null
 let isQuitting = false
 const prevRxMap: Record<string, number> = {}
 const prevTxMap: Record<string, number> = {}
-const downQueue = [0, 0, 0] // Stores calculated speed (bytes/sec)
-const upQueue = [0, 0, 0]   // Stores calculated speed (bytes/sec)
+const downQueue = [0, 0, 0, 0, 0] // Stores calculated speed (bytes/sec)
+const upQueue = [0, 0, 0, 0, 0]   // Stores calculated speed (bytes/sec)
 let lastUpdateTime = Date.now()
 let cachedIfaces: string[] = []
 let lastIfaceRefresh = 0
@@ -258,8 +258,8 @@ async function updateStats() {
     upQueue.shift()
     upQueue.push(normalizedUp)
 
-    const down = (downQueue[0] + downQueue[1] + downQueue[2]) / 3
-    const up = (upQueue[0] + upQueue[1] + upQueue[2]) / 3
+    const down = downQueue.reduce((a, b) => a + b, 0) / 5
+    const up = upQueue.reduce((a, b) => a + b, 0) / 5
 
     // Check usage limits and notify if needed
     checkLimits();
