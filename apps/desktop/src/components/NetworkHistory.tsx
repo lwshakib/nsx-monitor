@@ -81,6 +81,16 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
     fetchDB()
   }, [group, selectedInterface])
 
+  // Auto-refresh when window is shown (via tray icon or menu)
+  useEffect(() => {
+    const removeListener = (window.ipcRenderer as any).onDashboardShown(() => {
+      fetchDB();
+    });
+    return () => {
+      if (removeListener) removeListener();
+    };
+  }, [group, selectedInterface]);
+
   // Resolve the DB mapping to plain date -> DailyData based on active interface targeted
   const getFilteredData = (): Record<string, DailyData> => {
     const flat: Record<string, DailyData> = {}

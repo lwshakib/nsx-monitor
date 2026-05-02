@@ -29,5 +29,10 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     const listener = (_: unknown, settings: Record<string, string | boolean>) => callback(settings)
     ipcRenderer.on('app-settings-updated', listener)
     return () => ipcRenderer.off('app-settings-updated', listener)
+  },
+  onDashboardShown(callback: () => void) {
+    const listener = () => callback()
+    ipcRenderer.on('dashboard-shown', listener)
+    return () => ipcRenderer.off('dashboard-shown', listener)
   }
 })

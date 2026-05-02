@@ -422,6 +422,10 @@ function createWindow() {
       win?.hide()
     }
   })
+
+  win.on('show', () => {
+    win?.webContents.send('dashboard-shown');
+  });
 }
 
 function createWidget() {
