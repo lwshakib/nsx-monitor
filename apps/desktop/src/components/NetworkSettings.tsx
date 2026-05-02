@@ -67,9 +67,17 @@ export const NetworkSettings: React.FC<NetworkSettingsProps> = ({ onBack }) => {
               </div>
               <button 
                 onClick={toggleNotifications}
-                className={`w-9 h-5 rounded-full transition-colors relative ${settings.notificationsEnabled ? 'bg-primary' : 'bg-muted'}`}
+                className={`w-10 h-6 rounded-full transition-all duration-300 relative border-2 ${
+                  settings.notificationsEnabled 
+                    ? 'bg-primary border-primary' 
+                    : 'bg-muted border-muted'
+                }`}
               >
-                <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all ${settings.notificationsEnabled ? 'left-5' : 'left-1'}`} />
+                <div className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full transition-all duration-300 shadow-sm ${
+                  settings.notificationsEnabled 
+                    ? 'translate-x-4 bg-primary-foreground' 
+                    : 'translate-x-0 bg-muted-foreground'
+                }`} />
               </button>
             </div>
 

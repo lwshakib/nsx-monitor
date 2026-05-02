@@ -3,7 +3,7 @@ import { autoUpdater } from 'electron-updater'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import si from 'systeminformation'
-import { saveNetworkData, getNetworkData, clearDB, getDbPath, getUsageLimits, saveUsageLimits, UsageLimit, getAppSettings, saveAppSettings, AppSettings, DailyData } from './database'
+import { saveNetworkData, getNetworkData, clearDB, getDbPath, getUsageLimits, saveUsageLimits, UsageLimit, getAppSettings, saveAppSettings, AppSettings, DailyData, DB as DatabaseSchema, InterfaceDataMap } from './database'
 
 /**
  * Configure and initialize the auto-updater.
@@ -118,18 +118,24 @@ function isVirtualInterface(iface: string): boolean {
   return virtualKeywords.some(keyword => name.includes(keyword.toLowerCase()));
 }
 
+interface PaginatedResponse {
+  items: Record<string, InterfaceDataMap | { down: number, up: number, days: number }>;
+  total: number;
+  hasMore: boolean;
+}
+
 /**
  * Groups and paginates data based on the requested range (day, week, month, year).
  */
-function getPaginatedData(data: any, range: string, offset: number, limit: number) {
+function getPaginatedData(data: DatabaseSchema, range: string, offset: number, limit: number): PaginatedResponse {
   const allDateKeys = Object.keys(data)
     .filter(key => /^\d{4}-\d{2}-\d{2}$/.test(key))
     .sort((a, b) => b.localeCompare(a)); // Newest first (e.g., 2024-03-15 before 2024-03-14)
 
   if (range === 'day') {
     const keys = allDateKeys.slice(offset, offset + limit);
-    const items: any = {};
-    keys.forEach(k => { items[k] = data[k]; });
+    const items: Record<string, InterfaceDataMap> = {};
+    keys.forEach(k => { items[k] = data[k] as unknown as InterfaceDataMap; });
     return { 
       items, 
       total: allDateKeys.length,
@@ -140,14 +146,14 @@ function getPaginatedData(data: any, range: string, offset: number, limit: numbe
   if (range === 'week') {
     // Week is static (last 7 days), but we return it in the same format for consistency
     const keys = allDateKeys.slice(0, 7);
-    const items: any = {};
-    keys.forEach(k => { items[k] = data[k]; });
+    const items: Record<string, InterfaceDataMap> = {};
+    keys.forEach(k => { items[k] = data[k] as unknown as InterfaceDataMap; });
     return { items, total: 7, hasMore: false };
   }
 
   if (range === 'month' || range === 'year') {
     const format = range === 'month' ? 7 : 4; // YYYY-MM (7 chars) or YYYY (4 chars)
-    const groups: Record<string, any> = {};
+    const groups: Record<string, { down: number, up: number, days: number }> = {};
     
     allDateKeys.forEach(key => {
       const groupKey = key.substring(0, format);
@@ -156,16 +162,21 @@ function getPaginatedData(data: any, range: string, offset: number, limit: numbe
       }
       
       const dayData = data[key];
-      Object.values(dayData).forEach((iface: any) => {
-        groups[groupKey].down += iface.down;
-        groups[groupKey].up += iface.up;
-      });
+      if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
+        Object.values(dayData).forEach((iface) => {
+          if (typeof iface === 'object' && iface !== null && 'down' in iface && 'up' in iface) {
+            const stats = iface as { down: number, up: number };
+            groups[groupKey].down += stats.down;
+            groups[groupKey].up += stats.up;
+          }
+        });
+      }
       groups[groupKey].days += 1;
     });
 
     const allGroupKeys = Object.keys(groups).sort((a, b) => b.localeCompare(a));
     const pagedKeys = allGroupKeys.slice(offset, offset + limit);
-    const items: Record<string, any> = {};
+    const items: Record<string, { down: number, up: number, days: number }> = {};
     pagedKeys.forEach(k => { items[k] = groups[k]; });
 
     return { 

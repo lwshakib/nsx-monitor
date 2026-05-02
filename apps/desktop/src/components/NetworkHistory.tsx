@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Bell, Settings } from 'lucide-react'
 
@@ -49,10 +49,10 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
   const [dbStatus, setDbStatus] = useState<'fetching' | 'Ok' | 'Error'>('fetching')
 
   // Function to fetch the historical data on demand
-  const fetchDB = () => {
+  const fetchDB = useCallback(() => {
     setDbStatus('fetching')
     const rangeParam = group.toLowerCase()
-    window.ipcRenderer.invoke('get-historical-data', { range: rangeParam, offset: 0, limit: 100 }).then((res: any) => {
+    window.ipcRenderer.invoke('get-historical-data', { range: rangeParam, offset: 0, limit: 100 }).then((res: { items: DB }) => {
       if (res && res.items) {
         setData(res.items)
         setDbStatus('Ok')
@@ -64,7 +64,7 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
       console.error("Could not fetch DB", err)
       setDbStatus('Error')
     })
-  }
+  }, [group])
 
   // Initial mount: fetch interfaces
   useEffect(() => {
@@ -79,17 +79,18 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
   // Fetch data only when group or interface changes
   useEffect(() => {
     fetchDB()
-  }, [group, selectedInterface])
+  }, [fetchDB, selectedInterface])
 
   // Auto-refresh when window is shown (via tray icon or menu)
   useEffect(() => {
-    const removeListener = (window.ipcRenderer as any).onDashboardShown(() => {
+    const renderer = window.ipcRenderer as unknown as { onDashboardShown: (cb: () => void) => () => void };
+    const removeListener = renderer.onDashboardShown(() => {
       fetchDB();
     });
     return () => {
       if (removeListener) removeListener();
     };
-  }, [group, selectedInterface]);
+  }, [fetchDB]);
 
   // Resolve the DB mapping to plain date -> DailyData based on active interface targeted
   const getFilteredData = (): Record<string, DailyData> => {

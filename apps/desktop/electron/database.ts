@@ -16,7 +16,7 @@ export interface DailyData {
   hours?: HourlyData[];
 }
 
-interface InterfaceDataMap {
+export interface InterfaceDataMap {
   [ifaceName: string]: DailyData;
 }
 
