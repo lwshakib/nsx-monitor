@@ -51,12 +51,14 @@ export const NetworkHistory: React.FC<NetworkHistoryProps> = ({ onNavigate }) =>
   // Function to fetch the historical data on demand
   const fetchDB = () => {
     setDbStatus('fetching')
-    window.ipcRenderer.invoke('get-historical-data').then((res: DB) => {
-      if (res) {
-        setData(res)
+    const rangeParam = group.toLowerCase()
+    window.ipcRenderer.invoke('get-historical-data', { range: rangeParam, offset: 0, limit: 100 }).then((res: any) => {
+      if (res && res.items) {
+        setData(res.items)
         setDbStatus('Ok')
       } else {
-        setDbStatus('Error')
+        setData({})
+        setDbStatus('Ok') // If it's empty but exists, it's Ok
       }
     }).catch((err: unknown) => {
       console.error("Could not fetch DB", err)

@@ -118,6 +118,66 @@ function isVirtualInterface(iface: string): boolean {
   return virtualKeywords.some(keyword => name.includes(keyword.toLowerCase()));
 }
 
+/**
+ * Groups and paginates data based on the requested range (day, week, month, year).
+ */
+function getPaginatedData(data: any, range: string, offset: number, limit: number) {
+  const allDateKeys = Object.keys(data)
+    .filter(key => /^\d{4}-\d{2}-\d{2}$/.test(key))
+    .sort((a, b) => b.localeCompare(a)); // Newest first (e.g., 2024-03-15 before 2024-03-14)
+
+  if (range === 'day') {
+    const keys = allDateKeys.slice(offset, offset + limit);
+    const items: any = {};
+    keys.forEach(k => { items[k] = data[k]; });
+    return { 
+      items, 
+      total: allDateKeys.length,
+      hasMore: offset + limit < allDateKeys.length 
+    };
+  }
+
+  if (range === 'week') {
+    // Week is static (last 7 days), but we return it in the same format for consistency
+    const keys = allDateKeys.slice(0, 7);
+    const items: any = {};
+    keys.forEach(k => { items[k] = data[k]; });
+    return { items, total: 7, hasMore: false };
+  }
+
+  if (range === 'month' || range === 'year') {
+    const format = range === 'month' ? 7 : 4; // YYYY-MM (7 chars) or YYYY (4 chars)
+    const groups: Record<string, any> = {};
+    
+    allDateKeys.forEach(key => {
+      const groupKey = key.substring(0, format);
+      if (!groups[groupKey]) {
+        groups[groupKey] = { down: 0, up: 0, days: 0 };
+      }
+      
+      const dayData = data[key];
+      Object.values(dayData).forEach((iface: any) => {
+        groups[groupKey].down += iface.down;
+        groups[groupKey].up += iface.up;
+      });
+      groups[groupKey].days += 1;
+    });
+
+    const allGroupKeys = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+    const pagedKeys = allGroupKeys.slice(offset, offset + limit);
+    const items: Record<string, any> = {};
+    pagedKeys.forEach(k => { items[k] = groups[k]; });
+
+    return { 
+      items, 
+      total: allGroupKeys.length,
+      hasMore: offset + limit < allGroupKeys.length 
+    };
+  }
+
+  return { items: {}, total: 0, hasMore: false };
+}
+
 function checkLimits() {
   const settings = getAppSettings();
   if (!settings.notificationsEnabled) return;
@@ -285,6 +345,11 @@ async function updateStats() {
 
     if (win && !win.isDestroyed()) {
       win.webContents.send('network-stats', payload)
+      // Also notify that history has been updated (for the dashboard totals)
+      win.webContents.send('database-synced', {
+        today: new Date().toISOString().split('T')[0],
+        stats: payload
+      })
     }
 
     if (widgetWin && !widgetWin.isDestroyed()) {
@@ -440,8 +505,10 @@ app.on('activate', () => {
   }
 })
 
-ipcMain.handle('get-historical-data', () => {
-  return getNetworkData()
+ipcMain.handle('get-historical-data', (_event, options: { range?: string, offset?: number, limit?: number } = {}) => {
+  const { range = 'day', offset = 0, limit = 20 } = options;
+  const fullData = getNetworkData()
+  return getPaginatedData(fullData, range, offset, limit)
 })
 
 ipcMain.on('win:hide', () => {
