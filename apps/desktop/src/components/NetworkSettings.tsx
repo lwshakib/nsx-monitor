@@ -149,8 +149,8 @@ export const NetworkSettings: React.FC<NetworkSettingsProps> = ({ onBack }) => {
         <section>
           <h3 className="text-xs font-semibold text-muted-foreground mb-3 tracking-wider">About</h3>
           <div className="p-3 rounded-lg bg-accent/30 text-[11px] text-muted-foreground leading-relaxed">
-            NSX Monitor is a lightweight network telemetry tool designed for real-time monitoring and historical analysis.
-            Built with Electron, React, and Systeminformation.
+            NSX Monitor provides professional-grade network telemetry for high-precision bandwidth monitoring. 
+            It offers deep historical analysis and real-time insights to help you understand your system's data usage across all network interfaces.
           </div>
         </section>
       </div>
