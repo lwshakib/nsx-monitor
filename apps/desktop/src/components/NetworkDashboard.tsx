@@ -3,6 +3,8 @@ import { NetworkHistory } from './NetworkHistory'
 import { NetworkSettings } from './NetworkSettings'
 import { NetworkWarning } from './NetworkWarning'
 
+import pkg from '../../package.json'
+
 export const NetworkDashboard: React.FC = () => {
   const [activeView, setActiveView] = useState<'History' | 'Settings' | 'Warning'>('History')
 
@@ -11,7 +13,7 @@ export const NetworkDashboard: React.FC = () => {
       {/* Custom Title Bar */}
       <div className="h-[30px] flex items-center pl-[10px] select-none [-webkit-app-region:drag]">
         <img src="./logo.svg" alt="logo" className="w-4 h-4 mr-2" />
-        <span className="text-xs font-sans text-foreground">NSX Monitor</span>
+        <span className="text-xs font-sans text-foreground">NSX Monitor v{pkg.version}</span>
       </div>
       
       <div className="flex-1 overflow-hidden flex flex-col">

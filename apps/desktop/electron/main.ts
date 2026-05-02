@@ -378,7 +378,7 @@ function createWindow() {
     maximizable: false,
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
-    title: 'NSX Monitor',
+    title: `NSX Monitor v${app.getVersion()}`,
     titleBarOverlay: {
       color: '#00000000',
       symbolColor: isDark ? '#ffffff' : '#000000',

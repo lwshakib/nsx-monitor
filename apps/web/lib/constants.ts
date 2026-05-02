@@ -1,5 +1,10 @@
+import pkg from '../package.json'
+
+const v = pkg.version
+const baseUrl = `https://github.com/lwshakib/nsx-monitor/releases/download/v${v}`
+
 export const DOWNLOAD_URLS = {
-  win: "https://github.com/lwshakib/nsx-monitor/releases/download/v0.1.8/NSX-Monitor-Windows-0.1.8-Setup.exe",
-  mac: "https://github.com/lwshakib/nsx-monitor/releases/download/v0.1.8/NSX-Monitor-Mac-0.1.8-Installer.dmg",
-  lin: "https://github.com/lwshakib/nsx-monitor/releases/download/v0.1.8/NSX-Monitor-Linux-0.1.8.AppImage",
+  win: `${baseUrl}/NSX-Monitor-Windows-${v}-Setup.exe`,
+  mac: `${baseUrl}/NSX-Monitor-Mac-${v}-Installer.dmg`,
+  lin: `${baseUrl}/NSX-Monitor-Linux-${v}.AppImage`,
 } as const
