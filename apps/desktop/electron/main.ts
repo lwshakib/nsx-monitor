@@ -84,8 +84,8 @@ let tray: Tray | null = null
 let isQuitting = false
 const prevRxMap: Record<string, number> = {}
 const prevTxMap: Record<string, number> = {}
-const downQueue = [0, 0] // Stores calculated speed (bytes/sec)
-const upQueue = [0, 0]   // Stores calculated speed (bytes/sec)
+const downQueue = [0, 0, 0] // Stores calculated speed (bytes/sec)
+const upQueue = [0, 0, 0]   // Stores calculated speed (bytes/sec)
 let lastUpdateTime = Date.now()
 let cachedIfaces: string[] = []
 let lastIfaceRefresh = 0
@@ -106,7 +106,8 @@ function isVirtualInterface(iface: string): boolean {
   const virtualKeywords = [
     'loopback', 'lo', 'virtualbox', 'vmware', 'vEthernet', 
     'hyper-v', 'wsl', 'tunnel', 'tap', 'vpn', 'zerotier', 
-    'tailscale', 'pseudo', 'filter', 'teredo'
+    'tailscale', 'pseudo', 'filter', 'teredo', 'nordvpn',
+    'expressvpn', 'cisco', 'fortinet', 'npcap', 'wan miniport'
   ];
   return virtualKeywords.some(keyword => name.includes(keyword.toLowerCase()));
 }
@@ -257,8 +258,8 @@ async function updateStats() {
     upQueue.shift()
     upQueue.push(normalizedUp)
 
-    const down = (downQueue[0] + downQueue[1]) / 2
-    const up = (upQueue[0] + upQueue[1]) / 2
+    const down = (downQueue[0] + downQueue[1] + downQueue[2]) / 3
+    const up = (upQueue[0] + upQueue[1] + upQueue[2]) / 3
 
     // Check usage limits and notify if needed
     checkLimits();
@@ -481,11 +482,13 @@ ipcMain.on('save-app-settings', (_event, settings: AppSettings) => {
 })
 
 app.whenReady().then(() => {
-  // Add to Windows startup organically
-  app.setLoginItemSettings({
-    openAtLogin: true,
-    path: app.getPath('exe'),
-  })
+  // Add to Windows startup organically only in production
+  if (app.isPackaged) {
+    app.setLoginItemSettings({
+      openAtLogin: true,
+      path: app.getPath('exe'),
+    })
+  }
 
   Menu.setApplicationMenu(null)
   createWindow()
