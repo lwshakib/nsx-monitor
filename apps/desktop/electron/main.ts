@@ -37,6 +37,11 @@ function setupAutoUpdater() {
 
   // Check for updates
   autoUpdater.checkForUpdatesAndNotify();
+
+  // Polling: Check for updates every 24 hours for users who never close the app
+  setInterval(() => {
+    autoUpdater.checkForUpdatesAndNotify();
+  }, 1000 * 60 * 60 * 24);
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
